@@ -6,8 +6,8 @@ require('./models/db.js');
 
 /**************************Sécurité**************************/
 
-
-
+const helmet = require('helmet');
+require('dotenv').config()
 
 /**************************Importation route et divers**************************/
  
@@ -25,6 +25,9 @@ app.use((req, res, next) => {
     next();
 });
 
+
+app.use(helmet());
+app.disable('x-powered-by');
 app.use(bodyParser.json());
 
 // analyser les requêtes de type de contenu : application/x-www-form-urlencoded
