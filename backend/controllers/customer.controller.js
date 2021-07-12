@@ -46,21 +46,7 @@ exports.findAll = (req, res) => {
           err.message || "Some error occurred while retrieving customers."
       });
     else res.send(data);
-  });
-};
-
-
-/*Récupérer tous les objets
-Récupérer tous les clients de la base de données :*/
-
-exports.findAll = (req, res) => {
-  Customer.getAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving customers."
-      });
-    else res.send(data);
+    console.log(data);
   });
 };
 

@@ -3,14 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('./models/db.js');
 
-
 /**************************Sécurité**************************/
 
 const helmet = require('helmet');
-require('dotenv').config()
 
 /**************************Importation route et divers**************************/
  
+/*const customersRoute = require('./routes/customer.routes')
+app.use('/api/customers', customersRoute);*/
 
 const app = express();
 
@@ -34,12 +34,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-    console.log( 'Requète reçue' );
+    res.json({ message: 'Welcome to Wandrilane application.' })
     next();
 });
 
-app.use((req, res, next) => {
-    res.json({ message: 'Welcome to Wandrilane application.' })
-});
 
 module.exports = app;
