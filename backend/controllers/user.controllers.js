@@ -6,7 +6,7 @@ const User = require('../models/User.models.js');
 /* require('dotenv').config(); */
 
 
-// Create and Save a new user
+/**************Create and Save a new user************/
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
       .then(hash => {
@@ -31,7 +31,7 @@ exports.signup = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
 };
 
-
+/************************************************************/
 
 exports.login = (req, res, next) => { 
   User.findOne({ email: req.body.email})
@@ -48,7 +48,7 @@ exports.login = (req, res, next) => {
             userId: user._id,
             token: jwt.sign(
               { userId: user._id },
-              /* process.env.DB_TOK, */
+              'RANDOM_TOKEN_SECRET',
               { expiresIn: '24h' }
             )
           });
