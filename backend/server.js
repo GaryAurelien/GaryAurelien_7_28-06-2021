@@ -46,6 +46,9 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
+app.get("/", (req, res) => {
+  res.json({ message: "Bienvenue sur mon application Groupomania !" });
+});
 
 server.listen(port);
 

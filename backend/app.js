@@ -1,7 +1,7 @@
 /*vous placerez votre application Express :*/
 const express = require('express');
 const bodyParser = require('body-parser');
-require('./models/db.js');
+const path = require('path');
 
 /**************************Sécurité**************************/
 
@@ -9,8 +9,7 @@ const helmet = require('helmet');
 
 /**************************Importation route et divers**************************/
  
-/*const customersRoute = require('./routes/customer.routes')
-app.use('/api/customers', customersRoute);*/
+const userRoutes = require("./routes/user.routes.js");
 
 const app = express();
 
@@ -33,10 +32,7 @@ app.use(bodyParser.json());
 // analyser les requêtes de type de contenu : application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    res.json({ message: 'Welcome to Wandrilane application.' })
-    next();
-});
+app.use('/user', userRoutes);
 
 
 module.exports = app;
