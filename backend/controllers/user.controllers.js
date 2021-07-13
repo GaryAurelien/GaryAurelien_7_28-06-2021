@@ -10,32 +10,32 @@ const User = require('../models/User.models.js');
 
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
-      .then(hash => {
-        const utilisateur = new User({
-          email: req.body.email,
-          password: hash,
-          name: req.body.name,
-          firstname: req.body.firstname,
-          position: req.body.position,
-          admin: 0
-        });
-        
-          User.create(utilisateur, (err, data) => {
-            if (err)
-              res.status(500).send({
-                message:
-                  err.message || "Une erreur est servenue lors de la création du User."
-              });
-            else res.send(data);
+    .then(hash => {
+      const utilisateur = new User({
+        email: req.body.email,
+        password: hash,
+        name: req.body.name,
+        firstname: req.body.firstname,
+        position: req.body.position,
+        admin: 0
+      });
+
+      User.create(utilisateur, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message:
+              err.message || "Une erreur est servenue lors de la création du User."
           });
-      })
-      .catch(error => res.status(500).json({ error }));
+        else res.send(data);
+      });
+    })
+    .catch(error => res.status(500).json({ error }));
 };
 
 /************************************************************/
 
-exports.login = (req, res, next) => { 
-  User.findOne({ email: req.body.email})
+exports.login = (req, res, next) => {
+  User.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
         return res.status(401).json({ error: 'Utilisateur non trouvé !' });
@@ -57,7 +57,7 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
-}; 
+};
 
 /***************************Update****************************/
 
@@ -104,5 +104,37 @@ exports.delete = (req, res) => {
         });
       }
     } else res.send({ message: `L'utilisateur a été supprimé avec succès !` });
+  });
+};
+
+/*************************recuperer un user***************************/
+
+
+exports.findOne = (req, res) => {
+  User.findById(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found user with id ${req.params.userId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving user with id " + req.params.userId
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+/*************************recuperer tout les users***************************/
+
+exports.findAll = (req, res) => {
+  User.getAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving user."
+      });
+    else res.send(data);
   });
 };

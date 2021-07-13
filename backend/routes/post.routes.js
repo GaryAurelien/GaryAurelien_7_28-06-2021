@@ -6,7 +6,10 @@ const postCtrl = require('../controllers/post.controllers.js');
 /*const verifyPassword = require('../middleware/verifyPassword')*/
 
 router.post('/create', /* verifyPassword, */ postCtrl.create);
-router.put('/:postId', postCtrl.update);
-router.delete('/:postId', postCtrl.delete);
+router.put('/:postId',/*auth,*/ postCtrl.update);
+router.delete('/:postId',/*auth,*/postCtrl.delete);
+router.get('/:id', /*auth,*/ postCtrl.findOne);
+router.get('/', /*auth,*/ postCtrl.findAll);
+//router.post('/:id/like', /*auth,*/ saucesCtrl.likeOrDislikeSauce);
 
 module.exports = router;
