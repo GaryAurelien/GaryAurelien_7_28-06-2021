@@ -9,7 +9,7 @@ const User = function(client) {
     this.admin = client.admin;
 };
 
-/*************************************************************/
+/**************************create***************************/
 
 User.create = (newUtilisateur, result) => {
     sql.query("INSERT INTO users SET ?", newUtilisateur, (err, res) => {
@@ -44,6 +44,55 @@ User.create = (newUtilisateur, result) => {
       result({ kind: "not_found" }, null);
     });
   };
+
+
+/*************************update****************************/
+
+
+User.updateById = (id, user, result) => {
+  sql.query(
+    "UPDATE users SET email = ?, password = ?, name = ?, firstname = ?, position = ? WHERE id = ?",
+    [user.email, user.password, user.name, user.firstname, user.position, id],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found User with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated user: ", { id: id, ...user });
+      result(null, { id: id, ...user });
+    }
+  );
+};
+
+
+/**************************Delete*****************************/
+
+User.remove = (id, result) => {
+  sql.query("DELETE FROM users WHERE id = ?", id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found User with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted user with id: ", id);
+    result(null, res);
+  });
+};
 
 
 

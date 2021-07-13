@@ -7,5 +7,7 @@ const userCtrl = require('../controllers/user.controllers.js');
 
 router.post('/signup', /* verifyPassword, */ userCtrl.signup);
 router.post('/login', userCtrl.login);
+router.put('/:userId', userCtrl.update);
+router.delete('/:userId', userCtrl.delete);
 
 module.exports = router;

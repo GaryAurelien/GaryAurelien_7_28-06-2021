@@ -58,3 +58,51 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 }; 
+
+/***************************Update****************************/
+
+exports.update = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Le contenu ne peut pas être vide !"
+    });
+  }
+
+  User.updateById(
+    req.params.userId,
+    new User(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Utilisateur introuvable avec  id ${req.params.userId}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Erreur lors de la mise à jour de l'utilisateur avec id " + req.params.userId
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
+/*************************Delete***************************/
+
+
+exports.delete = (req, res) => {
+  User.remove(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Utilisateur non trouvé avec id ${req.params.userId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Impossible de supprimer l'utilisateur avec id " + req.params.userId
+        });
+      }
+    } else res.send({ message: `L'utilisateur a été supprimé avec succès !` });
+  });
+};
