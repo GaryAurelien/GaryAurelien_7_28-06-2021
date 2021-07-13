@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-/* const jwt = require('jsonwebtoken'); */
+const jwt = require('jsonwebtoken');
 
 const sql = require("../models/db.js");
 const User = require('../models/User.models.js');
@@ -7,6 +7,7 @@ const User = require('../models/User.models.js');
 
 
 /**************Create and Save a new user************/
+
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
       .then(hash => {
