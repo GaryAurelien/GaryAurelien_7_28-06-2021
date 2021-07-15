@@ -10,7 +10,8 @@ const helmet = require('helmet');
 /**************************Importation route et divers**************************/
  
 const userRoutes = require("./routes/user.routes.js");
-const postRoutes = require("./routes/post.routes.js")
+const postRoutes = require("./routes/post.routes.js");
+const comRoutes = require("./routes/commentaire.routes.js");
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
+app.use('/commentaires', comRoutes);
 
 
 module.exports = app;

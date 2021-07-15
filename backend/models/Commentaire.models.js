@@ -1,0 +1,110 @@
+const sql = require("./db.js");
+
+const Commentaire = function(client) {
+    this.name = client.name;
+    this.content= client.content;
+};
+
+/**************************create***************************/
+
+Commentaire.create = (newCommentaire, result) => {
+    sql.query("INSERT INTO commentaires SET ?", newCommentaire, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      console.log("created commentaire: ", { id: res.insertId, ...newCommentaire });
+      result(null, { id: res.insertId, ...newCommentaire });
+    });
+  };
+
+/*************************************************************/
+
+Commentaire.findById = (commentaireId, result) => {
+    sql.query(`SELECT * FROM commentaires WHERE id = ${commentaireId}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      if (res.length) {
+        console.log("found commentaire: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+  
+      // not found Commentaire with the id
+      result({ kind: "not_found" }, null);
+    });
+  };
+
+
+/*************************update****************************/
+
+
+Commentaire.updateById = (id, commentaire, result) => {
+  sql.query(
+    "UPDATE commentaires SET name = ?, content = ? WHERE id = ?",
+    [commentaire.name, commentaire.content, id],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found Commentaire with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated commentaire: ", { id: id, ...commentaire });
+      result(null, { id: id, ...commentaire });
+    }
+  );
+};
+
+
+/**************************Delete*****************************/
+
+Commentaire.remove = (id, result) => {
+  sql.query("DELETE FROM commentaires WHERE id = ?", id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Commentaire with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted commentaire with id: ", id);
+    result(null, res);
+  });
+};
+
+/**************************Tout les Commentaires*****************************/
+
+Commentaire.getAll = result => {
+  sql.query("SELECT * FROM commentaires", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("commentaires: ", res);
+    result(null, res);
+  });
+};
+
+
+
+module.exports = Commentaire;
