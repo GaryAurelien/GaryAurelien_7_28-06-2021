@@ -2,6 +2,7 @@ const sql = require("./db.js");
 
 const Post = function(client) {
     this.name = client.name;
+    this.file = client.file;
     this.content = client.content;
 };
 

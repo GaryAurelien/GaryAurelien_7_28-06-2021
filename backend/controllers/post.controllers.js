@@ -19,6 +19,7 @@ exports.create = (req, res) => {
     // Create a Post
     const post = new Post({
         name: req.body.name,
+        file: req.body.file,
         content: req.body.content
     });
 
