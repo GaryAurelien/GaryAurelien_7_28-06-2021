@@ -19,7 +19,7 @@ User.create = (newUtilisateur, result) => {
         return;
       }
   
-      console.log("created user: ", { id: res.insertId, ...newUtilisateur });
+      console.log("user crée: ", { id: res.insertId, ...newUtilisateur });
       result(null, { id: res.insertId, ...newUtilisateur });
     });
   };
@@ -35,7 +35,7 @@ User.create = (newUtilisateur, result) => {
       }
   
       if (res.length) {
-        console.log("found user: ", res[0]);
+        console.log("user trouvé: ", res[0]);
         result(null, res[0]);
         return;
       }
@@ -66,7 +66,7 @@ User.updateById = (id, user, result) => {
         return;
       }
 
-      console.log("updated user: ", { id: id, ...user });
+      console.log("user update: ", { id: id, ...user });
       result(null, { id: id, ...user });
     }
   );
@@ -89,7 +89,7 @@ User.remove = (id, result) => {
       return;
     }
 
-    console.log("deleted user with id: ", id);
+    console.log("user supprimé avec id: ", id);
     result(null, res);
   });
 };

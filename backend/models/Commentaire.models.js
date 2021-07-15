@@ -15,7 +15,7 @@ Commentaire.create = (newCommentaire, result) => {
         return;
       }
   
-      console.log("created commentaire: ", { id: res.insertId, ...newCommentaire });
+      console.log("commentaire crée: ", { id: res.insertId, ...newCommentaire });
       result(null, { id: res.insertId, ...newCommentaire });
     });
   };
@@ -31,7 +31,7 @@ Commentaire.findById = (commentaireId, result) => {
       }
   
       if (res.length) {
-        console.log("found commentaire: ", res[0]);
+        console.log("commentaire trouvé: ", res[0]);
         result(null, res[0]);
         return;
       }
@@ -62,7 +62,7 @@ Commentaire.updateById = (id, commentaire, result) => {
         return;
       }
 
-      console.log("updated commentaire: ", { id: id, ...commentaire });
+      console.log("commentaire update: ", { id: id, ...commentaire });
       result(null, { id: id, ...commentaire });
     }
   );
@@ -85,7 +85,7 @@ Commentaire.remove = (id, result) => {
       return;
     }
 
-    console.log("deleted commentaire with id: ", id);
+    console.log("commentaire supprimé avec id: ", id);
     result(null, res);
   });
 };

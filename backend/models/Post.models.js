@@ -16,7 +16,7 @@ Post.create = (newPost, result) => {
         return;
       }
   
-      console.log("created post: ", { id: res.insertId, ...newPost });
+      console.log("post créé : ", { id: res.insertId, ...newPost });
       result(null, { id: res.insertId, ...newPost });
     });
   };
@@ -32,7 +32,7 @@ Post.create = (newPost, result) => {
       }
   
       if (res.length) {
-        console.log("found post: ", res[0]);
+        console.log("post trouvé: ", res[0]);
         result(null, res[0]);
         return;
       }
@@ -63,7 +63,7 @@ Post.updateById = (id, post, result) => {
         return;
       }
 
-      console.log("updated post: ", { id: id, ...post });
+      console.log("post update: ", { id: id, ...post });
       result(null, { id: id, ...post });
     }
   );
@@ -86,7 +86,7 @@ Post.remove = (id, result) => {
       return;
     }
 
-    console.log("deleted post with id: ", id);
+    console.log("post suprimer avec id: ", id);
     result(null, res);
   });
 };

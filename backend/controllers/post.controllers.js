@@ -91,11 +91,11 @@ exports.findOne = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found post with id ${req.params.postId}.`
+                    message: `Pas de commentaire trouvé avec l'identifiant ${req.params.postId}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving post with id " + req.params.postId
+                    message: "Erreur lors de la récupération du commentaire avec l'identifiant " + req.params.postId
                 });
             }
         } else res.send(data);
@@ -109,7 +109,7 @@ exports.findAll = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving post."
+                    err.message || "Une erreur s'est produite lors de la récupération du commentaire."
             });
         else res.send(data);
     });
