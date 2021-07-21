@@ -6,8 +6,8 @@ const auth = require('../middleware/auth');
 
 /*const verifyPassword = require('../middleware/verifyPassword')*/
 
-router.post('/create', /*auth,*/ postCtrl.create);
-router.put('/:postId', /*auth,*/ postCtrl.update);
+router.post('/create',/*auth,*/ postCtrl.create);
+router.put('/:postId',/*auth,*/ postCtrl.update);
 router.delete('/:postId', /*auth,*/ postCtrl.delete);
 router.get('/:id', /*auth,*/ postCtrl.findOne);
 router.get('/', /*auth,*/ postCtrl.findAll);
