@@ -10,7 +10,7 @@ router.post('/create',/*auth,*/ postCtrl.create);
 router.put('/:postId',/*auth,*/ postCtrl.update);
 router.delete('/:postId', /*auth,*/ postCtrl.delete);
 router.get('/:id', /*auth,*/ postCtrl.findOne);
-router.get('/', /*auth,*/ postCtrl.findAll);
+router.get('/', /*auth,*/ postCtrl.findAll);//ok
 //router.post('/:id/like', /*auth,*/ saucesCtrl.likeOrDislikeSauce);
 
 module.exports = router;
