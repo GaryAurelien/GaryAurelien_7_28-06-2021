@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" type="image/png" href="icon/icon.png" />
     <title>Groupomania</title>
+    <script src="./js/createPost.js" defer></script>
 </head>
 
 <body>
@@ -29,17 +30,21 @@
         <div class="col text-center  mb-5 pt-5 ">
             <h1 class="text-secondary">Groupomania</h1>
         </div>
-        <div>
-            <div class='row mb-5'>
-                <a href="createPost.html" class="offset-4 col-4 offset-4 mb-3 center btn btn-outline-primary shadow" id="Créer"><span
-                        class="white"> Créer un Post
-                    </span></a>
-            </div>
-        </div>
-    </div>
-        <div class="container">
-                <div class="row d-flex justify-content-around m-5" id="discution">
-                </div>
+        <div class='container'>
+            <mat-spinner *ngIf="loading"></mat-spinner>
+            <form class="postForm" id="checked">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="content" rows="5"
+                            formControlName="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input  type="file" id="inputImg" name="img" accept="image/*">
+                    </div>
+                    <button class="border-primary btn btn-default" id="submit">SUBMIT</button>
+            </form>
+
         </div>
         <div class="bg-light mt-5">
             <div class="container">

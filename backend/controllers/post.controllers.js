@@ -1,10 +1,6 @@
-/*const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');*/
-
 const sql = require("../models/db.js");
 const Post = require('../models/Post.models.js');
-/* require('dotenv').config(); */
-
+const fs = require('fs');
 
 /**************Create and Save a new post************/
 
@@ -19,7 +15,7 @@ exports.create = (req, res) => {
     // Create a Post
     const post = new Post({
         name: req.body.name,
-        file: req.body.file,
+        file: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         content: req.body.content
     });
 

@@ -1,12 +1,12 @@
-const validation = document.getElementById("validate");
+const validation = document.getElementById("submit");
 
 
 validation.addEventListener('click', (e)=>{
         e.preventDefault;
-        sendSignup();
+        sendPost();
     });
 
-function sendSignup(){
+function sendPost(){
 
     //on verifie que la checkbox est checked
 
@@ -20,20 +20,17 @@ function sendSignup(){
     //sinon
         }else{
         
-        //variable qui reccueille les infos de contact du client
-            let contact = {
-                email : document.getElementById('inputEmail').value,
-                password : document.getElementById('inputPassword').value,
-                name : document.getElementById('inputNom').value,
-                firstname : document.getElementById('inputPrenom').value,
-                position : document.getElementById('inputJob').value
+        //variable qui reccueille les infos de post du client
+            let post = {
+                content : document.getElementById('content').value,
+                file : document.getElementById('inputImg').value
             }; 
-            console.log(contact);
+            console.log(post);
 
         //on POST les infos reccueillies au serveur
-            const envoi = fetch("http://localhost:3000/users/signup", {
+            const envoi = fetch("http://localhost:3000/posts/create", {
                 method: 'POST',
-                body: JSON.stringify(contact),
+                body: JSON.stringify(post),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -46,14 +43,14 @@ function sendSignup(){
                     let confirmation = await response.json();
                     console.log(confirmation);
                 //récupération de l'Id de la validation de prise en compte de la commande du serveur
-                    /* let idConfirmation = confirmation.contactId;
+                    /* let idConfirmation = confirmation.postId;
                     console.log(idConfirmation);
-                //variable qui reccueille le contact du client et l'Id de confirmation de commande
+                //variable qui reccueille le post du client et l'Id de confirmation de commande
                     let result = {
                         idConfirmation: idConfirmation,
-                        contact: contact
+                        post: post
                     }
-                    console.log(result); */ 
+                    console.log(result); */
 
                     window.location.href ="./chatPage.html";
 

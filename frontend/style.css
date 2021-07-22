@@ -1,3 +1,85 @@
+.postForm {
+  margin: 2em auto;
+  max-width: 750px;
+}
 
+.heat-range {
+  width: 60%;
+  display: block;
+}
+
+.heat-container {
+  display: flex;
+}
+
+.heat-reading {
+  width: 5em;
+  margin-left: 1.5em;
+  background-color: white;
+}
+
+.sauce-container {
+  display: flex;
+}
+.sauce-container img {
+  max-height: 70vh;
+  flex: 1;
+}
+
+.sauce-info {
+  padding: 40px 20px;
+  flex: 1;
+}
+
+.manufacturer {
+  margin: 0;
+}
+
+.sauce-name {
+  margin: 0;
+}
+
+.like-buttons {
+  display: flex;
+}
+.like-buttons i {
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+
+.likes, .dislikes {
+  margin: 0 0.4em;
+}
+
+.liked {
+  color: #33db00;
+}
+
+.disliked {
+  color: #db3300;
+}
+
+.like:hover {
+  color: #33db00;
+}
+
+.dislike {
+  transform: scaleX(-1) translateY(5px);
+}
+.dislike:hover {
+  color: #db3300;
+}
+
+.disabled {
+  cursor: none;
+  color: #bebebe;
+}
+.disabled:hover {
+  color: #bebebe;
+}
+
+.control-buttons button {
+  margin: 1em 1em 0 0;
+}
 
 /*# sourceMappingURL=style.css.map */
