@@ -7,7 +7,7 @@ const Commentaire = function(client) {
 
 /**************************create***************************/
 
-Commentaire.create = (newCommentaire, result) => {
+Commentaire.createCom = (newCommentaire, result) => {
     sql.query("INSERT INTO commentaires SET ?", newCommentaire, (err, res) => {
       if (err) {
         console.log("error: ", err);

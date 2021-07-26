@@ -4,7 +4,7 @@ const Commentaire = require('../models/Commentaire.models.js');
 
 /**************Create and Save a new Commentaire************/
 
-exports.create = (req, res) => {
+exports.createCom = (req, res) => {
     // Validate request
     if (!req.body) {
         res.status(400).send({
@@ -19,7 +19,7 @@ exports.create = (req, res) => {
     });
 
     // Save Commentaire in the database
-    Commentaire.create(commentaire, (err, data) => {
+    Commentaire.createCom(commentaire, (err, data) => {
         if (err)
             res.status(500).send({
                 message:

@@ -12,9 +12,9 @@ function displayPost(data) {
                             <div class="card-body">
                             <h5 class="card-title">${post.name} ${post.firstname}</h5>
                             <p class="card-text">${post.content}</p>
-                            <p class="card-text"><small class="text-muted">${post.date_création}</small></p>
                             </div>
-                            <a href="./detailPost.html?id=${post.id}" class="col-10 offset-1 btn btn-primary"><span class="gradient">Voir détails</span></a>
+                            <a href="./detailPost.html?id=${post.id}" class="col-10 offset-1 btn btn-primary mb-3"><span class="gradient">Voir détails</span></a>
+                            <p class="card-text"><small class="text-muted">${post.date_création}</small></p>
                         </div>`;
     }
     postContainer.innerHTML += postElement;

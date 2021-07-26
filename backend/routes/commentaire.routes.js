@@ -6,11 +6,11 @@ const auth = require('../middleware/auth');
 
 /*const verifyPassword = require('../middleware/verifyPassword')*/
 
-router.post('/create', /*auth,*/ comCtrl.create);
+router.post('/createCom', /*auth,*/ comCtrl.createCom);
 router.put('/:commentaireId', /*auth,*/ comCtrl.update);
 router.delete('/:commentaireId', /*auth,*/ comCtrl.delete);
 router.get('/:id', /*auth,*/ comCtrl.findOne);
 router.get('/', /*auth,*/ comCtrl.findAll);
 //router.post('/:id/like', /*auth,*/ saucesCtrl.likeOrDislikeSauce);
 
-module.exports = router;
+module.exports = router; 
