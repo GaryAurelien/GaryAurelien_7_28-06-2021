@@ -1,6 +1,6 @@
 const urlPostId = "http://localhost:3000/posts/";
 const searchParam = new URLSearchParams(window.location.search).get("id");
-const urlApiId = urlPostId +':' +searchParam;
+const urlApiId = urlPostId + searchParam;
 console.log(urlApiId);
 const postContainer = document.getElementById('postId');
 
@@ -9,21 +9,18 @@ const postContainer = document.getElementById('postId');
 function displayPostId(data) {
     let postElement = '';
     postElement += `
-                <img src=${data.image} alt="">
+                <img src=${data.file} alt="">
                 <div class="info">
                     <h1>${data.content}</h1>
-                    <h3>Description</h3>
-                    <p>${data.content}</p>
-                    <div class="like-buttons"">
-                    </div>
-                    <div class="row">
-                        <a href="./post.html" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow" id="validate"><span class="white"> Retour
-                        </span></a>
-                        <a href="./modifierPost.html?id=${data.id}"" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow"><span class="white"> Modifier
-                        </span></a>
-                        <a href="#" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow" id="validate"><span class="white"> Supprimer
-                        </span></a>
-                    </div> `;
+                </div>
+                <div>
+                    <a href="./post.html" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow" id="validate"><span class="white"> Retour
+                    </span></a>
+                    <a href="./modifierPost.html?id=${data.id}"" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow"><span class="white"> Modifier
+                    </span></a>
+                    <a href="#" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow" id="validate"><span class="white"> Supprimer
+                    </span></a>
+                </div> `;
     postContainer.innerHTML += postElement;
 };
 

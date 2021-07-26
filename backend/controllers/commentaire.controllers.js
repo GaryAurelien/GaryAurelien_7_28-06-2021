@@ -4,7 +4,7 @@ const Commentaire = require('../models/Commentaire.models.js');
 
 /**************Create and Save a new Commentaire************/
 
-exports.createCom = (req, res) => {
+exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
         res.status(400).send({
@@ -14,12 +14,12 @@ exports.createCom = (req, res) => {
 
     // Create a Commentaire
     const commentaire = new Commentaire({
-        name: req.body.name,
-        content: req.body.content
+        content: req.body.content,
+        post_id: req.body.post_id
     });
 
     // Save Commentaire in the database
-    Commentaire.createCom(commentaire, (err, data) => {
+    Commentaire.create(commentaire, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -107,5 +107,24 @@ exports.findAll = (req, res) => {
                     err.message || "Une erreur s'est produite lors de la récupération du commentaire."
             });
         else res.send(data);
+    });
+};
+
+
+
+
+exports.findComWithPostId  = (req, res) => {
+    Commentaire.findByPostId(req.params.postId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Pas de commentaire trouvé avec l'identifiant ${req.params.postId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Erreur lors de la récupération du commentaire avec l'identifiant " + req.params.postId
+                });
+            }
+        } else res.send(data);
     });
 };

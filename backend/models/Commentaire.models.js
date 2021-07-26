@@ -1,13 +1,13 @@
 const sql = require("./db.js");
 
 const Commentaire = function(client) {
-    this.name = client.name;
-    this.content= client.content;
+    this.content = client.content,
+    this.post_id = client.post_id;
 };
 
 /**************************create***************************/
 
-Commentaire.createCom = (newCommentaire, result) => {
+Commentaire.create = (newCommentaire, result) => {
     sql.query("INSERT INTO commentaires SET ?", newCommentaire, (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -40,6 +40,30 @@ Commentaire.findById = (commentaireId, result) => {
       result({ kind: "not_found" }, null);
     });
   };
+
+/*****************************************************/
+
+
+  Commentaire.findByPostId = (postId, result) => {
+    sql.query(`SELECT * FROM commentaires WHERE post_id = ${postId}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      if (res.length) {
+        console.log("commentaire trouvé: ", res);
+        result(null, res);
+        return;
+      }
+  
+      // not found Commentaire with the id
+      result({ kind: "not_found" }, null);
+    });
+  };
+
+
 
 
 /*************************update****************************/

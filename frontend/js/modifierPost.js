@@ -12,7 +12,6 @@ valider.addEventListener('click', (e)=>{
 });
 
 
-
 /***********************fonction pour modifier des posts*******************/
 
 function sendModifArticle(){

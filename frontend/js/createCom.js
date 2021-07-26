@@ -24,13 +24,13 @@ function sendComment(){
     
     //variable qui reccueille les infos de contact du client
         let comment = {
-            id_post : post_id,
-            commentaire : document.getElementById('commentTextarea').value
+            post_id: idPost,
+            content : document.getElementById('commentTextarea').value
         }; 
         console.log(comment);
 
     //on POST les infos reccueillies au serveur
-        const envoi = fetch("http://localhost:3000/createCom", {
+        const envoi = fetch("http://localhost:3000/commentaires/create", {
             method: 'POST',
             body: JSON.stringify(comment),
             headers: {
@@ -45,7 +45,7 @@ function sendComment(){
                 let confirmation = await response.json();
                 console.log(confirmation);
 
-                window.location.href ="./accueil.html";
+                window.location.href =`./detailPost.html?id=${idPost}`;
 
                 
         //traitement des erreurs
