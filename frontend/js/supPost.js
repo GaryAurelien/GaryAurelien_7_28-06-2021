@@ -1,4 +1,3 @@
-//Mise en place des constantes
 const urlArticlesSup = 'http://localhost:3000/posts/';
 const searchParamSup = new URLSearchParams(window.location.search).get("id");
 const urlApiIdSup = urlArticlesSup + searchParamSup;
@@ -27,7 +26,7 @@ function Suppression(){
         //traitement de la réponse du serveur
             envoi.then(async response =>{
                 try{
-                    window.location.href ="./post.html";
+                   window.location.href ="./post.html";
  
             //traitement des erreurs
                 } catch (error) {

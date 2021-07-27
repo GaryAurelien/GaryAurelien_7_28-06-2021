@@ -1,7 +1,7 @@
 const sql = require("./db.js");
 
 const Post = function(client) {
-    this.name = client.name;
+    this.titre = client.titre;
     this.file = client.file;
     this.content = client.content;
 };
@@ -48,8 +48,8 @@ Post.create = (newPost, result) => {
 
 Post.updateById = (id, post, result) => {
   sql.query(
-    "UPDATE posts SET name = ?, content = ? WHERE id = ?",
-    [post.name, post.content, id],
+    "UPDATE posts SET titre = ?, content = ? WHERE id = ?",
+    [post.titre, post.content, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

@@ -18,7 +18,7 @@ function sendModifArticle(){
 
 
     //on vérifie que tout le formulaire est conforme
-        let FormValid = document.getElementById('checked').checkValidity();
+        let FormValid = document.getElementById('checked')/*.checkValidity()*/;
 
     //si formulaire pas conforme, alert le client
         if (FormValid == false ) {

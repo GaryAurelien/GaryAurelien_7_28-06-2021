@@ -14,8 +14,7 @@ exports.create = (req, res) => {
 
     // Create a Post
     const post = new Post({
-        name: req.body.name,
-        file: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        titre: req.body.titre,
         content: req.body.content
     });
 
@@ -68,7 +67,7 @@ exports.delete = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Post non trouvé avec id ${req.params.postId}.`
+                    message: `Le post avec l'id ${req.params.postId} n'a pas été trouvé.`
                 });
             } else {
                 res.status(500).send({

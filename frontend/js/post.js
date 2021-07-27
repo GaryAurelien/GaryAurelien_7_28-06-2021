@@ -10,7 +10,7 @@ function displayPost(data) {
                         <div class="card mb-5" style="width: 18rem;">
                             <img class="card-img-top mt-2" src="./img/1603893527-freeimages.webp"  alt="Card image cap">
                             <div class="card-body">
-                            <h5 class="card-title">${post.name} ${post.firstname}</h5>
+                            <h5 class="card-title">${post.titre}</h5>
                             <p class="card-text">${post.content}</p>
                             </div>
                             <a href="./detailPost.html?id=${post.id}" class="col-10 offset-1 btn btn-primary mb-3"><span class="gradient">Voir détails</span></a>

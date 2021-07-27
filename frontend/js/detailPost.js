@@ -12,18 +12,11 @@ function displayPostId(data) {
                 <img src=${data.file} alt="">
                 <div class="info">
                     <h1>${data.content}</h1>
-                </div>
-                <div>
-                    <a href="./post.html" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow" id="validate"><span class="white"> Retour
-                    </span></a>
-                    <a href="./modifierPost.html?id=${data.id}"" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow"><span class="white"> Modifier
-                    </span></a>
-                    <a href="#" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow" id="validate"><span class="white"> Supprimer
-                    </span></a>
-                </div> `;
+                </div> 
+                <a href="./modifierPost.html?id=${data.id}" class="offset-5 col-2 offset-5 center mt-2 btn btn-outline-primary shadow"><span class="white"> Modifier
+                </span></a>`;
     postContainer.innerHTML += postElement;
 };
-
 
 
 fetch(urlApiId)

@@ -1,4 +1,4 @@
-const validation = document.getElementById("submit");
+const validation = document.getElementById("valider");
 
 
 validation.addEventListener('click', (e)=>{
@@ -11,7 +11,7 @@ function sendPost(){
     //on verifie que la checkbox est checked
 
     //on vérifie que tout le formulaire est conforme
-        let FormValid = document.getElementById('checked').checkValidity();
+        let FormValid = document.getElementById('checked')/*.checkValidity()*/;
 
     //si formulaire pas conforme, alert le client
         if (FormValid == false ) {
@@ -22,8 +22,9 @@ function sendPost(){
         
         //variable qui reccueille les infos de post du client
             let post = {
-                content : document.getElementById('content').value,
-                file : document.getElementById('inputImg').value
+                titre: document.getElementById('inputTitre').value,
+                content: document.getElementById('content').value,
+                file: document.getElementById('fileInput').value
             }; 
             console.log(post);
 
@@ -52,7 +53,7 @@ function sendPost(){
                     }
                     console.log(result); */
 
-                    window.location.href ="./chatPage.html";
+                    window.location.href ="./post.html";
 
                     
             //traitement des erreurs
