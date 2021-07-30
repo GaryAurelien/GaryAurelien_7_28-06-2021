@@ -35,33 +35,34 @@ exports.signup = (req, res, next) => {
 /************************************************************/
 
 exports.login = (req, res, next) => {
-  /* const Mail= req.body.email; */
-  User.findOne({ email: req.body.email },function(err, utilisateur){
-    // if there are any errors, return the error
-
-    if (err){
-    res.status(404).send({
-      message: `Le User avec l'email ${req.body.email} n'a pas été trouvé.`
-    }); }
-      if (!utilisateur) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-      }else{
-      bcrypt.compare(req.body.password, utilisateur.password)
+  User.findOne(req.body.email, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Le user avec l'email ${req.body.email} n'a pas été trouvé.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Erreur de récupération du user avec l'email " + req.body.email
+        });
+      }
+    } else {
+      bcrypt.compare(req.body.password, data.password)
         .then(valid => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
           res.status(200).json({
-            userId: utilisateur.id,
+            userId: data.id,
             token: jwt.sign(
-              { userId: utilisateur.id },
+              { userId: data.id },
               process.env.DB_TOK,
               { expiresIn: '24h' }
             )
           });
-        })
-        .catch(error => res.status(500).json({ error }));
-   } })
+        }).catch(error => res.status(500).json({ error }))
+  } 
+  });
 };
 
 /***************************Update****************************/

@@ -1,17 +1,24 @@
 {
   "name": "frontend",
-  "version": "1.0.0",
-  "description": "\"Front-end Groupomania\"",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "bootstrap": "^5.0.2",
-    "jquery": "^3.6.0",
-    "popper.js": "^1.16.1",
-    "sass": "^1.36.0"
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
+    "sass": "^1.36.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0"
   }
 }
