@@ -1,7 +1,10 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">Acceuil</router-link> |
+    <router-link to="/login">Se connecter</router-link> | 
+    <router-link to="/Signup">Créer un compte</router-link> |
+    <router-link to="/Post">Post</router-link>
+
   </div>
   <router-view/>
 </template>
