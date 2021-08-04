@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userCtrl = require('../controllers/user.controllers.js');
 
-const verifyPassword = require('../middleware/verifyPassword')
+const verifyPassword = require('../middleware/verifyPassword.js')
 
 router.post('/signup', verifyPassword,  userCtrl.signup);
 router.post('/login', userCtrl.login);

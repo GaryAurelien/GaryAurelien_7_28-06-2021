@@ -4,6 +4,8 @@ const Post = function(client) {
     this.titre = client.titre;
     this.file = client.file;
     this.content = client.content;
+    this.user_name = client.user_name;
+    this.user_firstname = client.user_firstname;
 };
 
 /**************************create***************************/
