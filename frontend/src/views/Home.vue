@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Header />
+    <Header/>
     <div class="col text-center mb-5 pt-5">
       <h1>Bienvenue sur Groupomania</h1>
     </div>
@@ -29,3 +29,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+</style>

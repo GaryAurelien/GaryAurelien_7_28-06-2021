@@ -8,6 +8,18 @@
                         <img src="../assets/icon.png" width="50" height="50" alt="Info Logo" />
                         Groupomania
                     </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="navbarContent" class="collapse navbar-collapse justify-content-end ">
+                        <ul class="navbar-nav">
+                            <router-link class="navbar-brand" to="/">Acceuil</router-link> 
+                    <router-link class="navbar-brand" to="/login">Se connecter</router-link>  
+                    <router-link class="navbar-brand" to="/Signup">Créer un compte</router-link> 
+                    <router-link class="navbar-brand" to="/Post">Post</router-link>
+                        </ul>
+                    </div>
                 </nav>
             </div>
         </div>
@@ -22,6 +34,9 @@ export default {
 </script>
 
 
-<style lang="sass" scoped>
-
+<style scoped>
+.router-link-active {
+  font-weight: bold;
+  color: red
+  };
 </style>
