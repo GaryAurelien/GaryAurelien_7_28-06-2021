@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Post from '../views/Post.vue'
 import NotFound from '../views/NotFound.vue'
+import DetailPost from '../views/DetailPost.vue'
 
 const routes = [
   {
@@ -42,8 +43,19 @@ const routes = [
   {
     path: '/create',
     name: 'create',
-    component: () => import(/* webpackChunkName: "about" */ '../views/CreatePost.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/CreatePost.vue'),
+    meta: {
+      title: 'CréationDePost'
+    }
   },
+  {
+  path: '/DetailPost',
+  name: 'DetailPost',
+  component: DetailPost ,
+  meta: {
+    title: 'DetailPost'
+  }
+},
   {
     name: '/NotFound',
     path: '/:pathMatch(.*)',

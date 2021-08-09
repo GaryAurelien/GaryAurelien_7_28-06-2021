@@ -22,8 +22,10 @@
           </div>
     </form>
     <div>
-        <a @click='createPost()' href="Post" class="border-primary btn btn-default offset-3" id="valider"><span>Valider</span></a>
+        <a @click='createPost()'  class=" btn btn-outline-primary shadow mr-1" id="valider"><span>Valider</span></a> ou  
+        <a href="Post" class=" btn btn-outline-primary shadow ml-2" id="valider"><span>Retour</span></a>
     </div>
+    
     <Footer />
 </div>
 </template>
@@ -36,7 +38,6 @@ export default {
   name: "create",
   data() {
       return {
-          model: "create",
           titre: '',
           content: '',
           }
@@ -46,7 +47,11 @@ export default {
           this.$store.dispatch('createPost', {
               titre: this.titre,
               content: this.content,
-          }) 
+          }).then(function () {
+            console.log("Post créer");
+        }, function (error) {
+            console.log(error);
+      })
       }
   },
   components: {

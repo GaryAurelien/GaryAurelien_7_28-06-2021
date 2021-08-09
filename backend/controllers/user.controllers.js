@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
             message:
               err.message || "Une erreur est servenue lors de la création du User."
           });
-        else res.status(200).json({
+        else res.status(201).json({
           userId: data.id,
           userName: data.name,
           userFirstname: data.firstname,
