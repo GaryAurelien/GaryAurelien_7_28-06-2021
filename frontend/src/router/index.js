@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Post from '../views/Post.vue'
 import NotFound from '../views/NotFound.vue'
 import DetailPost from '../views/DetailPost.vue'
+import Profile from '../views/Profile.vue'
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     meta: {
       title: 'CréationDeCompte'
     }
+  },
+  {
+    path: '/:id',
+    name: 'Profile',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
   },
   {
     path: '/Post',

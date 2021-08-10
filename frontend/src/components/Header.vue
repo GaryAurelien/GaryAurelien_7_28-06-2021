@@ -18,6 +18,7 @@
                     <router-link class="navbar-brand" to="/login">Se connecter</router-link>  
                     <router-link class="navbar-brand" to="/Signup">Créer un compte</router-link> 
                     <router-link class="navbar-brand" to="/Post">Post</router-link>
+                    <router-link class="navbar-brand" to="/Profile">Mon Profile</router-link>
                         </ul>
                     </div>
                 </nav>

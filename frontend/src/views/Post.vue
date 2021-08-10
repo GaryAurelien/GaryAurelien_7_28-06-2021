@@ -7,14 +7,13 @@
       </div>
       <div>
         <div>
-          <a href="create" class="center btn btn-outline-primary shadow" id="Créer"><span class="white"> Créer un post </span></a
-          >
+          <a href="create" class="center btn btn-outline-primary shadow mb-5" id="Créer"><span class="white"> Créer un post </span></a>
         </div>
       </div>
     </div>
     <div class="container">
-      <div class="row d-flex flex-column-reverse align-items-center justify-content-around m-5" id="discution">
-        <div class="card mb-5" style="width: 18rem" v-for="(posts, index) in posts" v-bind:key="index">
+      <div class="row d-flex flex-column-reverse align-items-center justify-content-around m-2" id="discution">
+        <div class="card mb-5 p-2" style="width: 18rem" v-for="(posts, index) in posts" v-bind:key="index">
             <img class="card-img-top mt-2" v-bind:src="posts.file"  alt="Card image cap">
             <div class="card-body">
             <h5 class="card-title">{{ posts.titre }}</h5>
