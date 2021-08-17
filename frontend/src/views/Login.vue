@@ -1,7 +1,6 @@
 <template>
   <div class="Login">
     <Header />
-
     <div class="container">
       <form class="row" id="checked">
         <div class="space-form offset-3 col-6 offset-3 mb-2 mt-5">

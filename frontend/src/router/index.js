@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Post from '../views/Post.vue'
 import NotFound from '../views/NotFound.vue'
-import DetailPost from '../views/DetailPost.vue'
 import Profile from '../views/Profile.vue'
 
 const routes = [
@@ -14,7 +13,7 @@ const routes = [
       title: 'Acceuil'
     }
   },
-  { 
+  {
     path: '/Login',
     name: 'Login',
     // route level code-splitting
@@ -34,14 +33,17 @@ const routes = [
     }
   },
   {
-    path: '/:id',
+    path: '/Profile',
     name: 'Profile',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
+    component: Profile,
+    meta: {
+      title: 'Profile'
+    }
   },
   {
     path: '/Post',
     name: 'Post',
-    component: Post ,
+    component: Post,
     meta: {
       title: 'PagePosts'
     }
@@ -55,19 +57,11 @@ const routes = [
     }
   },
   {
-  path: '/DetailPost',
-  name: 'DetailPost',
-  component: DetailPost ,
-  meta: {
-    title: 'DetailPost'
-  }
-},
-  {
     name: '/NotFound',
     path: '/:pathMatch(.*)',
     component: NotFound,
     meta: {
-      title:'404 Not Found'
+      title: '404 Not Found'
     }
   }
 ]

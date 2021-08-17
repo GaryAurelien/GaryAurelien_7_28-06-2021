@@ -52,24 +52,11 @@ export default createStore({
     createAccount: ({commit}, userInfos) => {
       axios.post('http://localhost:3000/users/signup', userInfos)
       .then(function (response) {
-        commit('setStatus', 'created');
+        commit();
         console.log(response);
       })
       .catch(function (error) {
-        commit('setStatus', 'error_create');
-        console.log(error);
-      });
-    },
-//********************************************************************
-
-    createPost: ({commit}, postInfo) => {
-      axios.post('http://localhost:3000/posts/create', postInfo)
-      .then(function (response) {
-        commit('setStatus', 'created');
-        console.log(response);
-      })
-      .catch(function (error) {
-        commit('setStatus', 'error_create');
+        commit();
         console.log(error);
       });
     },
@@ -77,3 +64,7 @@ export default createStore({
   modules: {
   }
 });
+
+
+
+
