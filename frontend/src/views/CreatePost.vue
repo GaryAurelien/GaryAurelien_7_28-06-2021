@@ -8,25 +8,10 @@
     </div>
     <form class="row" id="checked">
       <div class="space-form col-6 offset-3">
-        <input
-          v-model="titre"
-          type="text"
-          class="form-control mb-2"
-          id="inputTitre"
-          placeholder="Titre"
-          pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*"
-          required
-        />
+        <input v-model="titre" type="text" class="form-control mb-2" id="inputTitre" placeholder="Titre" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required />
       </div>
       <div class="space-form col-6 offset-3">
-        <textarea
-          v-model="content"
-          class="form-control mb-2"
-          id="textarea"
-          placeholder="Contenu"
-          pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*"
-          required
-        ></textarea>
+        <textarea v-model="content" class="form-control mb-2" id="textarea" placeholder="Contenu" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" ></textarea>
       </div>
       <div class="space-form col-6 offset-3 mb-2">
         <label for="fileInput">Ajouter une image</label>
@@ -35,8 +20,7 @@
     </form>
     <div>
       <a @click="createPost()" class="btn btn-outline-primary shadow mr-1"
-        ><span>Valider</span></a
-      >
+        ><span>Valider</span></a>
       ou
       <a href="Post" class="btn btn-outline-primary shadow ml-2"
         ><span>Retour</span></a
