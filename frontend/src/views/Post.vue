@@ -32,14 +32,14 @@
             </button>
           </div>
           <div id="accordion">
-            <div class="card col-10 offset-1 mb-3 shadow-lg" style="background-color: #e0e0e0;" >
+            <div class=" mb-3 shadow-lg" style="background-color: #e0e0e0;" >
               <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
                   <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Commentaire</button>
                 </h5>
               </div>
               <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" >
-                <div class="card-body border-solid m-2" style="background-color: grey;" v-for="(commentaires, index) in commentaires" v-bind:key="index">
+                <div class="card-body border border-dark p-2 rounded m-2" v-for="(commentaires, index) in commentaires" v-bind:key="index">
                      <p class="card-text m-3">{{ commentaires.content }}</p> 
                      <div>
                     <div class="text-center">

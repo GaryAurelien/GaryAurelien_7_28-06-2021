@@ -3,7 +3,7 @@
     <Header />
         <div class="container">
             <div class="row align-items-center justify-content-around m-2 mt-5" >
-                <div class="card p-5" style="width: 18rem">
+                <div class="card p-5">
                     <h1 class="card-title m-2">Espace Perso</h1>
                     <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
                     <img>

@@ -14,11 +14,9 @@
                     </button>
                     <div id="navbarContent" class="collapse navbar-collapse justify-content-end ">
                         <ul class="navbar-nav">
-                            <router-link class="navbar-brand" to="/">Acceuil</router-link> 
-                    <router-link class="navbar-brand" to="/login">Se connecter</router-link>  
-                    <router-link class="navbar-brand" to="/Signup">Créer un compte</router-link> 
-                    <router-link class="navbar-brand" to="/Post">Post</router-link>
-                    <router-link class="navbar-brand" to="/Profile">Mon Profile</router-link>
+                            <router-link class="navbar-brand" to="/">Accueil</router-link> 
+                            <router-link class="navbar-brand" to="/Profile">Mon Profile</router-link>
+                            <router-link class="navbar-brand" to="/Post">Post</router-link>
                         </ul>
                     </div>
                 </nav>

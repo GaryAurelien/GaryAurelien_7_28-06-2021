@@ -45,21 +45,6 @@ export default createStore({
         }
     });
     },
-
-//*****************************************************************
-//************************creation de compte***********************
-
-    createAccount: ({commit}, userInfos) => {
-      axios.post('http://localhost:3000/users/signup', userInfos)
-      .then(function (response) {
-        commit();
-        console.log(response);
-      })
-      .catch(function (error) {
-        commit();
-        console.log(error);
-      });
-    },
   },
   modules: {
   }

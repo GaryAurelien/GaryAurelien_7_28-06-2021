@@ -1,8 +1,8 @@
 <template>
-  <footer>
-    <div class="bg-light mt-5 ">
+  <footer class="fixed-bottom">
+    <div class="bg-light">
       <div class="container">
-        <div class="row pt-4 pb-3">
+        <div class="row pt-3">
           <div class="col">
             <ul class="list-inline text-center">
               <li class="list-inline-item">
