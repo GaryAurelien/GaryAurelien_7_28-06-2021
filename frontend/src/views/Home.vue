@@ -5,7 +5,7 @@
       <h1 class="text-secondary fw-bold">Bienvenue sur Groupomania</h1>
     </div>
     <div class="container">
-      <div class="row align-items-center justify-content-around m-2" >
+      <div class="row align-items-center justify-content-around m-2">
         <div class="card shadow-lg ">
           <h1 class="card_title" v-if="mode == 'login'">Connection</h1>
           <h1 class="card_title" v-else>Inscription</h1>
@@ -42,7 +42,6 @@
 // @ is an alias to /src
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import axios from "axios";
 
 export default {
   name: "Home",
@@ -91,10 +90,12 @@ export default {
                 //récupération de la réponse du serveur
                     let confirmation = await response.json();
                     console.log(confirmation);
+
                     sessionStorage.setItem("token", confirmation.token);
                     sessionStorage.setItem("userName", confirmation.userName);
                     sessionStorage.setItem("userFirstname", confirmation.userFirstname);
-                    /*window.location.href ="profile";*/
+                    sessionStorage.setItem("userId", confirmation.userId);
+                    window.location.href ="profile";
             //traitement des erreurs
                 } catch (error) {
                     console.log(error);
@@ -108,7 +109,6 @@ export default {
                 password : document.getElementById('password').value,
                 email : document.getElementById('email').value
             }; 
-            console.log(contact);
 
         //on POST les infos reccueillies au serveur
             let envoi = fetch("http://localhost:3000/users/login", {
@@ -126,10 +126,21 @@ export default {
                     let confirmation = await response.json();
                     console.log(confirmation);
                     
+
+                    let userId = confirmation.userId;
+                    console.log(userId);
+                    
+                    let result = {
+                        userId: userId
+                    }
+                    console.log(result); 
+                    
+                    sessionStorage.setItem("confirm", JSON.stringify(result));
                     sessionStorage.setItem("token", confirmation.token);
                     sessionStorage.setItem("userName", confirmation.userName);
                     sessionStorage.setItem("userFirstname", confirmation.userFirstname);
-                    window.location.href ="profile";
+                    sessionStorage.setItem("userId", confirmation.userId);
+                    /*window.location.href ="profile";*/
 
                     
             //traitement des erreurs

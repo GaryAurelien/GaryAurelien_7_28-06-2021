@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 
 /*const verifyPassword = require('../middleware/verifyPassword')*/
 
-router.post('/create', /*auth,*/ comCtrl.create);
+router.post('/create', /*auth,*/comCtrl.create);
 router.put('/:commentaireId', /*auth,*/ comCtrl.update);
 router.get('/:postId/comment', /*auth,*/ comCtrl.findComWithPostId);
 router.delete('/:commentaireId', /*auth,*/ comCtrl.delete);

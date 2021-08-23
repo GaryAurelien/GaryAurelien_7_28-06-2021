@@ -30,14 +30,6 @@ const routes = [
     }
   },
   {
-    path: '/create',
-    name: 'create',
-    component: () => import(/* webpackChunkName: "about" */ '../views/CreatePost.vue'),
-    meta: {
-      title: 'CréationDePost'
-    }
-  },
-  {
     name: '/NotFound',
     path: '/:pathMatch(.*)',
     component: NotFound,

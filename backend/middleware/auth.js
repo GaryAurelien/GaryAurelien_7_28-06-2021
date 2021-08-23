@@ -7,11 +7,14 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.DB_TOK);
     const userId = decodedToken.userId;
     if (req.body.userId && req.body.userId !== userId) {// on compare le tokens
-      throw 'Invalid user ID';
+      throw "echec de l'authentififcation"  
     } else {
+      console.log()
+      console.log('authentification réussie')
+      console.log()
       next();
     }
   } catch {
-    res.status(401).json({error: new Error('Invalid request!')});
+    res.status(401).json({error: new Error("authentification impossible")});
   }
 };

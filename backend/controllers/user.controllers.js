@@ -125,6 +125,7 @@ exports.delete = (req, res) => {
   });
 };
 
+
 /*************************recuperer un user***************************/
 
 
@@ -133,11 +134,11 @@ exports.findOne = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Pas de commentaire trouvé avec l'identifiant ${req.params.userId}.`
+          message: `Pas d'utilisateur trouvé avec l'identifiant ${req.params.userId}.`
         });
       } else {
         res.status(500).send({
-          message: "Erreur lors de la récupération du commentaire avec l'identifiant " + req.params.userId
+          message: "Erreur lors de la récupération l'utilisateur avec l'identifiant " + req.params.userId
         });
       }
     } else res.send(data);
@@ -151,8 +152,21 @@ exports.findAll = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Une erreur s'est produite lors de la récupération du commentaire."
+          err.message || "Une erreur s'est produite lors de la récupération de l'utilisateur."
       });
     else res.send(data);
   });
+};
+
+/*************************supprimer tout les users***************************/
+
+exports.deleteAll = (req, res) => {
+  User.removeAll((err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Une erreur est survenue lors de la suppression de tous les Users."
+        });
+      else res.send({ message: `Les Users ont été supprimés !` });
+    });
 };
