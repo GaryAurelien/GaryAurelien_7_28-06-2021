@@ -16,7 +16,7 @@
           >
         </div>
 
-        <!----------------------------------------Affichage et  Création de post  -------------------------------------->
+        <!----------------------------------------Création des posts  -------------------------------------->
 
         <div class="collapse mb-5 " style="d-flex justify-content-center" id="collapseExample">
           <div class="d-flex justify-content-center">
@@ -48,63 +48,53 @@
       </div>
     </div>
 
-    <!----------------------------------------Affichage et  Création de commentaire  -------------------------------------->
+    <!----------------------------------------Affichage des posts  -------------------------------------->
 
     <div class="container">
       <div class="row d-flex flex-column-reverse align-items-center justify-content-around  m-2 " id="discution" >
-        <div class="card mb-5 p-2 shadow-lg" style="width: 45rem; background-color: #e0e0e0;" v-for="(posts, index) in posts" v-bind:key="index" >
-          <img class="card-img-top mt-2" v-bind:src="posts.file" alt="Card image cap" />
+        <div class="card mb-5 p-2 shadow-lg" style="width: 45rem; background-color: #e0e0e0;" v-for="(post, index) in posts" v-bind:key="index" >
+          <img class="card-img-top mt-2" v-bind:src="post.file" alt="Card image cap" />
           <div class="card-body" >
-            <h4 class="card-title text-center">{{posts.user_name}} {{posts.user_firstname}}</h4>
-            <h5 class="card-title">{{ posts.titre }}</h5>
-            <p class="card-text">{{ posts.content }}</p>
+            <h4 class="card-title text-center">{{post.user_name}} {{post.user_firstname}}</h4>
+            <h5 class="card-title">{{ post.titre }}</h5>
+            <p class="card-text">{{ post.content }}</p>
           </div>
-          <div class="text-center">
-            <button type="button" class=" btn btn-danger mb-3"  @click="deletePost(posts.id)">
+          <div class="text-center" >
+            <button type="button"  class=" btn btn-danger mb-3 mt-3" v-if="userId == post.user_id || admin == 1 "  @click="deletePost(post.id)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path>
                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg>
             </button>
           </div>
-          <div id="accordion">
-            <div class=" mb-3 shadow-lg" style="background-color: #e0e0e0;" >
-              <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                  <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Commentaire</button>
-                </h5>
-              </div>
-              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" >
-                <div class="card-body border border-dark p-2 rounded m-2" v-for="(commentaires, index) in commentaires" v-bind:key="index">
-                    <h5>{{commentaires.user_name}} {{commentaires.user_firstname}}</h5>
-                     <p class="card-text m-3">{{ commentaires.content }}</p> 
-                     <div>
-                    <div class="text-center">
-                      <button type="button" class=" btn btn-danger Supp"  @click="deleteCom(commentaires.id)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path>
-                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg>
-                      </button>
+          
+          <!----------------------------------------Affichage des commentaires  -------------------------------------->
+                  
+
+                    <p>
+                        <button @click="getCom(post.id)" class="btn btn-primary" type="button" data-toggle="collapse" :data-target="'#collapseExample'+post.id" aria-expanded="false" aria-controls="collapseExample">
+                            Voir les commentaires
+                        </button>
+                        </p>
+                        <div class="collapse" :id="'collapseExample'+post.id">
+                            <div class="card card-body" v-if="commentaires" v-for="commentaire in commentaires" :key="commentaire.id">
+                                <h5>{{commentaire.user_name}} {{commentaire.user_firstname}}</h5>
+                                <p>{{commentaire.content}}</p>
+                             
+                        <div class="action d-flex justify-content-between mt-2 align-items-center">
+                          <button class="reply px-4 smallsize" v-if="userId == commentaire.user_id || admin == 1 " @click="deleteCom(commentaire.id)"> Supprimer</button>
+                        </div>
+                  
+                            </div>
+                            <div>
+                        <form class="row center mt-1 mb-1" id="checked">
+                            <div class="space-form col-10 offset-1">
+                                <textarea class="form-control" v-bind:id="post.id" placeholder="Ajouté un commentaire" aria-label="Textarea" required></textarea>
+                            </div>
+                        </form>
+                        <a @click="createCom(post.id)" class=" center btn btn-primary mt-1" id="validateComment"><span>Commenter</span></a>
                     </div>
-                </div>            
-                </div>
-                <div class="card-body">
-                  <form class="row" id="checked">
-                    <div class="space-form col-6 offset-3">
-                      <textarea v-model="content" class="form-control mb-2" id="commentTextarea" placeholder="Votre commentaire ICI" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required></textarea>
-                    </div>
-                  </form>
-                  <div>
-                    <a @click="createCom()" id="validationCom" class="btn btn-outline-primary shadow mr-1"
-                      ><span>Valider</span></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <p class="card-text">
-            <small class="text-muted">{{ posts.date_création }}</small>
-          </p>
-        </div>
+                        </div>
+  </div>
       </div>
     </div>
     <Footer />
@@ -117,6 +107,7 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
+import VueJwtDecode from "vue-jwt-decode";
 
 export default {
   name: "Post",
@@ -125,11 +116,17 @@ export default {
       posts: null,
       commentaires: null,
       content: "",
-      userId:"",
+      userId: VueJwtDecode.decode(sessionStorage.getItem("token")).userId,
       postId:"",
+      admin: VueJwtDecode.decode(sessionStorage.getItem("token")).admin,
       //pour les posts
       titre: "",
       content: "",
+      user_Id: "",
+      user_name: '',
+      user_firstname: '',
+      userIdSession: sessionStorage.getItem("userId"),
+      commentaires: '',
     };
   },
   mounted() {
@@ -141,20 +138,14 @@ export default {
       .then((response) => {
         this.posts = response.data;
         console.log(this.posts);
+        console.log(sessionStorage);
       })
       .catch((err) => console.log("Erreur : " + err));
 
-/*********************Recuperation des commentaires*********************/
-
-    axios.get("http://localhost:3000/commentaires/")
-    .then((response) => {
-      this.commentaires = response.data;
-      console.log(this.commentaires);
-    })
-    .catch((err) => console.log("Erreur : " + err));
 },
   
   methods: {
+    
 
     /*********************Créer un post*********************/
 
@@ -171,7 +162,7 @@ export default {
           content: document.getElementById("textarea").value,
           user_name: userName,
           user_firstname: userFirstname,
-          userId: user_Id,
+          user_id: user_Id,
         })
         .then(function (response) {
           console.log(response);
@@ -238,7 +229,7 @@ export default {
     },*/
 
 
-   createCom(){
+   createCom(data){
             const userName = sessionStorage.getItem("userName");
             const userFirstname = sessionStorage.getItem("userFirstname");
             const user_Id = sessionStorage.getItem("userId");
@@ -246,10 +237,12 @@ export default {
             headers: {
                 Authorization: "Bearer " + sessionStorage.getItem("token"),
               },
-                content: document.getElementById("commentTextarea").value,
-                user_name: userName,
-                user_firstname: userFirstname,
-                userId: user_Id,
+                post_id : data,
+                content: document.getElementById(data).value,
+                name: userName,
+                firstname: userFirstname,
+                user_id: user_Id,
+
         })
         .then(function(response) { 
                 console.log(response);
@@ -260,6 +253,20 @@ export default {
         });
    },
 
+
+  /*********************Recuperation des commentaires*********************/
+
+getCom(data){
+
+    axios.get("http://localhost:3000/commentaires/" +  data  + "/comment" )
+    .then((response) => {
+      this.commentaires = response.data;
+      console.log(this.commentaires);
+
+    })
+    .catch((err) => console.log("Erreur : " + err));
+
+},
 /*********************Supprimer commentaires*********************/
 
    deleteCom(data){

@@ -18,7 +18,6 @@
             <input v-model="name" id="name" type="text" class="form-row_input" placeholder="Nom"  pattern="[a-zA-ZÀ-ÿ-Zàâäéèêëïîôöùûüç[ -]]{2,30}" required/>
             <input v-model="firstname" id="firstname" type="text" class="form-row_input" placeholder="Prénom"  pattern="[A-Za-z-àâäéèêëïîôöùûüç[ -]]{2,30}" required />
             <input v-model="position" id ="position" type="text" class="form-row_input"  placeholder="Job"  pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required />
-            <input v-model="admin" id="admin" type="text" class="form-row_input"  placeholder="Admin"  />
           </div>
           <div class="form-row">
             <input v-model="password" id="password" type="password" class="form-row_input"  placeholder="Mot de passe"  required />
@@ -43,6 +42,7 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 
+
 export default {
   name: "Home",
   data() {
@@ -58,7 +58,7 @@ export default {
   },
   components: {
     Header,
-    Footer,
+    Footer
   },
   methods: {
     switchToCreateAccount: function () {
@@ -95,6 +95,7 @@ export default {
                     sessionStorage.setItem("userName", confirmation.userName);
                     sessionStorage.setItem("userFirstname", confirmation.userFirstname);
                     sessionStorage.setItem("userId", confirmation.userId);
+                    sessionStorage.setItem("position", confirmation.position);
                     window.location.href ="profile";
             //traitement des erreurs
                 } catch (error) {
@@ -131,7 +132,7 @@ export default {
                     console.log(userId);
                     
                     let result = {
-                        userId: userId
+                        userId: userId,
                     }
                     console.log(result); 
                     
@@ -140,7 +141,8 @@ export default {
                     sessionStorage.setItem("userName", confirmation.userName);
                     sessionStorage.setItem("userFirstname", confirmation.userFirstname);
                     sessionStorage.setItem("userId", confirmation.userId);
-                    /*window.location.href ="profile";*/
+                    sessionStorage.setItem("position", confirmation.position);
+                    window.location.href ="profile";
 
                     
             //traitement des erreurs
@@ -154,7 +156,7 @@ export default {
   computed: {
     validatedFields: function () {
       if (this.mode == 'create') {
-        if (this.email != "" && this.firstname != "" && this.name != "" && this.password != "") {
+        if (this.email != "" && this.firstname != "" && this.name != "" && this.password != "" && this.position != "") {
           return true;
         } else {
           return false;
@@ -172,6 +174,9 @@ export default {
 </script>
 
 <style scoped>
+.main {
+  background: linear-gradient(160deg, #e78b07 0%, #8f5bfe 100%);
+}
   .form-row {
     display: flex;
     margin: 16px 0px;

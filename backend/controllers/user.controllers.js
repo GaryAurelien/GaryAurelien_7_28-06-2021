@@ -30,6 +30,7 @@ exports.signup = (req, res, next) => {
           userId: data.id,
           userName: data.name,
           userFirstname: data.firstname,
+          position: data.position,
           token: jwt.sign(
             { userId: data.id },
             process.env.DB_TOK,
@@ -65,8 +66,9 @@ exports.login = (req, res, next) => {
             userId: data.id,
             userName: data.name,
             userFirstname: data.firstname,
+            position: data.position,
             token: jwt.sign(
-              { userId: data.id },
+              { userId: data.id, admin: data.admin },
               process.env.DB_TOK,
               { expiresIn: '24h' }
             )

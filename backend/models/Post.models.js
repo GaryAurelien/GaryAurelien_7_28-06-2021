@@ -6,6 +6,7 @@ const Post = function(client) {
     this.content = client.content;
     this.user_name = client.user_name;
     this.user_firstname = client.user_firstname;
+    this.user_id = client.user_id;
 };
 
 /**************************create***************************/

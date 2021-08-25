@@ -4,7 +4,7 @@
         <div class="container ">
             <div class="row">
                 <nav class="col navbar navbar-expand-lg navbar-dark">
-                    <a class="navbar-brand" href="/">
+                    <a class="navbar-brand" href="post">
                         <img src="../assets/icon.png" width="50" height="50" alt="Info Logo" />
                         Groupomania
                     </a>
@@ -14,7 +14,6 @@
                     </button>
                     <div id="navbarContent" class="collapse navbar-collapse justify-content-end ">
                         <ul class="navbar-nav">
-                            <router-link class="navbar-brand" to="/">Accueil</router-link> 
                             <router-link class="navbar-brand" to="/Profile">Mon Profile</router-link>
                             <router-link class="navbar-brand" to="/Post">Post</router-link>
                         </ul>

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config()
+const dotenv = require("dotenv");
+dotenv.config();
 
 module.exports = (req, res, next) => {
   try {
@@ -11,7 +12,7 @@ module.exports = (req, res, next) => {
     } else {
       console.log()
       console.log('authentification réussie')
-      console.log()
+      /*console.log(req.params.postId)*/
       next();
     }
   } catch {

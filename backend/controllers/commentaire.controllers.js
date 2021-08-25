@@ -15,7 +15,11 @@ exports.create = (req, res) => {
     // Create a Commentaire
     const commentaire = new Commentaire({
         content: req.body.content,
-        post_id: req.body.post_id
+        post_id: req.body.post_id,
+        name: req.body.name,
+        firstname: req.body.firstname,
+        user_id: req.body.user_id,
+    
     });
 
     // Save Commentaire in the database

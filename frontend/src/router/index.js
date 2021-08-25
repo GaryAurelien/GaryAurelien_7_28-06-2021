@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Post from '../views/Post.vue'
 import NotFound from '../views/NotFound.vue'
 import Profile from '../views/Profile.vue'
+import OnePost from '../views/OnePost.vue';
 
 const routes = [
   {
@@ -30,13 +31,13 @@ const routes = [
     }
   },
   {
-    name: '/NotFound',
-    path: '/:pathMatch(.*)',
-    component: NotFound,
+    path: '/posts/:id',
+    name: 'OnePost',
+    component: OnePost,
     meta: {
-      title: '404 Not Found'
+      title: 'PagePost'
     }
-  }
+  },
 ]
 
 

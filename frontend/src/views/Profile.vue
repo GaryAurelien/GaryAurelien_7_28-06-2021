@@ -1,15 +1,29 @@
 <template>
 <div>
     <Header />
-        <div class="container ">
-            <div class="row justify-content-center m-2 mt-5" >
+        <div class="container" v-if="admin == 0">
+            <div class="row justify-content-center m-2 mt-5" v-if="admin == 0">
                 <div class="card p-5">
-                    <h1 class="card-title m-2">{{ nameCurrentUser }}</h1>
+                    <h3 class="card-title m-2">{{ userName + " " + userFirstname }}</h3>
+                    <p>Job: {{  position }}</p>
                     <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
                     <img>
                     <div class="form-row d-flex justify-content-around mt-5">
-                        <button @click="deconnectionAccount()" class="center btn btn-outline-primary shadow">Déconnexion</button>      
-                        <button class="center btn btn-outline-primary shadow">Modifier</button>      
+                        <button @click="deconnectionAccount()" class="center btn btn-outline-primary shadow">Déconnexion</button>    
+                        <button @click="deleteMyAccount()"  class="center btn btn-outline-danger shadow">Suprimer</button>       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="admin == 1 ">
+            <div class="row justify-content-center m-2 mt-5" v-for="(user, index) in users" v-bind:key="index">
+                <div class="card p-5">
+                    <h3 class="card-title m-2">{{ user.name + " " + user.firstname }}</h3>
+                    <p>Job: {{  user.position }}</p>
+                    <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
+                    <img>
+                    <div class="form-row d-flex justify-content-around mt-5">
+                        <button @click="deconnectionAccount()" class="center btn btn-outline-primary shadow">Déconnexion</button>         
                         <button @click="deleteMyAccount()"  class="center btn btn-outline-danger shadow">Suprimer</button>       
                     </div>
                 </div>
@@ -23,30 +37,38 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
+import VueJwtDecode from "vue-jwt-decode";
 
 export default {
     name: "Profile",
 data() {
     return {
-        userFirstname: "",
-        userName:"",
-        userId: "",
-        admin: false,
-        nameCurrentUser: "",
+        userFirstname: sessionStorage.getItem("userFirstname"),
+        userName: sessionStorage.getItem("userName"),
+        userId: VueJwtDecode.decode(sessionStorage.getItem("token")).userId,
+        position: sessionStorage.getItem("position"),
+        admin: VueJwtDecode.decode(sessionStorage.getItem("token")).admin,
         id: "",
+        users: "" 
     }
   },
-methods: { 
-    getUserInfo() {
-            const userName = sessionStorage.getItem("userName");
-            const userFirstname = sessionStorage.getItem("userFirstname");
-            const user_Id = sessionStorage.getItem("userId");
+  mounted() {
 
-            this.userFirstname = userFirstname;
-            this.userName = userName;
-            this.userId = user_Id;
-            return this;
-    },
+ /*********************Recuperation tout les users*********************/
+
+    axios.get("http://localhost:3000/users/")
+      //reponce va etre dans this.posts
+      .then((response) => {
+        this.users = response.data;
+        console.log(this.users);
+        console.log(sessionStorage);
+      })
+      .catch((err) => console.log("Erreur : " + err));
+
+},
+
+methods: { 
+    
     deconnectionAccount() {
             sessionStorage.clear();
             location.replace(location.origin+'/#/signup');
@@ -73,6 +95,7 @@ methods: {
             return 
         }
     },
+    
     },
 components: {
     Header,

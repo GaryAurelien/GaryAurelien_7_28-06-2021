@@ -17,7 +17,8 @@ exports.create = (req, res) => {
         titre: req.body.titre,
         content: req.body.content,
         user_name: req.body.user_name,
-        user_firstname: req.body.user_firstname
+        user_firstname: req.body.user_firstname,
+        user_id: req.body.user_id
     });
 
     // Save Post in the database

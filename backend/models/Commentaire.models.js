@@ -2,7 +2,10 @@ const sql = require("./db.js");
 
 const Commentaire = function(client) {
     this.content = client.content,
-    this.post_id = client.post_id;
+    this.name = client.name,
+    this.firstname = client.firstname,
+    this.user_id = client.user_id,
+    this.post_id = client.post_id
 };
 
 /**************************create***************************/
