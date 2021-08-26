@@ -14,7 +14,8 @@
                     </button>
                     <div id="navbarContent" class="collapse navbar-collapse justify-content-end ">
                         <ul class="navbar-nav">
-                            <router-link class="navbar-brand" to="/Profile">Mon Profile</router-link>
+                            <router-link v-if="admin == 0" class="navbar-brand" to="/Profile">Mon Profile</router-link>
+                            <router-link v-if="admin == 1" class="navbar-brand" to="/Profile">Les Profiles</router-link>
                             <router-link class="navbar-brand" to="/Post">Post</router-link>
                         </ul>
                     </div>
@@ -26,8 +27,15 @@
 </template>
 
 <script>
+import VueJwtDecode from "vue-jwt-decode";
+
 export default {
-  name: 'Header'
+  name: 'Header',
+  data() {
+      return {
+          admin: VueJwtDecode.decode(sessionStorage.getItem("token")).admin,
+      }
+  }
 }
 </script>
 

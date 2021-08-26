@@ -2,29 +2,35 @@
 <div>
     <Header />
         <div class="container" v-if="admin == 0">
+            <div class="col text-center mb-5 pt-5">
+                <h1 class="text-secondary fw-bold">Groupomania</h1>
+            </div>
             <div class="row justify-content-center m-2 mt-5" v-if="admin == 0">
                 <div class="card p-5">
                     <h3 class="card-title m-2">{{ userName + " " + userFirstname }}</h3>
                     <p>Job: {{  position }}</p>
                     <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
                     <img>
-                    <div class="form-row d-flex justify-content-around mt-5">
+                    <div class="row d-flex flex-column mt-5">
                         <button @click="deconnectionAccount()" class="center btn btn-outline-primary shadow">Déconnexion</button>    
-                        <button @click="deleteMyAccount()"  class="center btn btn-outline-danger shadow">Suprimer</button>       
+                        <button @click="deleteMyAccount()"  class="center btn btn-outline-danger shadow mt-2">Suprimer</button>       
                     </div>
                 </div>
             </div>
         </div>
         <div v-if="admin == 1 ">
+            <div class="col text-center mb-5 pt-5">
+                <h1 class="text-secondary fw-bold">Groupomania</h1>
+            </div>
             <div class="row justify-content-center m-2 mt-5" v-for="(user, index) in users" v-bind:key="index">
                 <div class="card p-5">
                     <h3 class="card-title m-2">{{ user.name + " " + user.firstname }}</h3>
                     <p>Job: {{  user.position }}</p>
                     <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
                     <img>
-                    <div class="form-row d-flex justify-content-around mt-5">
+                    <div class="row d-flex flex-column mt-5">
                         <button @click="deconnectionAccount()" class="center btn btn-outline-primary shadow">Déconnexion</button>         
-                        <button @click="deleteMyAccount()"  class="center btn btn-outline-danger shadow">Suprimer</button>       
+                        <button @click="deleteMyAccount()"  class="center btn btn-outline-danger shadow mt-2">Suprimer</button>       
                     </div>
                 </div>
             </div>

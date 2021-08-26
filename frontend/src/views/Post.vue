@@ -27,15 +27,15 @@
                     </div>
                   </div>
                   <form class="row" id="checked">
-                    <div class="space-form col-6 offset-3">
+                    <div class="space-form col-10 offset-1">
                       <input v-model="titre" type="text" class="form-control mb-2" id="inputTitre" placeholder="Titre" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required />
                     </div>
-                    <div class="space-form col-6 offset-3">
+                    <div class="space-form col-10 offset-1">
                       <textarea v-model="content" class="form-control mb-2" id="textarea" placeholder="Contenu" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required></textarea>
                     </div>
-                    <div class="space-form col-6 offset-3 mb-2">
+                    <div class="d-flex flex-column col-10 offset-1 mb-3">
                       <label for="fileInput" class="m-2">Ajouter une image</label>
-                      <input type="file" class="form-control-file mb-2" id="fileInput" />
+                      <input type="file" class="d-flex justify-content-center mb-2 mx-auto" id="fileInput" />
                     </div>
                   </form>
                   <div>
@@ -60,7 +60,7 @@
             <p class="card-text">{{ post.content }}</p>
           </div>
           <div class="text-center" >
-            <button type="button"  class=" btn btn-danger mb-3 mt-3" v-if="userId == post.user_id || admin == 1 "  @click="deletePost(post.id)">
+            <button type="button"  class=" btn btn-outline-danger mb-3 mt-3" v-if="userId == post.user_id || admin == 1 "  @click="deletePost(post.id)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path>
                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg>
@@ -71,18 +71,19 @@
                   
 
                     <p>
-                        <button @click="getCom(post.id)" class="btn btn-primary" type="button" data-toggle="collapse" :data-target="'#collapseExample'+post.id" aria-expanded="false" aria-controls="collapseExample">
+                        <button @click="getCom(post.id)" class="btn btn-outline-primary" type="button" data-toggle="collapse" :data-target="'#collapseExample'+post.id" aria-expanded="false" aria-controls="collapseExample">
                             Voir les commentaires
                         </button>
                         </p>
-                        <div class="collapse" :id="'collapseExample'+post.id">
-                            <div class="card card-body" v-if="commentaires" v-for="commentaire in commentaires" :key="commentaire.id">
+                        <div class="collapse row center col-8 offset-2" :id="'collapseExample'+post.id">
+                            <div class="card card-body row center mb-2" v-if="commentaires" v-for="commentaire in commentaires" :key="commentaire.id">
                                 <h5>{{commentaire.user_name}} {{commentaire.user_firstname}}</h5>
                                 <p>{{commentaire.content}}</p>
-                             
-                        <div class="action d-flex justify-content-between mt-2 align-items-center">
-                          <button class="reply px-4 smallsize" v-if="userId == commentaire.user_id || admin == 1 " @click="deleteCom(commentaire.id)"> Supprimer</button>
-                        </div>
+                                <div class=" text-center  mt-2 ">
+                                  <button class="btn btn-outline-danger" v-if="userId == commentaire.user_id || admin == 1 " @click="deleteCom(commentaire.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path>
+                                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg></button>
+                              </div>
                   
                             </div>
                             <div>
@@ -91,8 +92,8 @@
                                 <textarea class="form-control" v-bind:id="post.id" placeholder="Ajouté un commentaire" aria-label="Textarea" required></textarea>
                             </div>
                         </form>
-                        <a @click="createCom(post.id)" class=" center btn btn-primary mt-1" id="validateComment"><span>Commenter</span></a>
-                    </div>
+                        <a @click="createCom(post.id)" class=" center btn btn-outline-primary mt-1" id="validateComment"><span>Commenter</span></a>
+                        </div>
                         </div>
   </div>
       </div>
@@ -160,6 +161,7 @@ export default {
               },
           titre: document.getElementById("inputTitre").value,
           content: document.getElementById("textarea").value,
+          file: document.getElementById("fileInput").value,
           user_name: userName,
           user_firstname: userFirstname,
           user_id: user_Id,

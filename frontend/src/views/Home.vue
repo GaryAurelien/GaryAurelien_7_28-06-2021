@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <Header/>
     <div class="col text-center  mb-5 pt-5">
       <h1 class="text-secondary fw-bold">Bienvenue sur Groupomania</h1>
     </div>
