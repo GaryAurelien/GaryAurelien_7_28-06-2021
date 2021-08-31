@@ -55,23 +55,24 @@ data() {
         position: sessionStorage.getItem("position"),
         admin: VueJwtDecode.decode(sessionStorage.getItem("token")).admin,
         id: "",
-        users: "" 
-    }
+/*********************Recuperation tout les users*********************/
+        users: 
+            axios.get("http://localhost:3000/users/", {
+                method: 'GET',
+                headers: {
+                            Authorization: 'Bearer ' + sessionStorage.getItem("token")
+                        }
+                        })
+                        //reponce va etre dans this.posts
+                        .then((response) => {
+                            this.users = response.data;
+                            console.log(this.users);
+                            console.log(sessionStorage);
+                        })
+                        .catch((err) => console.log("Erreur : " + err))
+        }
   },
-  mounted() {
 
- /*********************Recuperation tout les users*********************/
-
-    axios.get("http://localhost:3000/users/")
-      //reponce va etre dans this.posts
-      .then((response) => {
-        this.users = response.data;
-        console.log(this.users);
-        console.log(sessionStorage);
-      })
-      .catch((err) => console.log("Erreur : " + err));
-
-},
 
 methods: { 
     

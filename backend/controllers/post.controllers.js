@@ -1,6 +1,8 @@
 const sql = require("../models/db.js");
 const Post = require('../models/Post.models.js');
 const fs = require('fs');
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
 /**************Create and Save a new post************/
 
@@ -19,7 +21,7 @@ exports.create = (req, res) => {
         user_name: req.body.user_name,
         user_firstname: req.body.user_firstname,
         user_id: req.body.user_id,
-        
+        file: req.body.file,
     });
 
     // Save Post in the database

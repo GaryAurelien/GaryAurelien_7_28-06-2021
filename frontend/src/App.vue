@@ -4,8 +4,7 @@
 </main>
 </template>
 
-<style>
-
+<style >
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 * {
   font-family: 'Poppins', sans-serif;
@@ -15,7 +14,6 @@
 }
 #app {
   max-width: 100%;
-  font-family: Arial, Impact, "Arial Black",  Verdana, sans-serif;
   text-align: center;
 
 }
@@ -45,7 +43,7 @@ img {
   font-weight: 500;
 }
   .button_login, .button_create {
-    background: #2196F3;
+    background: #091f43;
     color:white;
     border-radius: 8px;
     font-weight: 800;
@@ -56,7 +54,7 @@ img {
     transition: .4s background-color;
   }
   .card_action {
-    color:#2196F3;
+    color:#091f43;
     text-decoration: underline;
   }
   .card_action:hover {
@@ -64,7 +62,7 @@ img {
   }
   .button:hover {
     cursor:pointer;
-    background: #1976D2;
+    background: #091f43;
   }
   .button--disabled {
     background:#cecece;
@@ -74,4 +72,5 @@ img {
     cursor:not-allowed;
     background:#cecece;
   }
+
 </style>

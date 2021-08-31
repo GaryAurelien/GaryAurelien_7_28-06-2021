@@ -1,6 +1,6 @@
 <template>
 <header>
-    <div class="bg-primary shadow">
+    <div class="shadow" style="background-color:#091f43">
         <div class="container ">
             <div class="row">
                 <nav class="col navbar navbar-expand-lg navbar-dark">
@@ -43,6 +43,6 @@ export default {
 <style scoped>
 .router-link-active {
   font-weight: bold;
-  color: red
   };
+
 </style>

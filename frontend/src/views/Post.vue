@@ -23,7 +23,7 @@
             <div class="card" style="width: 45rem;">
                 <div class="container">
                     <div class="col text-center mb-5 pt-5">
-                      <h1 class="card_title">Créer ton post 😁</h1>
+                      <h1 class="card_title">Crée ton post !!! 😁</h1>
                     </div>
                   </div>
                   <form class="row" id="checked">
@@ -34,8 +34,7 @@
                       <textarea v-model="content" class="form-control mb-2" id="textarea" placeholder="Contenu" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required></textarea>
                     </div>
                     <div class="d-flex flex-column col-10 offset-1 mb-3">
-                      <label for="fileInput" class="m-2">Ajouter une image</label>
-                      <input type="file" class="d-flex justify-content-center mb-2 mx-auto" id="fileInput" />
+                      <input type="file" accept="image/*" name="imageUrl" class="form-control" id="inputImage" placeholder="Image" aria-label="Image" >
                     </div>
                   </form>
                   <div>
@@ -53,7 +52,8 @@
     <div class="container">
       <div class="row d-flex flex-column-reverse align-items-center justify-content-around  m-2 " id="discution" >
         <div class="card mb-5 p-2 shadow-lg" style="width: 45rem; background-color: #e0e0e0;" v-for="(post, index) in posts" v-bind:key="index" >
-          <img class="card-img-top mt-2" v-bind:src="post.file" alt="Card image cap" />
+          <img class="card-img-top mt-2" v-if="post.file" :src="post.file" alt="Card image cap" />
+          <p>{{post.file}}</p>
           <div class="card-body" >
             <h4 class="card-title text-center">{{post.user_name}} {{post.user_firstname}}</h4>
             <h5 class="card-title">{{ post.titre }}</h5>
@@ -74,8 +74,8 @@
                         <button @click="getCom(post.id)" class="btn btn-outline-primary" type="button" data-toggle="collapse" :data-target="'#collapseExample'+post.id" aria-expanded="false" aria-controls="collapseExample">
                             Voir les commentaires
                         </button>
-                        </p>
-                        <div class="collapse row center col-8 offset-2" :id="'collapseExample'+post.id">
+                    </p>
+                        <div class="collapse row center col-10 offset-1" :id="'collapseExample'+post.id">
                             <div class="card card-body row center mb-2" v-if="commentaires" v-for="commentaire in commentaires" :key="commentaire.id">
                                 <h5>{{commentaire.user_name}} {{commentaire.user_firstname}}</h5>
                                 <p>{{commentaire.content}}</p>
@@ -114,13 +114,11 @@ export default {
   name: "Post",
   data() {
     return {
-      posts: null,
       commentaires: null,
       content: "",
       userId: VueJwtDecode.decode(sessionStorage.getItem("token")).userId,
       postId:"",
       admin: VueJwtDecode.decode(sessionStorage.getItem("token")).admin,
-      //pour les posts
       titre: "",
       content: "",
       user_Id: "",
@@ -128,32 +126,36 @@ export default {
       user_firstname: '',
       userIdSession: sessionStorage.getItem("userId"),
       commentaires: '',
-    };
+  /*********************Recuperation des posts*********************/
+      file: '',
+      posts:  
+          axios.get("http://localhost:3000/posts/", {
+              method: 'GET',
+              headers: {
+                  'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+              }
+          })
+                  //reponce va etre dans this.posts
+                  .then((response) => {
+                    this.posts = response.data;
+                    console.log(this.posts);
+                    console.log(sessionStorage);
+                  })
+                  .catch((err) => console.log("Erreur : " + err))
+            }
   },
-  mounted() {
+ 
 
- /*********************Recuperation des posts*********************/
 
-    axios.get("http://localhost:3000/posts/")
-      //reponce va etre dans this.posts
-      .then((response) => {
-        this.posts = response.data;
-        console.log(this.posts);
-        console.log(sessionStorage);
-      })
-      .catch((err) => console.log("Erreur : " + err));
-
-},
-  
   methods: {
     
-
     /*********************Créer un post*********************/
 
     createPost() {
             const userName = sessionStorage.getItem("userName");
             const userFirstname = sessionStorage.getItem("userFirstname");
             const user_Id = sessionStorage.getItem("userId");
+            let file = document.getElementById('inputImage').files[0];
 
       axios.post("http://localhost:3000/posts/create", {
             headers: {
@@ -161,7 +163,7 @@ export default {
               },
           titre: document.getElementById("inputTitre").value,
           content: document.getElementById("textarea").value,
-          file: document.getElementById("fileInput").value,
+          file: document.getElementById("inputImage").files[0],
           user_name: userName,
           user_firstname: userFirstname,
           user_id: user_Id,
@@ -181,7 +183,7 @@ export default {
       if (confirm("Voulez-vous vraiment supprimer ce post ?")) {
         axios.delete("http://localhost:3000/posts/" + data, {
           headers: {
-          "Authorization": "Bearer " + sessionStorage.getItem("token"),
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
         })
         .then(function(response) { 
@@ -195,41 +197,6 @@ export default {
 
 
     /*********************Créer commentaires*********************/
-
-    /*createCom(){
-        //variable qui reccueille les infos de contact du client
-        let comment = {
-            content : document.getElementById('commentTextarea').value
-        }; 
-        console.log(comment);
-
-    //on POST les infos reccueillies au serveur
-        const envoi = fetch("http://localhost:3000/commentaires/create", {
-            method: 'POST',
-            body: JSON.stringify(comment),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem("token")
-            }
-        });
-    //traitement de la réponse du serveur
-        envoi.then(async response =>{
-            try{
-                console.log(response);
-            //récupération de la réponse du serveur
-                let confirmation = await response.json();
-                console.log(confirmation);
-                window.location.href = 'post';
-
-                
-        //traitement des erreurs
-            } catch (error) {
-                console.log(error);
-                alert("Un problème est survenu, merci de réessayer plus tard");
-            }
-        });
-    },*/
-
 
    createCom(data){
             const userName = sessionStorage.getItem("userName");
@@ -260,7 +227,11 @@ export default {
 
 getCom(data){
 
-    axios.get("http://localhost:3000/commentaires/" +  data  + "/comment" )
+    axios.get("http://localhost:3000/commentaires/" +  data  + "/comment", {
+        headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+                }
+    } )
     .then((response) => {
       this.commentaires = response.data;
       console.log(this.commentaires);
@@ -294,3 +265,7 @@ getCom(data){
   },
 };
 </script>
+
+<style >
+
+</style>

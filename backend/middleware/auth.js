@@ -1,21 +1,27 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require("dotenv");
-dotenv.config();
+require('dotenv').config();
 
-module.exports = (req, res, next) => {
-  try {
+
+ module.exports = (req, res, next) =>  { 
+
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.DB_TOK);
-    const userId = decodedToken.userId;
-    if (req.body.userId && req.body.userId !== userId) {// on compare le tokens
-      throw "echec de l'authentififcation"  
-    } else {
-      console.log()
-      console.log('authentification réussie')
-      /*console.log(req.params.postId)*/
-      next();
+    console.log(token);
+
+    if(!token){
+      return res.status(403).send({
+        message: "No token provided!"
+      });
+      
     }
-  } catch {
-    res.status(401).json({error: new Error("authentification impossible")});
-  }
-};
+    jwt.verify(token, process.env.DB_TOK, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({
+          message: "Unauthorized!"
+        });
+      }
+    
+    req.id_user = decoded.userId;
+    console.log("voici le id_user du token:",req.id_user);
+    next();
+});
+}; 

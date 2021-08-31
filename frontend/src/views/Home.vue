@@ -90,6 +90,15 @@ export default {
                     let confirmation = await response.json();
                     console.log(confirmation);
 
+                    let userId = confirmation.userId;
+                    console.log(userId);
+                    
+                    let result = {
+                        userId: userId,
+                    }
+                    console.log(result); 
+                    
+                    sessionStorage.setItem("confirm", JSON.stringify(result));
                     sessionStorage.setItem("token", confirmation.token);
                     sessionStorage.setItem("userName", confirmation.userName);
                     sessionStorage.setItem("userFirstname", confirmation.userFirstname);

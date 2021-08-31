@@ -1,11 +1,11 @@
 const sql = require("./db.js");
 
-const Commentaire = function(client) {
-    this.content = client.content,
-    this.name = client.name,
-    this.firstname = client.firstname,
-    this.user_id = client.user_id,
-    this.post_id = client.post_id
+const Commentaire = function(commentaire) {
+    this.content = commentaire.content,
+    this.name = commentaire.name,
+    this.firstname = commentaire.firstname,
+    this.user_id = commentaire.user_id,
+    this.post_id = commentaire.post_id
 };
 
 /**************************create***************************/

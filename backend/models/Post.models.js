@@ -1,12 +1,12 @@
 const sql = require("./db.js");
 
-const Post = function(client) {
-    this.titre = client.titre;
-    this.file = client.file;
-    this.content = client.content;
-    this.user_name = client.user_name;
-    this.user_firstname = client.user_firstname;
-    this.user_id = client.user_id;
+const Post = function(post) {
+    this.titre = post.titre;
+    this.file = post.file;
+    this.content = post.content;
+    this.user_name = post.user_name;
+    this.user_firstname = post.user_firstname;
+    this.user_id = post.user_id;
 };
 
 /**************************create***************************/

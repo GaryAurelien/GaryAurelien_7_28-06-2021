@@ -2,15 +2,21 @@ const express = require('express');
 const router = express.Router();
 
 const postCtrl = require('../controllers/post.controllers.js');
+
 const auth = require('../middleware/auth');
-const multer = require('../middleware/multer-config');
+const authPost = require('../middleware/authPost.js')
 
 
-router.post('/create',/*auth ,*//*multer,*/ postCtrl.create);
-router.put('/:postId',/*auth ,/*multer, */postCtrl.update);
-router.delete('/:postId',auth, postCtrl.delete);
-router.get('/:postId', /*auth,*/ postCtrl.findOne);
-router.get('/',/*auth,*/ postCtrl.findAll);//ok
+/*const multer = require('../middleware/multer-config');*/
+const multer = require('multer');
+const upload = multer({ dest: '../public/upload/' });
 
 
-module.exports = router;  
+router.post('/create', upload.single("file"), /*multer,*/ postCtrl.create);
+router.put('/:postId', auth , authPost, postCtrl.update);
+router.delete('/:postId', auth, authPost, postCtrl.delete);
+router.get('/:postId', auth, authPost, postCtrl.findOne);
+router.get('/', auth, postCtrl.findAll);
+
+
+module.exports = router;
