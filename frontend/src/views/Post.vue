@@ -2,14 +2,14 @@
   <div class="Post">
     <Header />
     <div class="container">
-      <div class="col text-center mb-5 pt-5">
-        <h1 class="text-secondary fw-bold">Groupomania</h1>
+      <div class="col text-center m-3">
+        <img src="../assets/Img-Home.png" class="img_home" alt=""/>
       </div>
       <div>
         <div>
           <a
             href=""
-            class=" btn btn-outline-primary shadow mb-5"
+            class=" btn base shadow mb-5"
             id="Créer"
             data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
             ><span class="white"> Créer un post </span></a
@@ -38,7 +38,7 @@
                     </div>
                   </form>
                   <div>
-                    <a @click="createPost()" class="btn btn-outline-primary shadow mr-1"
+                    <a @click="createPost()" class="btn base shadow mr-1"
                       ><span>Valider</span></a>
                   </div>
             </div>
@@ -60,18 +60,18 @@
             <p class="card-text">{{ post.content }}</p>
           </div>
           <div class="text-center" >
-            <button type="button"  class=" btn btn-outline-danger mb-3 mt-3" v-if="userId == post.user_id || admin == 1 "  @click="deletePost(post.id)">
+            <button type="button"  class=" btn supprimer mb-3 mt-3" v-if="userId == post.user_id || admin == 1 "  @click="deletePost(post.id)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path>
                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg>
-            </button>
+            Supprimer</button>
           </div>
           
           <!----------------------------------------Affichage des commentaires  -------------------------------------->
                   
 
                     <p>
-                        <button @click="getCom(post.id)" class="btn btn-outline-primary" type="button" data-toggle="collapse" :data-target="'#collapseExample'+post.id" aria-expanded="false" aria-controls="collapseExample">
+                        <button @click="getCom(post.id)" class="btn base" type="button" data-toggle="collapse" :data-target="'#collapseExample'+post.id" aria-expanded="false" aria-controls="collapseExample">
                             Voir les commentaires
                         </button>
                     </p>
@@ -80,9 +80,9 @@
                                 <h5>{{commentaire.user_name}} {{commentaire.user_firstname}}</h5>
                                 <p>{{commentaire.content}}</p>
                                 <div class=" text-center  mt-2 ">
-                                  <button class="btn btn-outline-danger" v-if="userId == commentaire.user_id || admin == 1 " @click="deleteCom(commentaire.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                  <button class="btn supprimer" v-if="userId == commentaire.user_id || admin == 1 " @click="deleteCom(commentaire.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                   <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path>
-                                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg></button>
+                                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg>Supprimer</button>
                               </div>
                   
                             </div>
@@ -92,7 +92,7 @@
                                 <textarea class="form-control" v-bind:id="post.id" placeholder="Ajouté un commentaire" aria-label="Textarea" required></textarea>
                             </div>
                         </form>
-                        <a @click="createCom(post.id)" class=" center btn btn-outline-primary mt-1" id="validateComment"><span>Commenter</span></a>
+                        <a @click="createCom(post.id)" class=" center btn base mt-1" id="validateComment"><span>Commenter</span></a>
                         </div>
                         </div>
   </div>

@@ -73,4 +73,45 @@ img {
     background:#cecece;
   }
 
+.btn {
+  border: 2px solid #091f43;
+  background-color: white;
+  color: #091f43;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.base {
+  border-color: #091f43;
+  color: #091f43
+}
+
+.base:hover {
+  background: #091f43;
+  color: white;
+}
+
+.supprimer {
+  border-color: #fd2d01;
+  color: #fd2d01;
+}
+
+.supprimer:hover {
+  background: #fd2d01;
+  color: white;
+}
+
+.color-text-footer {
+  text-decoration: none;
+  color: #091f43;
+}
+
+.color-text-footer:hover {
+  color: #fd2d01;
+}
+
+
+
 </style>

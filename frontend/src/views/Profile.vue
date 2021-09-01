@@ -2,18 +2,18 @@
 <div>
     <Header />
         <div class="container" v-if="admin == 0">
-            <div class="col text-center mb-5 pt-5">
-                <h1 class="text-secondary fw-bold">Groupomania</h1>
+            <div class="col text-center m-3">
+                <img src="../assets/Img-Home.png" class="img_home" alt=""/>
             </div>
-            <div class="row justify-content-center m-2 mt-5" v-if="admin == 0">
+            <div class="row justify-content-center m-2" v-if="admin == 0">
                 <div class="card p-5">
                     <h3 class="card-title m-2">{{ userName + " " + userFirstname }}</h3>
                     <p>Job: {{  position }}</p>
                     <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
                     <img>
                     <div class="row d-flex flex-column mt-5">
-                        <button @click="deconnectionAccount()" class="center btn btn-outline-primary shadow">Déconnexion</button>    
-                        <button @click="deleteMyAccount()"  class="center btn btn-outline-danger shadow mt-2">Suprimer</button>       
+                        <button @click="deconnectionAccount()" class="center btn base shadow">Déconnexion</button>    
+                        <button @click="deleteMyAccount()"  class="center btn supprimer shadow mt-2">Suprimer</button>       
                     </div>
                 </div>
             </div>
@@ -29,8 +29,8 @@
                     <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
                     <img>
                     <div class="row d-flex flex-column mt-5">
-                        <button @click="deconnectionAccount()" class="center btn btn-outline-primary shadow">Déconnexion</button>         
-                        <button @click="deleteMyAccount()"  class="center btn btn-outline-danger shadow mt-2">Suprimer</button>       
+                        <button @click="deconnectionAccount()" class="center btn base shadow">Déconnexion</button>         
+                        <button @click="deleteMyAccount()"  class="center btn supprimer shadow mt-2">Suprimer</button>       
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <div class="col text-center  mb-5 pt-5">
-      <h1 class="text-secondary fw-bold">Bienvenue sur Groupomania</h1>
+    <div class="col text-center ">
+      <img src="../assets/Img-Home.png" class="img_home" alt=""/>
     </div>
     <div class="container">
       <div class="row align-items-center justify-content-around m-2">
