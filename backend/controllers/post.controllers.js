@@ -11,19 +11,18 @@ exports.create = (req, res) => {
     if (!req.body) {
         res.status(400).send({
             message: "Le contenu ne peut pas être vide !"
-        });
-    }
+        })};
 
-    // Create a Post
+    if (!req.file){
     const post = new Post({
         titre: req.body.titre,
         content: req.body.content,
         user_name: req.body.user_name,
         user_firstname: req.body.user_firstname,
         user_id: req.body.user_id,
-        file: req.body.file,
+        imageUrl: null,
     });
-
+    
     // Save Post in the database
     Post.create(post, (err, data) => {
         if (err)
@@ -33,7 +32,27 @@ exports.create = (req, res) => {
             });
         else res.send(data);
     });
-};
+    }else{
+            const post = new Post({
+                titre: req.body.titre,
+                content: req.body.content,
+                user_name: req.body.user_name,
+                user_firstname: req.body.user_firstname,
+                user_id: req.body.user_id,
+                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+            });
+            
+            // Save Post in the database
+            Post.create(post, (err, data) => {
+                if (err)
+                    res.status(500).send({
+                        message:
+                            err.message || " Une erreur s'est produite lors de la création du Post."
+                    });
+                else res.send(data);
+            });
+    }
+    };
 
 
 /***************************Update****************************/

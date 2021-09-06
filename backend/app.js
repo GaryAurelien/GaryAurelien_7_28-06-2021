@@ -31,6 +31,8 @@ app.use(bodyParser.json());
 // analyser les requêtes de type de contenu : application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/commentaires', comRoutes);

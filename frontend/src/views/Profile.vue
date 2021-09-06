@@ -12,7 +12,8 @@
                     <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
                     <img>
                     <div class="row d-flex flex-column mt-5">
-                        <button @click="deconnectionAccount()" class="center btn base shadow">Déconnexion</button>    
+                        <button @click="deconnectionAccount()" class="center btn base shadow">Déconnexion</button>
+                        <!--<button @click="updateUser()" class="center btn supprimer mt-2" >Modifier mon compte</button>-->   
                         <button @click="deleteMyAccount()"  class="center btn supprimer shadow mt-2">Suprimer</button>       
                     </div>
                 </div>
@@ -29,7 +30,8 @@
                     <p class="card-subtitle m-2">Voilà donc qui je suis...</p>
                     <img>
                     <div class="row d-flex flex-column mt-5">
-                        <button @click="deconnectionAccount()" class="center btn base shadow">Déconnexion</button>         
+                        <button @click="deconnectionAccount()" class="center btn base shadow">Déconnexion</button>  
+                        <!--<button @click="updateUser()" class="center btn supprimer mt-2" >Modifier mon compte</button>-->   
                         <button @click="deleteMyAccount()"  class="center btn supprimer shadow mt-2">Suprimer</button>       
                     </div>
                 </div>

@@ -89,7 +89,7 @@ export default {
                 //récupération de la réponse du serveur
                     let confirmation = await response.json();
                     console.log(confirmation);
-
+            
                     let userId = confirmation.userId;
                     console.log(userId);
                     
@@ -134,7 +134,10 @@ export default {
                 //récupération de la réponse du serveur
                     let confirmation = await response.json();
                     console.log(confirmation);
-                    
+                    if(confirmation.error) { 
+                      alert(confirmation.message);
+                      console.log(confirmation.message);
+                    }else{
 
                     let userId = confirmation.userId;
                     console.log(userId);
@@ -154,7 +157,7 @@ export default {
 
                     
             //traitement des erreurs
-                } catch (error) {
+                }} catch (error) {
                     console.log(error);
                     alert("Un problème est survenu, merci de réessayer plus tard");
                 }

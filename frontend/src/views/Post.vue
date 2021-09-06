@@ -26,16 +26,17 @@
                       <h1 class="card_title">Crée ton post !!! 😁</h1>
                     </div>
                   </div>
-                  <form class="row" id="checked">
+                  <form enctype="multipart/form-data">
                     <div class="space-form col-10 offset-1">
                       <input v-model="titre" type="text" class="form-control mb-2" id="inputTitre" placeholder="Titre" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required />
                     </div>
                     <div class="space-form col-10 offset-1">
                       <textarea v-model="content" class="form-control mb-2" id="textarea" placeholder="Contenu" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required></textarea>
                     </div>
-                    <div class="d-flex flex-column col-10 offset-1 mb-3">
-                      <input type="file" accept="image/*" name="imageUrl" class="form-control" id="inputImage" placeholder="Image" aria-label="Image" >
-                    </div>
+                    <div class="form-group d-flex flex-column col-10 offset-1 mb-3">
+                      <input type="file" accept="image/*" id="imageInput" name="image" @change="onFileAdded(event)">
+                      <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;width: auto;display:block;margin-top:10px">
+                  </div>
                   </form>
                   <div>
                     <a @click="createPost()" class="btn base shadow mr-1"
@@ -57,7 +58,8 @@
           <div class="card-body" >
             <h4 class="card-title text-center">{{post.user_name}} {{post.user_firstname}}</h4>
             <h5 class="card-title">{{ post.titre }}</h5>
-            <p class="card-text">{{ post.content }}</p>
+            <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="">
+            <p class="card-text mt-3">{{ post.content }}</p>
           </div>
           <div class="text-center" >
             <button type="button"  class=" btn supprimer mb-3 mt-3" v-if="userId == post.user_id || admin == 1 "  @click="deletePost(post.id)">
@@ -69,33 +71,43 @@
           
           <!----------------------------------------Affichage des commentaires  -------------------------------------->
                   
-
-                    <p>
-                        <button @click="getCom(post.id)" class="btn base" type="button" data-toggle="collapse" :data-target="'#collapseExample'+post.id" aria-expanded="false" aria-controls="collapseExample">
-                            Voir les commentaires
-                        </button>
-                    </p>
-                        <div class="collapse row center col-10 offset-1" :id="'collapseExample'+post.id">
-                            <div class="card card-body row center mb-2" v-if="commentaires" v-for="commentaire in commentaires" :key="commentaire.id">
-                                <h5>{{commentaire.user_name}} {{commentaire.user_firstname}}</h5>
-                                <p>{{commentaire.content}}</p>
-                                <div class=" text-center  mt-2 ">
-                                  <button class="btn supprimer" v-if="userId == commentaire.user_id || admin == 1 " @click="deleteCom(commentaire.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path>
-                                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg>Supprimer</button>
-                              </div>
-                  
+      <div class="row m-2">
+                    <!-- Trigger the modal with a button -->
+                    <button @click="getCom(post.id)" type="button" id="btnModal" class="col-4 btn btn base" data-toggle="modal" :data-target="'#myModal'+post.id" aria-expanded="false">Commentaires</button>
+                    <!-- Modal -->
+                    <div class="modal fade" :id="'myModal'+post.id" role="dialog">
+                        <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close btn btn-danger" data-dismiss="modal">X</button>
+                                <h5>Commentaires</h5>
                             </div>
-                            <div>
-                        <form class="row center mt-1 mb-1" id="checked">
-                            <div class="space-form col-10 offset-1">
-                                <textarea class="form-control" v-bind:id="post.id" placeholder="Ajouté un commentaire" aria-label="Textarea" required></textarea>
+                            <div class="modal-body">
+                                <div class="card card-body" v-if="commentaires" v-for="comm in commentaires" :key="comm.id">
+                                    <h5>{{comm.name}} {{comm.firstname}}</h5>
+                                    <p>{{comm.content}}</p>
+                                    <a v-if="comm.user_id == userId || isAdmin == 1" @click="deleteCom(comm.id)"  class=" offset-8 col-4 poubelle offset-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg></a>
+                                </div>
+                                <div v-else>
+                                    <h5>Il n'y a pas de commentaires pour l'instant </h5>
+                                </div>
+                            <div class="row modal-footer ">
+                                <form class="row col-12" id="checked">
+                                    <div class="space-form ">
+                                        <textarea class="form-control" v-bind:id="post.id" placeholder="What are you thinking about ?" aria-label="Textarea" required></textarea>
+                                    </div>
+                                </form>
+                                <a @click="createCom(post.id)" class=" col-4  center btn btn-dark mt-1" id="validateComment"><span>Commenter</span></a>
                             </div>
-                        </form>
-                        <a @click="createCom(post.id)" class=" center btn base mt-1" id="validateComment"><span>Commenter</span></a>
+                            </div>
                         </div>
-                        </div>
-  </div>
+                    </div>
+                </div>
+          </div>   
+        </div>
       </div>
     </div>
     <Footer />
@@ -126,6 +138,8 @@ export default {
       user_firstname: '',
       userIdSession: sessionStorage.getItem("userId"),
       commentaires: '',
+      imagePreview: '',
+      imageUrl: '',
   /*********************Recuperation des posts*********************/
       file: '',
       posts:  
@@ -148,6 +162,22 @@ export default {
 
 
   methods: {
+     /*********************Aff Image avant création post*********************/
+
+    onFileAdded(event){
+            const imageInput = document.querySelector('input[type="file"]')
+            const file = imageInput.files[0];
+            console.log(file);
+            this.imageUrl = file;
+            console.log(this.imageUrl);
+
+
+            const reader = new FileReader();
+            reader.onload = () => {
+            this.imagePreview = reader.result ;
+            };
+            reader.readAsDataURL(file);
+        },
     
     /*********************Créer un post*********************/
 
@@ -155,18 +185,26 @@ export default {
             const userName = sessionStorage.getItem("userName");
             const userFirstname = sessionStorage.getItem("userFirstname");
             const user_Id = sessionStorage.getItem("userId");
-            let file = document.getElementById('inputImage').files[0];
+            const titre = document.getElementById("inputTitre").value;
+            const content = document.getElementById("textarea").value;
+            const imageUrl = this.imageUrl;
 
-      axios.post("http://localhost:3000/posts/create", {
+
+            const formData = new FormData();
+            formData.append('image', imageUrl);
+            formData.append('titre', titre);
+            formData.append('content', content);
+            formData.append('user_name', userName);
+            formData.append('user_firstname', userFirstname);
+            formData.append('user_id', user_Id);
+            /*formData.append('user_profilPic', user_profilPic);*/
+
+
+      axios.post("http://localhost:3000/posts/create", formData, {
             headers: {
                 Authorization: "Bearer " + sessionStorage.getItem("token"),
+                'content-Type': 'multipart/form-data'
               },
-          titre: document.getElementById("inputTitre").value,
-          content: document.getElementById("textarea").value,
-          file: document.getElementById("inputImage").files[0],
-          user_name: userName,
-          user_firstname: userFirstname,
-          user_id: user_Id,
         })
         .then(function (response) {
           console.log(response);
@@ -177,6 +215,7 @@ export default {
         });
     },
 
+   
 /*********************Supprimer un post*********************/
 
     deletePost(data) {
@@ -226,7 +265,7 @@ export default {
   /*********************Recuperation des commentaires*********************/
 
 getCom(data){
-
+    this.commentaires = "";
     axios.get("http://localhost:3000/commentaires/" +  data  + "/comment", {
         headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")
@@ -267,5 +306,13 @@ getCom(data){
 </script>
 
 <style >
+
+.poubelle{
+font-size: 40px;
+display: flex;
+color: red;
+justify-items: center;
+cursor: pointer;
+}
 
 </style>

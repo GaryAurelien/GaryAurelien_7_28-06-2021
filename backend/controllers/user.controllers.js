@@ -50,19 +50,22 @@ exports.login = (req, res, next) => {
   User.findOne(req.body.email, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Le user avec l'email ${req.body.email} n'a pas été trouvé.`
+        res.status(404).json({
+          message: `Le user avec l'email ${req.body.email} n'a pas été trouvé.`,
+          error: err
         });
       } else {
-        res.status(500).send({
-          message: "Erreur de récupération du user avec l'email " + req.body.email
+        res.status(500).json({
+          message: "Erreur de récupération du user avec l'email " + req.body.email ,
+          error: err
         });
       }
     } else {
       bcrypt.compare(req.body.password, data.password)
         .then(valid => {
           if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
+            return res.status(401).json({ error: 'Mot de passe incorrect !', message: "Mot de passe incorrect !" });
+            
           }else{
           res.status(200).json({
             userId: data.id,

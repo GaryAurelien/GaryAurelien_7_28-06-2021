@@ -7,12 +7,10 @@ const auth = require('../middleware/auth');
 const authPost = require('../middleware/authPost.js')
 
 
-/*const multer = require('../middleware/multer-config');*/
-const multer = require('multer');
-const upload = multer({ dest: '../public/upload/' });
+const multer = require('../middleware/multer-config');
 
 
-router.post('/create', upload.single("file"), /*multer,*/ postCtrl.create);
+router.post('/create', multer, postCtrl.create);
 router.put('/:postId', auth , authPost, postCtrl.update);
 router.delete('/:postId', auth, authPost, postCtrl.delete);
 router.get('/:postId', auth, authPost, postCtrl.findOne);

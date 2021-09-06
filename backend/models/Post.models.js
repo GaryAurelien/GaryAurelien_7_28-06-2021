@@ -2,7 +2,7 @@ const sql = require("./db.js");
 
 const Post = function(post) {
     this.titre = post.titre;
-    this.file = post.file;
+    this.imageUrl = post.imageUrl;
     this.content = post.content;
     this.user_name = post.user_name;
     this.user_firstname = post.user_firstname;

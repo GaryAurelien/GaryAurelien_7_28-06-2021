@@ -94,12 +94,12 @@ img {
 }
 
 .supprimer {
-  border-color: #fd2d01;
-  color: #fd2d01;
+  border-color: #d1515a;
+  color: #d1515a;
 }
 
 .supprimer:hover {
-  background: #fd2d01;
+  background: #d1515a;
   color: white;
 }
 
@@ -109,9 +109,14 @@ img {
 }
 
 .color-text-footer:hover {
-  color: #fd2d01;
+  color: #d1515a;
 }
 
+
+/*  couleur bleu marine   #091f43 !!!!  */
+/*  couleur rouge orange   #fd2d01 !!!!  */
+/*  couleur rouge pale   #d1515a !!!!  */
+/*  couleur gris    #d4d4d4 !!!!  */
 
 
 </style>
