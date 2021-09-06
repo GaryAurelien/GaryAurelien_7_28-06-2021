@@ -56,9 +56,9 @@
           <img class="card-img-top mt-2" v-if="post.file" :src="post.file" alt="Card image cap" />
           <p>{{post.file}}</p>
           <div class="card-body" >
-            <h4 class="card-title text-center">{{post.user_name}} {{post.user_firstname}}</h4>
-            <h5 class="card-title">{{ post.titre }}</h5>
+            <h4 class="card-title text-center mb-5">{{post.user_name}} {{post.user_firstname}}</h4>
             <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="">
+            <h5 class="card-title mt-3">{{ post.titre }}</h5>
             <p class="card-text mt-3">{{ post.content }}</p>
           </div>
           <div class="text-center" >
@@ -73,14 +73,14 @@
                   
       <div class="row m-2">
                     <!-- Trigger the modal with a button -->
-                    <button @click="getCom(post.id)" type="button" id="btnModal" class="col-4 btn btn base" data-toggle="modal" :data-target="'#myModal'+post.id" aria-expanded="false">Commentaires</button>
+                    <button @click="getCom(post.id)" type="button" id="btnModal" class="col-4 offset-4 btn btn base" data-toggle="modal" :data-target="'#myModal'+post.id" aria-expanded="false">Commentaires</button>
                     <!-- Modal -->
                     <div class="modal fade" :id="'myModal'+post.id" role="dialog">
                         <div class="modal-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close btn btn-danger" data-dismiss="modal">X</button>
+                                <button type="button" class=" btn btn base" data-dismiss="modal">X</button>
                                 <h5>Commentaires</h5>
                             </div>
                             <div class="modal-body">
@@ -97,10 +97,10 @@
                             <div class="row modal-footer ">
                                 <form class="row col-12" id="checked">
                                     <div class="space-form ">
-                                        <textarea class="form-control" v-bind:id="post.id" placeholder="What are you thinking about ?" aria-label="Textarea" required></textarea>
+                                        <textarea class="form-control" v-bind:id="post.id" placeholder="Ici ton commentaire !!!" aria-label="Textarea" required></textarea>
                                     </div>
                                 </form>
-                                <a @click="createCom(post.id)" class=" col-4  center btn btn-dark mt-1" id="validateComment"><span>Commenter</span></a>
+                                <a @click="createCom(post.id)" class=" col-5  center btn base mt-1" id="validateComment"><span>Commenter</span></a>
                             </div>
                             </div>
                         </div>
