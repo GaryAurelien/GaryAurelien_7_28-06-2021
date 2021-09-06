@@ -136,7 +136,7 @@ export default {
       user_Id: "",
       user_name: '',
       user_firstname: '',
-      userIdSession: sessionStorage.getItem("userId"),
+      userIdSession: VueJwtDecode.decode(sessionStorage.getItem("token")).userId,
       commentaires: '',
       imagePreview: '',
       imageUrl: '',
@@ -182,9 +182,9 @@ export default {
     /*********************Créer un post*********************/
 
     createPost() {
-            const userName = sessionStorage.getItem("userName");
-            const userFirstname = sessionStorage.getItem("userFirstname");
-            const user_Id = sessionStorage.getItem("userId");
+            const userName = VueJwtDecode.decode(sessionStorage.getItem("token")).userName;
+            const userFirstname = VueJwtDecode.decode(sessionStorage.getItem("token")).userFirstname;
+            const user_Id = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
             const titre = document.getElementById("inputTitre").value;
             const content = document.getElementById("textarea").value;
             const imageUrl = this.imageUrl;

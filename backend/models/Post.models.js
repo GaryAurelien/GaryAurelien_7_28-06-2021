@@ -27,7 +27,7 @@ Post.create = (newPost, result) => {
 /*************************************************************/
 
   Post.findById = (postId, result) => {
-    sql.query(`SELECT * FROM posts WHERE id = ${postId}`, (err, res) => {
+    sql.query(`SELECT * FROM posts WHERE id = ?`, [postId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

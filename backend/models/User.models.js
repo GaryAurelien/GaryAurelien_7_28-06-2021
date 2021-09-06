@@ -45,7 +45,7 @@ User.findOne = (email, result) => {
 };
 
 User.findById = (userId, result) => {
-  sql.query(`SELECT * FROM users WHERE id = ${userId}`, (err, res) => {
+  sql.query(`SELECT * FROM users WHERE id = ?`, [userId], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -102,7 +102,6 @@ User.remove = (id, result) => {
     }
 
     if (res.affectedRows == 0) {
-      // not found User with the id
       result({ kind: "not_found" }, null);
       return;
     }

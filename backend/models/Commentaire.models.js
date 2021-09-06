@@ -26,7 +26,7 @@ Commentaire.create = (newCommentaire, result) => {
 /*************************************************************/
 
 Commentaire.findById = (commentaireId, result) => {
-    sql.query(`SELECT * FROM commentaires WHERE id = ${commentaireId}`, (err, res) => {
+    sql.query(`SELECT * FROM commentaires WHERE id = ? `, [commentaireId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -48,7 +48,7 @@ Commentaire.findById = (commentaireId, result) => {
 
 
   Commentaire.findByPostId = (postId, result) => {
-    sql.query(`SELECT * FROM commentaires WHERE post_id = ${postId}`, (err, res) => {
+    sql.query(`SELECT * FROM commentaires WHERE post_id = ?`, [postId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

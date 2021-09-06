@@ -5,18 +5,18 @@ dotenv.config();
 
 module.exports = (req, res, next) => {
     try{
-        console.log("Coucou on est dans authComment");
+        console.log("Coucou on est dans authUser");
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.DB_TOK);
     const userId = decodedToken.userId;
     console.log("userToken",userId);
     const isAdmin = decodedToken.admin;
     console.log("Admin",isAdmin);
-    console.log("idComment de req.params", req.params.commentaireId);
+    console.log("idPost de req.params", req.params.userId);
     
-    sql.query(`SELECT * FROM commentaires WHERE id = ${req.params.commentaireId}`, (err, data) => {
+    sql.query(`SELECT * FROM users WHERE id = ${req.params.userId}`, (err, data) => {
         console.log(data);
-        if (isAdmin === 1 || (data[0].user_id === userId)){
+        if (isAdmin === 1 || (data[0].user_id === userId) ) {
             console.log("action autorisé");
             next();
         } else {

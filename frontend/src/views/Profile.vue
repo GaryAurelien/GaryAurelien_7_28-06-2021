@@ -51,10 +51,10 @@ export default {
     name: "Profile",
 data() {
     return {
-        userFirstname: sessionStorage.getItem("userFirstname"),
-        userName: sessionStorage.getItem("userName"),
+        userFirstname: VueJwtDecode.decode(sessionStorage.getItem("token")).userFirstname,
+        userName: VueJwtDecode.decode(sessionStorage.getItem("token")).userName,
         userId: VueJwtDecode.decode(sessionStorage.getItem("token")).userId,
-        position: sessionStorage.getItem("position"),
+        position: VueJwtDecode.decode(sessionStorage.getItem("token")).position,
         admin: VueJwtDecode.decode(sessionStorage.getItem("token")).admin,
         id: "",
 /*********************Recuperation tout les users*********************/
@@ -82,15 +82,19 @@ methods: {
             sessionStorage.clear();
             location.replace(location.origin+'/#/signup');
     },
+
     localClear() {
             sessionStorage.clear();
             router.push({ path : "/" });
     },
+
     deleteMyAccount() {
-        let id = sessionStorage.getItem("userId");
+        let id = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
         let confirmUserDeletion = confirm("voulez-vous vraiment supprimer votre compte ?");
         if (confirmUserDeletion == true) {
-            axios.delete("http://localhost:3000/users/" + id, /*{headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") }}*/)
+            axios.delete("http://localhost:3000/users/" + id,{
+                headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") 
+                }})
             .then((res)=> {
                 console.log(res);
                 sessionStorage.clear();

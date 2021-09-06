@@ -27,14 +27,14 @@ exports.signup = (req, res, next) => {
               err.message || "Une erreur est servenue lors de la création du User."
           });
         else res.status(201).json({
-          userId: data.id,
-          userName: data.name,
-          userFirstname: data.firstname,
-          position: data.position,
-          email: data.email,
-          admin: data.admin,
+
           token: jwt.sign(
-            { userId: data.id, admin: data.admin },
+              { userId: data.id, 
+                userName: data.name,
+                userFirstname: data.firstname,
+                position: data.position,
+                email: data.email,
+                admin: data.admin},
             process.env.DB_TOK,
             { expiresIn: '24h' }
           )
@@ -68,14 +68,14 @@ exports.login = (req, res, next) => {
             
           }else{
           res.status(200).json({
-            userId: data.id,
-            userName: data.name,
-            userFirstname: data.firstname,
-            position: data.position,
-            email: data.email,
-            admin: data.admin,
+            
             token: jwt.sign(
-              { userId: data.id, admin: data.admin },
+              { userId: data.id, 
+                userName: data.name,
+                userFirstname: data.firstname,
+                position: data.position,
+                email: data.email,
+                admin: data.admin},
               process.env.DB_TOK,
               { expiresIn: '24h' }
             )

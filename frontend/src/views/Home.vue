@@ -98,12 +98,8 @@ export default {
                     }
                     console.log(result); 
                     
-                    sessionStorage.setItem("confirm", JSON.stringify(result));
+
                     sessionStorage.setItem("token", confirmation.token);
-                    sessionStorage.setItem("userName", confirmation.userName);
-                    sessionStorage.setItem("userFirstname", confirmation.userFirstname);
-                    sessionStorage.setItem("userId", confirmation.userId);
-                    sessionStorage.setItem("position", confirmation.position);
                     window.location.href ="profile";
             //traitement des erreurs
                 } catch (error) {
@@ -147,12 +143,7 @@ export default {
                     }
                     console.log(result); 
                     
-                    sessionStorage.setItem("confirm", JSON.stringify(result));
                     sessionStorage.setItem("token", confirmation.token);
-                    sessionStorage.setItem("userName", confirmation.userName);
-                    sessionStorage.setItem("userFirstname", confirmation.userFirstname);
-                    sessionStorage.setItem("userId", confirmation.userId);
-                    sessionStorage.setItem("position", confirmation.position);
                     window.location.href ="profile";
 
                     

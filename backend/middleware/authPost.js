@@ -16,8 +16,7 @@ module.exports = (req, res, next) => {
     
     sql.query(`SELECT * FROM posts WHERE id = ${req.params.postId}`, (err, data) => {
         console.log(data);
-        console.log(data[0].user_id);
-        if ((data[0].user_id === userId) || isAdmin === 1) {
+        if (isAdmin === 1 || (data[0].user_id === userId) ) {
             console.log("action autorisé");
             next();
         } else {
