@@ -143,7 +143,7 @@ export default {
   /*********************Recuperation des posts*********************/
       file: '',
       posts:  
-          axios.get("http://localhost:3000/posts/", {
+          axios.get("http://localhost:3000/posts", {
               method: 'GET',
               headers: {
                   'Authorization': 'Bearer ' + sessionStorage.getItem("token")

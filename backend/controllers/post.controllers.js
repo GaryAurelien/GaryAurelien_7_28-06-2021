@@ -88,18 +88,58 @@ exports.update = (req, res) => {
 
 
 exports.delete = (req, res) => {
-    Post.remove(req.params.postId, (err, data) => {
+
+    Post.findById(req.params.postId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Le post avec l'id ${req.params.postId} n'a pas été trouvé.`
+                    message: `Pas de commentaire trouvé avec l'identifiant ${req.params.postId}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Impossible de supprimer le post avec id " + req.params.postId
+                    message: "Erreur lors de la récupération du commentaire avec l'identifiant " + req.params.postId
                 });
             }
-        } else res.send({ message: `Le post a été supprimé avec succès !` });
+
+        } else{
+
+            if(!data.imageUrl){
+
+                Post.remove(req.params.postId, (err, data) => {
+                  if (err) {
+                    if (err.kind === "not_found") {
+                      res.status(404).send({
+                        message: `L'article avec l'id ${req.params.postId} n'a pas été trouvé.`
+                      });
+                    } else {
+                      res.status(500).send({
+                        message: "Erreur de suppression de l'article avec l'id " + req.params.articleId
+                      });
+                    }
+                  } else res.send({ message: `L'article a été supprimé !` });
+                });
+
+            } else{
+
+                const filename = data.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${filename}`, () => {
+
+
+                Post.remove(req.params.postId, (err, data) => {
+                    if (err) {
+                      if (err.kind === "not_found") {
+                        res.status(404).send({
+                          message: `L'article avec l'id ${req.params.postId} n'a pas été trouvé.`
+                        });
+                      } else {
+                        res.status(500).send({
+                          message: "Erreur de suppression de l'article avec l'id " + req.params.postId
+                        });
+                      }
+                    } else res.send({ message: `L'article a été supprimé !` });
+                  });
+            })}
+        }
     });
 };
 
