@@ -17,7 +17,8 @@ exports.signup = (req, res, next) => {
         name: req.body.name,
         firstname: req.body.firstname,
         position: req.body.position,
-        admin: 0
+        admin: 0,
+        profilPic: `${req.protocol}://${req.get('host')}/profilPic/${req.file.filename}`
       });
 
       User.create(utilisateur, (err, data) => {
@@ -34,7 +35,9 @@ exports.signup = (req, res, next) => {
                 userFirstname: data.firstname,
                 position: data.position,
                 email: data.email,
-                admin: data.admin},
+                admin: data.admin,
+                profilPic: data.profilPic
+              },
             process.env.DB_TOK,
             { expiresIn: '24h' }
           )
@@ -75,7 +78,9 @@ exports.login = (req, res, next) => {
                 userFirstname: data.firstname,
                 position: data.position,
                 email: data.email,
-                admin: data.admin},
+                admin: data.admin,
+                profilPic: data.profilPic
+              },
               process.env.DB_TOK,
               { expiresIn: '24h' }
             )
@@ -90,29 +95,41 @@ exports.login = (req, res, next) => {
 
 exports.update = (req, res) => {
   // Validate Request
+  console.log("on est dans le controlleur");
   if (!req.body) {
     res.status(400).send({
       message: "Le contenu ne peut pas être vide !"
     });
   }
-
-  User.updateById(
-    req.params.userId,
-    new User(req.body),
-    (err, data) => {
+  bcrypt.hash(req.body.password, 10)
+      .then(hash => {
+        const utilisateur = new User({
+          email: req.body.email,
+          password: hash,
+          name: req.body.name,
+          firstname: req.body.firstname,
+          position: req.body.position,
+          admin: req.body.admin,
+          profilPic: `${req.protocol}://${req.get('host')}/profilPic/${req.file.filename}`
+        });
+console.log(utilisateur);
+  User.updateById(req.params.userId,utilisateur,
+    (err) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Utilisateur introuvable avec  id ${req.params.userId}.`
+            message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
           });
         } else {
           res.status(500).send({
-            message: "Erreur lors de la mise à jour de l'utilisateur avec id " + req.params.userId
+            message: "Erreur de mise à jour du User avec l'id " + req.params.userId
           });
         }
       } else res.send(data);
     }
   );
+})
+.catch(error => res.status(500).json({ error }));
 };
 
 /*************************Delete***************************/

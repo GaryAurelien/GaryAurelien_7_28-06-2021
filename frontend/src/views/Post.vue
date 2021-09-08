@@ -2,9 +2,10 @@
   <div class="Post">
     <Header />
     <div class="container">
-      <div class="col text-center m-3">
-        <img src="../assets/Img-Home.png" class="img_home" alt=""/>
-      </div>
+      <div class="col text-center m-3"><a class="navbar-brand" href="post">
+                <img src="../assets/Img-Home.png" class="img_home" alt="">
+                </a>
+            </div>
       <div>
         <div>
           <a
@@ -73,15 +74,15 @@
                   
       <div class="row m-2">
                     <!-- Trigger the modal with a button -->
-                    <button @click="getCom(post.id)" type="button" id="btnModal" class="col-4 offset-4 btn btn base" data-toggle="modal" :data-target="'#myModal'+post.id" aria-expanded="false">Commentaires</button>
+                    <button @click="getCom(post.id)" type="button" id="btnModal" class=" btn btn base col-md-4 offset-md-4" data-toggle="modal" :data-target="'#myModal'+post.id" aria-expanded="false">Commentaires</button>
                     <!-- Modal -->
                     <div class="modal fade" :id="'myModal'+post.id" role="dialog">
                         <div class="modal-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class=" btn btn base" data-dismiss="modal">X</button>
-                                <h5>Commentaires</h5>
+                            <div class="modal-header bg-btn supprimer">
+                                <h5 class="modal-title">Commentaires</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="card card-body" v-if="commentaires" v-for="comm in commentaires" :key="comm.id">
@@ -100,7 +101,7 @@
                                         <textarea class="form-control" v-bind:id="post.id" placeholder="Ici ton commentaire !!!" aria-label="Textarea" required></textarea>
                                     </div>
                                 </form>
-                                <a @click="createCom(post.id)" class=" col-5  center btn base mt-1" id="validateComment"><span>Commenter</span></a>
+                                <a @click="createCom(post.id)" class=" col-md-5   center btn base mt-1" id="validateComment"><span>Commenter</span></a>
                             </div>
                             </div>
                         </div>
@@ -202,7 +203,7 @@ export default {
 
       axios.post("http://localhost:3000/posts/create", formData, {
             headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("token"),
+                "Authorization": "Bearer " + sessionStorage.getItem("token"),
                 'content-Type': 'multipart/form-data'
               },
         })
@@ -222,7 +223,7 @@ export default {
       if (confirm("Voulez-vous vraiment supprimer ce post ?")) {
         axios.delete("http://localhost:3000/posts/" + data, {
           headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            "Authorization": "Bearer " + sessionStorage.getItem("token"),
         },
         })
         .then(function(response) { 
@@ -238,12 +239,12 @@ export default {
     /*********************Créer commentaires*********************/
 
    createCom(data){
-            const userName = sessionStorage.getItem("userName");
-            const userFirstname = sessionStorage.getItem("userFirstname");
-            const user_Id = sessionStorage.getItem("userId");
+            const userName = VueJwtDecode.decode(sessionStorage.getItem("token")).userName;
+            const userFirstname = VueJwtDecode.decode(sessionStorage.getItem("token")).userFirstname;
+            const user_Id = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
             axios.post("http://localhost:3000/commentaires/create", {
             headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("token"),
+                "Authorization": "Bearer " + sessionStorage.getItem("token"),
               },
                 post_id : data,
                 content: document.getElementById(data).value,

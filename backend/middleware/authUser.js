@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
     
     sql.query(`SELECT * FROM users WHERE id = ${req.params.userId}`, (err, data) => {
         console.log(data);
-        if (isAdmin === 1 || (data[0].user_id === userId) ) {
+        if (isAdmin === 1 || (data[0].id === userId) ) {
             console.log("action autorisé");
             next();
         } else {
@@ -27,7 +27,7 @@ module.exports = (req, res, next) => {
     });
     }
     catch{
-        res.status(401).json({error: error | 'Requête non authentifiée !'});
+        res.status(401).json('Requête non authentifiée !');
     }
 
 };

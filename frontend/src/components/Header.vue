@@ -17,6 +17,7 @@
                             <router-link v-if="admin == 0" class="navbar-brand" to="/Profile">Mon Profile</router-link>
                             <router-link v-if="admin == 1" class="navbar-brand" to="/Profile">Les Profiles</router-link>
                             <router-link class="navbar-brand" to="/Post">Post</router-link>
+                            <a href="#" @click="deconnectionAccount()" class="navbar-brand">Déconnexion</a>
                         </ul>
                     </div>
                 </nav>
@@ -35,6 +36,12 @@ export default {
       return {
           admin: VueJwtDecode.decode(sessionStorage.getItem("token")).admin,
       }
+  },
+  methods: {
+      deconnectionAccount() {
+            sessionStorage.clear();
+            location.replace(location.origin+'/#/signup');
+    },
   }
 }
 </script>

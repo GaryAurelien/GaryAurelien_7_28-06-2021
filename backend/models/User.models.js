@@ -7,6 +7,7 @@ const User = function (client) {
   this.firstname = client.firstname;
   this.position = client.position;
   this.admin = client.admin;
+  this.profilPic= client.profilPic;
 };
 
 /**************************create***************************/
