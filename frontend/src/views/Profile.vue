@@ -42,18 +42,18 @@
                 </div>
 
 
-                <div v-if="profil===true" class="row col-10 offset-1">
-                    <button class="btn btn base col-6 offset-3 mt-2 mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <div v-if="profil===true" >
+                    <button class=" btn base  mt-2 mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                         Modifier
                     </button>
  
                     <div class="collapse" id="collapseExample">
                         <div>
                             <form enctype="multipart/form-data" class="row align-items-center justify-content-around m-2" id="checked" >
-                                <!--<div class="form-row">
-                                    <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)">
-                                    <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
-                                </div>-->
+                                <div class="form-group col-10 offset-1 col-md-8 offset-md-2 mt-3">
+                                    <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileChange(e)" required>
+                                    <img :src="imagePreview" v-if="imagePreview"  style="max-height: 100px;display:block;margin-top:10px">
+                                </div>
                                 <div class="form-row">
                                     <input type="text" v-model="userName" class="form-row_input" id="inputNom" placeholder="Nom" aria-label="Nom"  required />
                                     <input type="text" v-model="userFirstname" class="form-row_input" id="inputPrenom" placeholder= "Prénom" aria-label="Prenom"  required />
@@ -71,8 +71,8 @@
                             
                         </div>
                     </div>
-                    <div class="form-row">
-                    <button @click="deleteProfil(id)" class="btn btn supprimer offset-3 mt-2" id="suppr">Supprimer</button>
+                    <div>
+                    <button @click="deleteProfil(id)" class=" btn supprimer  mt-2" id="suppr">Supprimer</button>
                     </div>
                 </div>
                 </div>
@@ -88,7 +88,7 @@
                     <p class="card-subtitle m-2">Poste : {{  user.position }}</p>
                     <p class="card-subtitle m-2">E-mail : {{ user.email }}</p>
                     <div class="row d-flex flex-column mt-5">   
-                        <button @click="deleteProfil(id)" class="center btn supprimer shadow mt-2">Suprimer</button>       
+                        <button @click="deleteProfil(id)" class="btn supprimer  mt-2">Suprimer</button>       
                     </div>
                 </div>
             </div>
@@ -119,6 +119,8 @@ data() {
         pic: VueJwtDecode.decode(sessionStorage.getItem("token")).profilPic,
         id: "",
         profil: "",
+        imagePreview:'',
+        profilPic:'',
 /*********************Recuperation tout les users*********************/
         users: 
             axios.get("http://localhost:3000/users/", {
@@ -130,8 +132,6 @@ data() {
                         //reponce va etre dans this.posts
                         .then((response) => {
                             this.users = response.data;
-                            console.log(this.users);
-                            console.log(sessionStorage);
                         })
                         .catch((err) => console.log("Erreur : " + err))
         }
@@ -154,8 +154,7 @@ methods: {
                 let contact = {
                     password : document.getElementById('inputPassword2').value,
                     email : VueJwtDecode.decode(sessionStorage.getItem("token")).email
-                }; 
-                console.log(contact);
+                };
                 
             //on POST les infos reccueillies au serveur
                 const envoi =  fetch("http://localhost:3000/users/login", {
@@ -169,10 +168,8 @@ methods: {
             //traitement de la réponse du serveur
                 envoi.then(async response =>{
                     try{
-                        console.log(response);
                     //récupération de la réponse du serveur
                         let confirmation = await response.json();
-                        console.log(confirmation);
                         if (confirmation.error){
                             console.log("error")
                             alert("Mot de passe invalide !")
@@ -191,16 +188,77 @@ methods: {
                 });
             };
         },
+
+/*********************Aff Image utiliser dans profile*********************/
+
+onFileChange(e){
+            const imageInput = document.querySelector('input[type="file"]')
+            const file = imageInput.files[0];
+            console.log(file);
+            this.profilPic = file;
+            console.log(this.profilPic);
+
+
+            const reader = new FileReader();
+            reader.onload = () => {
+            this.imagePreview = reader.result ;
+            };
+            reader.readAsDataURL(file);
+        },
 /************************** Modification du profile *****************************/
+
+
+
+
+
+
         updateProfil(){
         let FormValid = document.getElementById('checked').checkValidity();
             if (FormValid == false ) {
                 alert(`Vous n'avez pas rempli tous les champs requis !`);
             }else{
-            console.log(sessionStorage);
-            const userId = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
             
-            let contact = {
+                const firstname = document.getElementById('inputPrenom').value;
+                const name = document.getElementById('inputNom').value;
+                const position = document.getElementById('inputJob').value;
+                const password = document.getElementById('inputPassword').value;
+                const email = document.getElementById('inputEmail').value;
+                const admin =  VueJwtDecode.decode(sessionStorage.getItem("token")).admin;
+                const profilPic = this.profilPic;
+
+              
+            const formData = new FormData();
+            formData.append('firstname', firstname);
+            formData.append('name', name);
+            formData.append('position', position);
+            formData.append('password', password);
+            formData.append('email', email);
+            formData.append('admin', admin);
+            formData.append('profilPic', profilPic);
+
+        const userId = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
+
+        axios.put('http://localhost:3000/users/' + userId, formData,{
+            
+            headers:{
+                'Content-Type' : 'multpart/form-data',
+                'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+            }
+        })
+        .then( async response =>{
+            try{
+                let confirmation = await response.data;
+                console.log(confirmation);
+                sessionStorage.clear()
+               window.location.href = "/";
+            } catch(error) {
+                alert("Une erreur est survenue, veuillez retenter plus tard")
+            }
+        })}
+
+    },
+
+            /*let contact = {
                 email : document.getElementById('inputEmail').value,
                 password : document.getElementById('inputPassword').value,
                 name : document.getElementById('inputNom').value,
@@ -227,7 +285,7 @@ methods: {
                     console.log(confirmation);
                     sessionStorage.clear();
                     console.log(sessionStorage);
-                    /*window.location.href ="/";*/
+                    window.location.href ="/";
                     
             //traitement des erreurs
                 } catch (error) {
@@ -235,7 +293,8 @@ methods: {
                     alert("Un problème est survenu, merci de réessayer plus tard");
                 }
             });
-    }},
+    }},*/
+
 
     deleteProfil(data) {
            if(confirm("Supprimer le profil ?")){

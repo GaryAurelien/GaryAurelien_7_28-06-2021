@@ -37,7 +37,7 @@
                     <div class="form-group d-flex flex-column col-10 offset-1 mb-3">
                       <input type="file" accept="image/*" id="imageInput" name="image" @change="onFileAdded(event)">
                       <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;width: auto;display:block;margin-top:10px">
-                  </div>
+                    </div>
                   </form>
                   <div>
                     <a @click="createPost()" class="btn base shadow mr-1"
@@ -282,21 +282,21 @@ getCom(data){
 },
 /*********************Supprimer commentaires*********************/
 
-   deleteCom(data){
-     if (confirm("Voulez-vous vraiment supprimer ce post ?")) {
-        axios.delete("http://localhost:3000/commentaires/" + data, {
-          headers: {
-          "Authorization": "Bearer " + sessionStorage.getItem("token"),
-        },
-        })
-        .then(function(response) { 
-            console.log(response);
-            document.location.reload();
-        }) 
-        .catch(function(error) { 
-            console.log(error); 
-        });
-    }},
+deleteCom(data){
+  if (confirm("Voulez-vous vraiment supprimer ce post ?")) {
+    axios.delete("http://localhost:3000/commentaires/" + data, {
+      headers: {
+      "Authorization": "Bearer " + sessionStorage.getItem("token"),
+    },
+    })
+    .then(function(response) { 
+        console.log(response);
+        document.location.reload();
+    }) 
+    .catch(function(error) { 
+        console.log(error); 
+    });
+}},
 
   },
   components: {

@@ -6,13 +6,13 @@ const authAdmin = require('../middleware/authAdmin')
 const authUser = require('../middleware/authUser')
 const userCtrl = require('../controllers/user.controllers.js');
 const verifyPassword = require('../middleware/verifyPassword.js')
-const multer = require('../middleware/multer-profile');
+const multerProfile = require('../middleware/multer-profile');
 
 
-router.post('/signup', multer, verifyPassword,  userCtrl.signup);
+router.post('/signup', multerProfile, verifyPassword,  userCtrl.signup);
 router.post('/login', userCtrl.login);
 
-router.put('/:userId',auth, authUser, verifyPassword, userCtrl.update);
+router.put('/:userId',auth, authUser, multerProfile, verifyPassword, userCtrl.update);
 router.delete('/:userId',auth, authUser, userCtrl.delete);
 router.get('/:userId',auth, authUser,  userCtrl.findOne);
 router.get('/', auth, authAdmin ,userCtrl.findAll);

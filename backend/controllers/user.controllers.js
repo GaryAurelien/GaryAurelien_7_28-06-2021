@@ -1,16 +1,18 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+const fs = require('fs');
 const sql = require("../models/db.js");
 const User = require('../models/User.models.js');
-/* require('dotenv').config(); */
+require('dotenv').config();
 
 
 /**************Create and Save a new user************/
 
 exports.signup = (req, res, next) => {
+  console.log("signup1");
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
+      console.log("signup2");
       const utilisateur = new User({
         email: req.body.email,
         password: hash,
@@ -93,9 +95,19 @@ exports.login = (req, res, next) => {
 
 /***************************Update****************************/
 
+
+
+
+
+
+
+
+
+
+
 exports.update = (req, res) => {
   // Validate Request
-  console.log("on est dans le controlleur");
+  console.log("on est dans le update");
   if (!req.body) {
     res.status(400).send({
       message: "Le contenu ne peut pas être vide !"
@@ -112,25 +124,61 @@ exports.update = (req, res) => {
           admin: req.body.admin,
           profilPic: `${req.protocol}://${req.get('host')}/profilPic/${req.file.filename}`
         });
-console.log(utilisateur);
-  User.updateById(req.params.userId,utilisateur,
-    (err) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Erreur de mise à jour du User avec l'id " + req.params.userId
-          });
-        }
-      } else res.send(data);
-    }
-  );
-})
-.catch(error => res.status(500).json({ error }));
+        console.log('uptade4');
+        console.log(utilisateur);
+
+        User.findById(req.params.userId, (err, data) => {
+          if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `Le User Id ${req.params.userId} n'a pas été trouvé.`
+              });
+            } else {
+              res.status(500).send({
+                message: "Erreur de recuperation du User Id" + req.params.userId
+              });
+            }
+          } else {
+
+            const filename = data.profilPic.split('/profilPic/')[1];
+            fs.unlink(`profilPic/${filename}`, () => {
+              User.updateById(req.params.userId, utilisateur, (err, data) => {
+              if (err) {
+                if (err.kind === "not_found") {
+                  res.status(404).send({
+                    message: `Le User Id ${req.params.userId} n'a pas été trouvé.`
+                  });
+                } else {
+                  res.status(500).send({
+                    message: "Erreur MAJ User Id " + req.params.userId
+                  });
+                }
+              } else res.send(data);
+              })
+            })
+          }}
+          )}
+        )
+      .catch(error => res.status(500).json({ error }));
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*************************Delete***************************/
 

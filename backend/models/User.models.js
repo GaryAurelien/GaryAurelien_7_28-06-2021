@@ -45,6 +45,8 @@ User.findOne = (email, result) => {
   });
 };
 
+/*************************************************************/
+
 User.findById = (userId, result) => {
   sql.query(`SELECT * FROM users WHERE id = ?`, [userId], (err, res) => {
     if (err) {
@@ -70,8 +72,8 @@ User.findById = (userId, result) => {
 
 User.updateById = (id, user, result) => {
   sql.query(
-    "UPDATE users SET email = ?, password = ?, name = ?, firstname = ?, position = ? WHERE id = ?",
-    [user.email, user.password, user.name, user.firstname, user.position, id],
+    "UPDATE users SET email = ?, password = ?, name = ?, firstname = ?, position = ?, profilPic= ? WHERE id = ?",
+    [user.email, user.password, user.name, user.firstname, user.position, user.profilPic, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -111,6 +113,22 @@ User.remove = (id, result) => {
     result(null, res);
   });
 };
+
+/************************** Remove tout les users*****************************/
+
+User.removeAll = result => {
+  sql.query("DELETE FROM users", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log(`deleted ${res.affectedRows} user`);
+    result(null, res);
+  });
+};
+
 
 /**************************Tout les users*****************************/
 
