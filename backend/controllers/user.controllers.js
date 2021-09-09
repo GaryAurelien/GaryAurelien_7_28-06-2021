@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const sql = require("../models/db.js");
 const User = require('../models/User.models.js');
+const Post = require('../models/Post.models.js');
 require('dotenv').config();
 
 
@@ -96,15 +97,6 @@ exports.login = (req, res, next) => {
 /***************************Update****************************/
 
 
-
-
-
-
-
-
-
-
-
 exports.update = (req, res) => {
   // Validate Request
   console.log("on est dans le update");
@@ -164,40 +156,71 @@ exports.update = (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*************************Delete***************************/
 
 
 exports.delete = (req, res) => {
-  User.remove(req.params.userId, (err, data) => {
+
+
+  User.findById(req.params.userId, (err, dota) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Utilisateur non trouvé avec id ${req.params.userId}.`
+          message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
         });
       } else {
         res.status(500).send({
-          message: "Impossible de supprimer l'utilisateur avec id " + req.params.userId
+          message: "Erreur de récupération du User avec l'id " + req.params.userId
         });
       }
-    } else res.send({ message: `L'utilisateur a été supprimé avec succès !` });
-  });
-};
+    } else {
+
+          Post.findByUserId(dota.id, (err, donnee) => {
+            if (err) {
+              if (err.kind === "not_found") {
+                res.status(404).send({
+                  message: `L'article avec le user_id ${donnee.id} n'a pas été trouvé.`
+                });
+              } else {
+                res.status(500).send({
+                  message: "Erreur de récupération de l'article avec le user_id " + donnee.id
+                });
+              }
+            } else {
+
+              for (const element of donnee) {
+
+                if(!element.imageUrl){
+                console.log("Oh il n'y a pas d'image !");
+
+                }else{
+                  const filename = element.imageUrl.split('/images/')[1];
+                          fs.unlink(`images/${filename}`, () => {
+
+                            console.log("image supprimée"); 
+                        })
+                        };
+                    }
+
+                        const filename = dota.profilPic.split('/profilPic/')[1];
+                                fs.unlink(`profilPic/${filename}`, () => {
+                                User.remove(req.params.userId, (err, data) => {
+                                  if (err) {
+                                    if (err.kind === "not_found") {
+                                      res.status(404).send({
+                                        message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
+                                      });
+                                    } else {
+                                      res.status(500).send({
+                                        message: "Erreur de suppression du User avec l'id " + req.params.userId
+                                      });
+                                    }
+                                  } else res.send({ message: `Le User a été supprimé !`});
+                          });
+                        })
+                        };
+                })}
+                })}
 
 
 /*************************recuperer un user***************************/

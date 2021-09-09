@@ -4,8 +4,6 @@ const Post = function(post) {
     this.titre = post.titre;
     this.imageUrl = post.imageUrl;
     this.content = post.content;
-    this.user_name = post.user_name;
-    this.user_firstname = post.user_firstname;
     this.user_id = post.user_id;
 };
 
@@ -27,7 +25,7 @@ Post.create = (newPost, result) => {
 /*************************************************************/
 
   Post.findById = (postId, result) => {
-    sql.query(`SELECT * FROM posts WHERE id = ?`, [postId], (err, res) => {
+    sql.query("SELECT posts.id, content, imageUrl, titre, user_id, date_création, admin, name, firstname, profilPic FROM posts INNER JOIN users ON users.id = posts.user_id  WHERE posts.id = ?", [postId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -97,7 +95,7 @@ Post.remove = (id, result) => {
 /**************************Tout les posts*****************************/
 
 Post.getAll = result => {
-  sql.query("SELECT * FROM posts", (err, res) => {
+  sql.query('SELECT posts.id, content, imageUrl, titre, user_id, date_création, admin, name, firstname, profilPic FROM posts INNER JOIN users ON users.id = posts.user_id ORDER BY date_création DESC', (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -109,6 +107,26 @@ Post.getAll = result => {
   });
 };
 
+/************************** recupere tout les posts de cette user *****************************/
+
+Post.findByUserId = (userId, result) => { 
+  sql.query(`SELECT posts.id, content,  imageUrl, titre, user_id, date_création, admin, name, firstname, profilPic FROM posts INNER JOIN users ON users.id = posts.user_id WHERE posts.user_id = ?`, [userId], (err, res)  => { 
+     if (err) { 
+       console.log("error: ", err);
+       result(err, null);
+       return;
+     }
+
+     if (res.length) {
+       console.log("found post: ", res);
+       result(null, res);
+       return res;
+     }
+
+     // not found article with the id
+     result({ kind: "not_found" }, null);
+   });
+ };
 
 
 

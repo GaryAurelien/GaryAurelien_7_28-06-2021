@@ -16,8 +16,6 @@ exports.create = (req, res) => {
     const commentaire = new Commentaire({
         content: req.body.content,
         post_id: req.body.post_id,
-        name: req.body.name,
-        firstname: req.body.firstname,
         user_id: req.body.user_id,
     
     });

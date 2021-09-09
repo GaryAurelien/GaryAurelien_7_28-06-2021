@@ -20,7 +20,7 @@
         <!----------------------------------------Création des posts  -------------------------------------->
 
         <div class="collapse mb-5 " style="d-flex justify-content-center" id="collapseExample">
-          <div class="d-flex justify-content-center">
+          <div class="d-flex flex-column justify-content-center">
             <div class="card" style="width: 45rem;">
                 <div class="container">
                     <div class="col text-center mb-5 pt-5">
@@ -52,12 +52,12 @@
     <!----------------------------------------Affichage des posts  -------------------------------------->
 
     <div class="container">
-      <div class="row d-flex flex-column-reverse align-items-center justify-content-around  m-2 " id="discution" >
-        <div class="card mb-5 p-2 shadow-lg" style="width: 45rem; background-color: #e0e0e0;" v-for="(post, index) in posts" v-bind:key="index" >
+      <div class="row d-flex  align-items-center justify-content-around  m-2 " id="discution" >
+        <div class="card mb-5  p-2 shadow-lg" style="width: 45rem; background-color: #e0e0e0;" v-for="(post, index) in posts" v-bind:key="index" >
           <img class="card-img-top mt-2" v-if="post.file" :src="post.file" alt="Card image cap" />
           <p>{{post.file}}</p>
           <div class="card-body" >
-            <h4 class="card-title text-center mb-5">{{post.user_name}} {{post.user_firstname}}</h4>
+            <h4 class="card-title text-center mb-5"> {{post.name}} {{post.firstname}}</h4>
             <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="">
             <h5 class="card-title mt-3">{{ post.titre }}</h5>
             <p class="card-text mt-3">{{ post.content }}</p>
@@ -183,8 +183,6 @@ export default {
     /*********************Créer un post*********************/
 
     createPost() {
-            const userName = VueJwtDecode.decode(sessionStorage.getItem("token")).userName;
-            const userFirstname = VueJwtDecode.decode(sessionStorage.getItem("token")).userFirstname;
             const user_Id = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
             const titre = document.getElementById("inputTitre").value;
             const content = document.getElementById("textarea").value;
@@ -195,10 +193,7 @@ export default {
             formData.append('image', imageUrl);
             formData.append('titre', titre);
             formData.append('content', content);
-            formData.append('user_name', userName);
-            formData.append('user_firstname', userFirstname);
             formData.append('user_id', user_Id);
-            /*formData.append('user_profilPic', user_profilPic);*/
 
 
       axios.post("http://localhost:3000/posts/create", formData, {

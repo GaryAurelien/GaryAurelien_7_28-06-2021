@@ -205,28 +205,26 @@ export default {
 </script>
 
 <style scoped>
-.main {
-  background: linear-gradient(160deg, #e78b07 0%, #8f5bfe 100%);
+
+.form-row {
+  display: flex;
+  margin: 16px 0px;
+  gap:16px;
+  flex-wrap: wrap;
 }
-  .form-row {
-    display: flex;
-    margin: 16px 0px;
-    gap:16px;
-    flex-wrap: wrap;
-  }
-  .form-row_input {
-    padding:8px;
-    border: none;
-    border-radius: 8px;
-    background:#f2f2f2;
-    font-weight: 500;
-    font-size: 16px;
-    flex:1;
-    min-width: 100px;
-    color: black;
-  }
-  .form-row_input::placeholder {
-    color:#aaaaaa;
-  }
+.form-row_input {
+  padding:8px;
+  border: none;
+  border-radius: 8px;
+  background:#f2f2f2;
+  font-weight: 500;
+  font-size: 16px;
+  flex:1;
+  min-width: 100px;
+  color: black;
+}
+.form-row_input::placeholder {
+  color:#aaaaaa;
+}
 
 </style>>

@@ -17,8 +17,6 @@ exports.create = (req, res) => {
     const post = new Post({
         titre: req.body.titre,
         content: req.body.content,
-        user_name: req.body.user_name,
-        user_firstname: req.body.user_firstname,
         user_id: req.body.user_id,
         imageUrl: null,
     });
@@ -36,8 +34,6 @@ exports.create = (req, res) => {
             const post = new Post({
                 titre: req.body.titre,
                 content: req.body.content,
-                user_name: req.body.user_name,
-                user_firstname: req.body.user_firstname,
                 user_id: req.body.user_id,
                 imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
             });
@@ -88,7 +84,6 @@ exports.update = (req, res) => {
 
 
 exports.delete = (req, res) => {
-
     Post.findById(req.params.postId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -100,11 +95,8 @@ exports.delete = (req, res) => {
                     message: "Erreur lors de la récupération du commentaire avec l'identifiant " + req.params.postId
                 });
             }
-
         } else{
-
             if(!data.imageUrl){
-
                 Post.remove(req.params.postId, (err, data) => {
                   if (err) {
                     if (err.kind === "not_found") {
@@ -118,13 +110,9 @@ exports.delete = (req, res) => {
                     }
                   } else res.send({ message: `L'article a été supprimé !` });
                 });
-
             } else{
-
                 const filename = data.imageUrl.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
-
-
                 Post.remove(req.params.postId, (err, data) => {
                     if (err) {
                       if (err.kind === "not_found") {

@@ -49,10 +49,10 @@
  
                     <div class="collapse" id="collapseExample">
                         <div>
-                            <form enctype="multipart/form-data" class="row align-items-center justify-content-around m-2" id="checked" >
-                                <div class="form-group col-10 offset-1 col-md-8 offset-md-2 mt-3">
+                            <form enctype="multipart/form-data" class="row align-items-center justify-content-around " id="checked" >
+                                <div class="form-row  mt-3">
                                     <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileChange(e)" required>
-                                    <img :src="imagePreview" v-if="imagePreview"  style="max-height: 100px;display:block;margin-top:10px">
+                                    <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
                                 </div>
                                 <div class="form-row">
                                     <input type="text" v-model="userName" class="form-row_input" id="inputNom" placeholder="Nom" aria-label="Nom"  required />
@@ -88,7 +88,7 @@
                     <p class="card-subtitle m-2">Poste : {{  user.position }}</p>
                     <p class="card-subtitle m-2">E-mail : {{ user.email }}</p>
                     <div class="row d-flex flex-column mt-5">   
-                        <button @click="deleteProfil(id)" class="btn supprimer  mt-2">Suprimer</button>       
+                        <button @click="deleteProfilAdmin(user.id)" class="btn supprimer  mt-2">Suprimer</button>       
                     </div>
                 </div>
             </div>
@@ -191,25 +191,23 @@ methods: {
 
 /*********************Aff Image utiliser dans profile*********************/
 
-onFileChange(e){
-            const imageInput = document.querySelector('input[type="file"]')
-            const file = imageInput.files[0];
-            console.log(file);
-            this.profilPic = file;
-            console.log(this.profilPic);
+    onFileChange(e){
+        const imageInput = document.querySelector('input[type="file"]')
+        const file = imageInput.files[0];
+        console.log(file);
+        this.profilPic = file;
+        console.log(this.profilPic);
 
 
-            const reader = new FileReader();
-            reader.onload = () => {
-            this.imagePreview = reader.result ;
-            };
-            reader.readAsDataURL(file);
-        },
+        const reader = new FileReader();
+        reader.onload = () => {
+        this.imagePreview = reader.result ;
+        };
+        reader.readAsDataURL(file);
+    },
+
+
 /************************** Modification du profile *****************************/
-
-
-
-
 
 
         updateProfil(){
@@ -258,43 +256,7 @@ onFileChange(e){
 
     },
 
-            /*let contact = {
-                email : document.getElementById('inputEmail').value,
-                password : document.getElementById('inputPassword').value,
-                name : document.getElementById('inputNom').value,
-                firstname :   document.getElementById('inputPrenom').value,
-                position : document.getElementById('inputJob').value,
-                admin:  VueJwtDecode.decode(sessionStorage.getItem("token")).admin,
-            }; 
-            console.log(contact);
-          const envoi = fetch("http://localhost:3000/users/" + userId, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + sessionStorage.getItem("token")
-                    },
-                    body: JSON.stringify(contact)
-                })
-      
-                //traitement de la réponse du serveur
-            envoi.then(async response =>{
-                try{
-                    console.log(response);
-                //récupération de la réponse du serveur
-                    let confirmation = await response.json();
-                    console.log(confirmation);
-                    sessionStorage.clear();
-                    console.log(sessionStorage);
-                    window.location.href ="/";
-                    
-            //traitement des erreurs
-                } catch (error) {
-                    console.log(error);
-                    alert("Un problème est survenu, merci de réessayer plus tard");
-                }
-            });
-    }},*/
-
+/************************** Suppresion du profile *****************************/
 
     deleteProfil(data) {
            if(confirm("Supprimer le profil ?")){
@@ -314,9 +276,25 @@ onFileChange(e){
                     console.log(error);
                 }); 
            }
+    },
+    deleteProfilAdmin(data) {
+           if(confirm("Supprimer le profil ?")){
+               axios.delete('http://localhost:3000/users/' + data, {
+                   method: "DELETE",
+                   headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+                }})
+               .then(function(response) {
+                    console.log(response);
+                    document.location.reload();
+                })
+                .catch(function(error) {
+                    console.log(error);
+                }); 
+           }
        },
     
-    },
+},
 components: {
     Header,
     Footer,
@@ -356,7 +334,7 @@ components: {
     margin-bottom: 15px;
     margin-top: 15px;
     border-radius: 50% ;
-    border:  solid 4px;
+    border:  solid #091f43 4px;
     width: 150px;
     height: 150px;
     object-fit: cover;

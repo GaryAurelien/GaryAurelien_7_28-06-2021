@@ -147,4 +147,7 @@ User.getAll = result => {
 
 
 
+
+
+
 module.exports = User;

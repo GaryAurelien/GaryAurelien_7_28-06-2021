@@ -19,6 +19,7 @@
 }
 body {
   margin-bottom: 100px;
+  background: url('/assets/tokyo-3131978(1).jpg');
 }
 img {
   max-width: 100%;

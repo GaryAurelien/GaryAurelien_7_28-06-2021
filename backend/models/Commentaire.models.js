@@ -2,8 +2,6 @@ const sql = require("./db.js");
 
 const Commentaire = function(commentaire) {
     this.content = commentaire.content,
-    this.name = commentaire.name,
-    this.firstname = commentaire.firstname,
     this.user_id = commentaire.user_id,
     this.post_id = commentaire.post_id
 };
@@ -26,7 +24,7 @@ Commentaire.create = (newCommentaire, result) => {
 /*************************************************************/
 
 Commentaire.findById = (commentaireId, result) => {
-    sql.query(`SELECT * FROM commentaires WHERE id = ? `, [commentaireId], (err, res) => {
+    sql.query(`'SELECT commentaires.id, content, user_id, date_création, admin, name, firstname, profilPic FROM commentaires INNER JOIN users ON users.id = commentaires.user_id  WHERE commentaires.id = ? `, [commentaireId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -48,7 +46,7 @@ Commentaire.findById = (commentaireId, result) => {
 
 
   Commentaire.findByPostId = (postId, result) => {
-    sql.query(`SELECT * FROM commentaires WHERE post_id = ?`, [postId], (err, res) => {
+    sql.query(`SELECT commentaires.id, content, user_id, date_création, admin, name, firstname, profilPic FROM commentaires INNER JOIN users ON users.id = commentaires.user_id WHERE post_id = ? ORDER BY date_création ASC`, [postId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -120,7 +118,7 @@ Commentaire.remove = (id, result) => {
 /**************************Tout les Commentaires*****************************/
 
 Commentaire.getAll = result => {
-  sql.query("SELECT * FROM commentaires", (err, res) => {
+  sql.query('SELECT commentaires.id, content, user_id, date_création, admin, name, firstname, profilPic FROM commentaires INNER JOIN users ON users.id = commentaires.user_id ORDER BY date_création ASC', (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
