@@ -10,15 +10,15 @@
                 <div class="card">
                     <h1 class="text-center">Votre Profil</h1>
                 <div>
-                    <img class="profilPic" v-if="pic" :src="pic" alt=""> 
-                    <h3 class="card-subtitle m-2">Nom : {{ userName  }}</h3>
-                    <h3 class="card-subtitle m-2">Prénom : {{ userFirstname }}</h3>
-                    <p class="card-subtitle m-2">Poste : {{  position }}</p>
-                    <p class="card-subtitle m-2">E-mail : {{ email }}</p>
-                    <div class="container">
-                    <!-- Trigger the modal with a button -->
-                    <button type="button" id="btnModal" class="btn btn base mt-3 " data-toggle="modal" data-target="#myModal" aria-expanded="false">Éditer</button>
-                    <!-- Modal -->
+                <img class="profilPic" v-if="pic" :src="pic" alt=""> 
+                <h3 class="card-subtitle m-2">Nom : {{ userName  }}</h3>
+                <h3 class="card-subtitle m-2">Prénom : {{ userFirstname }}</h3>
+                <p class="card-subtitle m-2">Poste : {{  position }}</p>
+                <p class="card-subtitle m-2">E-mail : {{ email }}</p>
+                <div class="container">
+                <!-- Trigger the modal with a button -->
+                <button type="button" id="btnModal" class="btn btn base mt-3 " data-toggle="modal" data-target="#myModal" aria-expanded="false">Éditer</button>
+                <!-- Modal -->
                     <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog">
                         
@@ -37,7 +37,7 @@
                                 <a @click="checkProfil()" class="btn btn base offset-4 m-2" id="modif">Valider</a>
                             </div> 
                         </div>
-                    </div>
+                        </div>
                     </div>
                 </div>
 
@@ -134,8 +134,8 @@ data() {
                             this.users = response.data;
                         })
                         .catch((err) => console.log("Erreur : " + err))
-        }
-  },
+    }
+},
 
 
 methods: { 
@@ -145,49 +145,49 @@ methods: {
     },
 /**************************** Acceder au "menu de profile" ****************************/
     checkProfil(){
-            let FormValid = document.getElementById('checked').checkValidity();
-            if (FormValid == false ) {
-                alert(`Vous n'avez pas rempli tous les champs requis !`);
-            }else{
+        let FormValid = document.getElementById('checked').checkValidity();
+        if (FormValid == false ) {
+            alert(`Vous n'avez pas rempli tous les champs requis !`);
+        }else{
+        
+        //variable qui reccueille les infos de contact du client
+            let contact = {
+                password : document.getElementById('inputPassword2').value,
+                email : VueJwtDecode.decode(sessionStorage.getItem("token")).email
+            };
             
-            //variable qui reccueille les infos de contact du client
-                let contact = {
-                    password : document.getElementById('inputPassword2').value,
-                    email : VueJwtDecode.decode(sessionStorage.getItem("token")).email
-                };
-                
-            //on POST les infos reccueillies au serveur
-                const envoi =  fetch("http://localhost:3000/users/login", {
-                method: 'POST',
-                body: JSON.stringify(contact),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+        //on POST les infos reccueillies au serveur
+            const envoi =  fetch("http://localhost:3000/users/login", {
+            method: 'POST',
+            body: JSON.stringify(contact),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+            }
+        });
+        //traitement de la réponse du serveur
+            envoi.then(async response =>{
+                try{
+                //récupération de la réponse du serveur
+                    let confirmation = await response.json();
+                    if (confirmation.error){
+                        console.log("error")
+                        alert("Mot de passe invalide !")
+                    }else{
+                    document.querySelector(".modal-backdrop").remove()
+                    document.getElementById('btnModal').remove()
+                    document.getElementById('myModal').remove()
+                    this.profil = true
+                    sessionStorage.setItem('token', confirmation.token)
+                    }
+            //traitement des erreurs
+                } catch (error) {
+                    console.log(error);
+                    alert("Un problème est survenu, merci de réessayer plus tard");
                 }
             });
-            //traitement de la réponse du serveur
-                envoi.then(async response =>{
-                    try{
-                    //récupération de la réponse du serveur
-                        let confirmation = await response.json();
-                        if (confirmation.error){
-                            console.log("error")
-                            alert("Mot de passe invalide !")
-                        }else{
-                        document.querySelector(".modal-backdrop").remove()
-                        document.getElementById('btnModal').remove()
-                        document.getElementById('myModal').remove()
-                        this.profil = true
-                        sessionStorage.setItem('token', confirmation.token)
-                        }
-                //traitement des erreurs
-                    } catch (error) {
-                        console.log(error);
-                        alert("Un problème est survenu, merci de réessayer plus tard");
-                    }
-                });
-            };
-        },
+        };
+    },
 
 /*********************Aff Image utiliser dans profile*********************/
 
@@ -210,21 +210,21 @@ methods: {
 /************************** Modification du profile *****************************/
 
 
-        updateProfil(){
-        let FormValid = document.getElementById('checked').checkValidity();
-            if (FormValid == false ) {
-                alert(`Vous n'avez pas rempli tous les champs requis !`);
-            }else{
-            
-                const firstname = document.getElementById('inputPrenom').value;
-                const name = document.getElementById('inputNom').value;
-                const position = document.getElementById('inputJob').value;
-                const password = document.getElementById('inputPassword').value;
-                const email = document.getElementById('inputEmail').value;
-                const admin =  VueJwtDecode.decode(sessionStorage.getItem("token")).admin;
-                const profilPic = this.profilPic;
+    updateProfil(){
+    let FormValid = document.getElementById('checked').checkValidity();
+        if (FormValid == false ) {
+            alert(`Vous n'avez pas rempli tous les champs requis !`);
+        }else{
+        
+            const firstname = document.getElementById('inputPrenom').value;
+            const name = document.getElementById('inputNom').value;
+            const position = document.getElementById('inputJob').value;
+            const password = document.getElementById('inputPassword').value;
+            const email = document.getElementById('inputEmail').value;
+            const admin =  VueJwtDecode.decode(sessionStorage.getItem("token")).admin;
+            const profilPic = this.profilPic;
 
-              
+            
             const formData = new FormData();
             formData.append('firstname', firstname);
             formData.append('name', name);
@@ -234,25 +234,25 @@ methods: {
             formData.append('admin', admin);
             formData.append('profilPic', profilPic);
 
-        const userId = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
+            const userId = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
 
-        axios.put('http://localhost:3000/users/' + userId, formData,{
-            
-            headers:{
-                'Content-Type' : 'multpart/form-data',
-                'Authorization': 'Bearer ' + sessionStorage.getItem("token")
-            }
-        })
-        .then( async response =>{
-            try{
-                let confirmation = await response.data;
-                console.log(confirmation);
-                sessionStorage.clear()
-               window.location.href = "/";
-            } catch(error) {
-                alert("Une erreur est survenue, veuillez retenter plus tard")
-            }
-        })}
+            axios.put('http://localhost:3000/users/' + userId, formData,{
+                
+                headers:{
+                    'Content-Type' : 'multpart/form-data',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+                }
+            })
+            .then( async response =>{
+                try{
+                    let confirmation = await response.data;
+                    console.log(confirmation);
+                    sessionStorage.clear()
+                    window.location.href = "/";
+                } catch(error) {
+                    alert("Une erreur est survenue, veuillez retenter plus tard")
+                }
+            })}
 
     },
 
@@ -304,13 +304,13 @@ components: {
 </script>
 
 <style scoped>
- .form-row {
+.form-row {
     display: flex;
     margin: 16px 0px;
     gap:16px;
     flex-wrap: wrap;
-  }
-  .form-row_input {
+}
+.form-row_input {
     padding:8px;
     border: none;
     border-radius: 8px;
@@ -320,12 +320,12 @@ components: {
     flex:1;
     min-width: 100px;
     color: black;
-  }
-  .form-row_input::placeholder {
+}
+.form-row_input::placeholder {
     color:#aaaaaa;
-  }
+}
 
-  .profilPic{
+.profilPic{
     display: flex;
     justify-content: center;
     align-items: center;

@@ -4,9 +4,9 @@
       <div class="container">
         <div class="row pt-3">
           <div class="col">
-            <ul class="list-inline text-center" >
+            <ul class="list-inline text-center">
               <li class="list-inline-item">
-                <a class="color-text-footer"  href="#">À propos</a>
+                <a class="color-text-footer" href="#">À propos</a>
               </li>
               <li class="list-inline-item">&middot;</li>
               <li class="list-inline-item">
@@ -34,9 +34,7 @@ export default {
 
 
 <style scoped>
-
 .a {
- background: #091f43 !important;
+  background: #091f43 !important;
 }
-
 </style>

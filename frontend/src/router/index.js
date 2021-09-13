@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Post from '../views/Post.vue'
-import NotFound from '../views/NotFound.vue'
 import Profile from '../views/Profile.vue'
-import OnePost from '../views/OnePost.vue';
 
 const routes = [
   {
@@ -28,14 +26,6 @@ const routes = [
     component: Post,
     meta: {
       title: 'PagePosts'
-    }
-  },
-  {
-    path: '/posts/:id',
-    name: 'OnePost',
-    component: OnePost,
-    meta: {
-      title: 'PagePost'
     }
   },
 ]

@@ -11,33 +11,33 @@
           <p class="card_subtitle" v-if="mode == 'login'">Tu na pas encore de compte ? <span class="card_action" @click="switchToCreateAccount()">Créer un compte</span></p>
           <p class="card_subtitle" v-else>Tu a déjà un compte ? <span class="card_action" @click="switchToLogin()">Se connecter</span></p>
           <form enctype="multipart/form-data">
-                <div class="form-row">
-                  <input v-model="email" id="email" type="email" class="form-row_input" placeholder="Adresse mail"  pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})" required />
-                </div>
-                <div class="form-row" v-if="mode == 'create'">
-                  <input v-model="name" id="name" type="text" class="form-row_input" placeholder="Nom"  pattern="[a-zA-ZÀ-ÿ-Zàâäéèêëïîôöùûüç[ -]]{2,30}" required/>
-                  <input v-model="firstname" id="firstname" type="text" class="form-row_input" placeholder="Prénom"  pattern="[A-Za-z-àâäéèêëïîôöùûüç[ -]]{2,30}" required />
-                  <input v-model="position" id ="position" type="text" class="form-row_input"  placeholder="Job"  pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required />
-                  <div class="form-group center d-flex flex-column col-12 ">
-                    <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)" required>
-                    <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
-                  </div>
-                </div>
-                <div class="form-row">
-                  <input v-model="password" id="password" type="password" class="form-row_input"  placeholder="Mot de passe"  required />
-                </div>
+            <div class="form-row">
+              <input v-model="email" id="email" type="email" class="form-row_input" placeholder="Adresse mail"  pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})" required />
+            </div>
+            <div class="form-row" v-if="mode == 'create'">
+              <input v-model="name" id="name" type="text" class="form-row_input" placeholder="Nom"  pattern="[a-zA-ZÀ-ÿ-Zàâäéèêëïîôöùûüç[ -]]{2,30}" required/>
+              <input v-model="firstname" id="firstname" type="text" class="form-row_input" placeholder="Prénom"  pattern="[A-Za-z-àâäéèêëïîôöùûüç[ -]]{2,30}" required />
+              <input v-model="position" id ="position" type="text" class="form-row_input"  placeholder="Job"  pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required />
+              <div class="form-group center d-flex flex-column col-12 ">
+                <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)" required>
+                <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+              </div>
+            </div>
+            <div class="form-row">
+              <input v-model="password" id="password" type="password" class="form-row_input"  placeholder="Mot de passe"  required />
+            </div>
           </form>
           <div class="form-row">
-          <button @click="login()" id="button_login" class="button_login" :class="{'button--disabled' : !validatedFields}" v-if="mode == 'login'">
-            <span>Connexion</span>
-          </button>
-          <button @click="createAccount()" id="button_create" class="button_create" :class="{'button--disabled' : !validatedFields}" v-else>
-            <span>Créer mon compte</span>
-          </button>
+            <button @click="login()" id="button_login" class="button_login" :class="{'button--disabled' : !validatedFields}" v-if="mode == 'login'">
+              <span>Connexion</span>
+            </button>
+            <button @click="createAccount()" id="button_create" class="button_create" :class="{'button--disabled' : !validatedFields}" v-else>
+              <span>Créer mon compte</span>
+            </button>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-  </div>
     <Footer />
   </div>
 </template>
@@ -48,7 +48,7 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 
 import axios from "axios";
-import VueJwtDecode from "vue-jwt-decode";
+
 
 export default {
   name: "Home",
