@@ -10,10 +10,8 @@ require('dotenv').config();
 /**************Create and Save a new user************/
 
 exports.signup = (req, res, next) => {
-  console.log("signup1");
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
-      console.log("signup2");
       const utilisateur = new User({
         email: req.body.email,
         password: hash,
@@ -116,8 +114,6 @@ exports.update = (req, res) => {
           admin: req.body.admin,
           profilPic: `${req.protocol}://${req.get('host')}/profilPic/${req.file.filename}`
         });
-        console.log('uptade4');
-        console.log(utilisateur);
 
         User.findById(req.params.userId, (err, data) => {
           if (err) {
@@ -160,8 +156,6 @@ exports.update = (req, res) => {
 
 
 exports.delete = (req, res) => {
-
-
   User.findById(req.params.userId, (err, dota) => {
     if (err) {
       if (err.kind === "not_found") {
@@ -174,8 +168,25 @@ exports.delete = (req, res) => {
         });
       }
     } else {
-
           Post.findByUserId(dota.id, (err, donnee) => {
+            if (!donnee) { 
+              const filename = dota.profilPic.split('/profilPic/')[1];
+              fs.unlink(`profilPic/${filename}`, () => {
+              User.remove(req.params.userId, (err, data) => {
+                if (err) {
+                  if (err.kind === "not_found") {
+                    res.status(404).send({
+                      message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
+                    });
+                  } else {
+                    res.status(500).send({
+                      message: "Erreur de suppression du User avec l'id " + req.params.userId
+                    });
+                  }
+                } else res.send({ message: `Le User a été supprimé !`});
+        });
+      })
+            }else{
             if (err) {
               if (err.kind === "not_found") {
                 res.status(404).send({
@@ -202,23 +213,24 @@ exports.delete = (req, res) => {
                         };
                     }
 
-                        const filename = dota.profilPic.split('/profilPic/')[1];
-                                fs.unlink(`profilPic/${filename}`, () => {
-                                User.remove(req.params.userId, (err, data) => {
-                                  if (err) {
-                                    if (err.kind === "not_found") {
-                                      res.status(404).send({
-                                        message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
-                                      });
-                                    } else {
-                                      res.status(500).send({
-                                        message: "Erreur de suppression du User avec l'id " + req.params.userId
-                                      });
-                                    }
-                                  } else res.send({ message: `Le User a été supprimé !`});
+                    const filename = dota.profilPic.split('/profilPic/')[1];
+                    fs.unlink(`profilPic/${filename}`, () => {
+                    User.remove(req.params.userId, (err, data) => {
+                      if (err) {
+                        if (err.kind === "not_found") {
+                          res.status(404).send({
+                            message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
                           });
-                        })
-                        };
+                        } else {
+                          res.status(500).send({
+                            message: "Erreur de suppression du User avec l'id " + req.params.userId
+                          });
+                        }
+                      } else res.send({ message: `Le User a été supprimé !`});
+              });
+            })
+            };
+          }
                 })}
                 })}
 

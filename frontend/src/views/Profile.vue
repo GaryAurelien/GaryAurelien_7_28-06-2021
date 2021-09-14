@@ -5,7 +5,7 @@
                 <div class="col text-center m-3">
                     <a class="navbar-brand" href="post"><img src="../assets/Img-Home.png" class="img_home" alt=""></a>
                 </div>
-                <div class="row justify-content-center m-2" v-if="admin == 0">
+                <div class="row justify-content-center m-1" v-if="admin == 0">
                     <div class="card">
                         <h1 class="text-center">Votre Profil</h1>
                     <div>
@@ -15,12 +15,9 @@
                     <p class="card-subtitle m-2">Poste : {{  position }}</p>
                     <p class="card-subtitle m-2">E-mail : {{ email }}</p>
                     <div class="container">
-                    <!-- Trigger the modal with a button -->
                     <button type="button" id="btnModal" class="btn btn base mt-3 " data-toggle="modal" data-target="#myModal" aria-expanded="false">Éditer</button>
-                    <!-- Modal -->
                         <div class="modal fade" id="myModal" role="dialog">
                             <div class="modal-dialog">
-                            <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header bg-btn supprimer">
                                     <h5 class="modal-title ">Saisissez votre mot de passe</h5>
@@ -86,7 +83,7 @@
                         <p class="card-subtitle m-2">Poste : {{  user.position }}</p>
                         <p class="card-subtitle m-2">E-mail : {{ user.email }}</p>
                         <div class="row d-flex flex-column mt-5">   
-                            <button @click="deleteProfilAdmin(user.id)" class="btn supprimer  mt-2">Suprimer</button>       
+                            <button @click="deleteProfilAdmin(user.id)" class="btn supprimer col-10 offset-1 offset-sm-4 col-sm-4  mt-2">Supprimer</button>       
                         </div>
                     </div>
                 </div>
@@ -244,7 +241,6 @@ methods: {
             .then( async response =>{
                 try{
                     let confirmation = await response.data;
-                    console.log(confirmation);
                     sessionStorage.clear()
                     window.location.href = "/";
                 } catch(error) {
@@ -265,7 +261,6 @@ methods: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")
                 }})
                .then(function(response) {
-                    console.log(response);
                     sessionStorage.clear();
 
                     window.location.href= "/";
@@ -283,7 +278,6 @@ methods: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem("token")
                 }})
                .then(function(response) {
-                    console.log(response);
                     document.location.reload();
                 })
                 .catch(function(error) {

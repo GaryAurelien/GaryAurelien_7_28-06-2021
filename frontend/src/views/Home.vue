@@ -10,17 +10,17 @@
           <h1 class="card_title" v-else>Inscription</h1>
           <p class="card_subtitle" v-if="mode == 'login'">Tu na pas encore de compte ? <span class="card_action" @click="switchToCreateAccount()">Créer un compte</span></p>
           <p class="card_subtitle" v-else>Tu a déjà un compte ? <span class="card_action" @click="switchToLogin()">Se connecter</span></p>
-          <form enctype="multipart/form-data">
+          <form enctype="multipart/form-data" id="checked">
             <div class="form-row">
               <input v-model="email" id="email" type="email" class="form-row_input" placeholder="Adresse mail"  pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([_\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})" required />
             </div>
             <div class="form-row" v-if="mode == 'create'">
               <input v-model="name" id="name" type="text" class="form-row_input" placeholder="Nom"  pattern="[a-zA-ZÀ-ÿ-Zàâäéèêëïîôöùûüç[ -]]{2,30}" required/>
               <input v-model="firstname" id="firstname" type="text" class="form-row_input" placeholder="Prénom"  pattern="[A-Za-z-àâäéèêëïîôöùûüç[ -]]{2,30}" required />
-              <input v-model="position" id ="position" type="text" class="form-row_input"  placeholder="Job"  pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required />
+              <input v-model="position" id ="position" type="text" class="form-row_input"  placeholder="Job"  pattern="[A-Za-z-àâäéèêëïîôöùûüç[ -]]{2,30}" required />
               <div class="form-group center d-flex flex-column col-12 ">
                 <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileAdded(event)" required>
-                <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+                <img :src="imagePreview" v-if="imagePreview" class="profilPic">
               </div>
             </div>
             <div class="form-row">
@@ -79,9 +79,7 @@ export default {
     onFileAdded(event){
             const imageInput = document.querySelector('input[type="file"]')
             const file = imageInput.files[0];
-            console.log(file);
             this.profilPic = file;
-            console.log(this.profilPic);
 
             /* imageInput.setValue(file); /
            /  this.sauceForm.updateValueAndValidity(); */
@@ -92,6 +90,10 @@ export default {
             reader.readAsDataURL(file);
       },
     createAccount(){
+      let FormValid = document.getElementById('checked').checkValidity();
+        if (FormValid == false ) {
+            alert(`Il y a une erreur dans votre formulaire.`);
+        }else{
             console.log(this.profilPic);
             const firstname = document.getElementById('firstname').value;
             const name = document.getElementById('name').value;
@@ -108,7 +110,6 @@ export default {
             formData.append('position', position);
             formData.append('password', password);
             formData.append('email', email);
-            console.log(formData);
 
 
             axios.post("http://localhost:3000/users/signup", formData , {
@@ -120,13 +121,10 @@ export default {
             })
       //traitement de la réponse du serveur
             .then(async response =>{
-           console.log(response.data);
                 //récupération de la réponse du serveur
                     let confirmation =  await  response.data;
-                    console.log(confirmation);
 
                     sessionStorage.setItem("token", confirmation.token);
-                    console.log(sessionStorage);
                     window.location.href ="profile";
 
 
@@ -136,6 +134,7 @@ export default {
                 console.log(error); 
                  alert("Mot de passe invalide ! Il faut au minimum 8 caractères non espacés dont une majuscule, une minuscule et 2 chiffres")
             });
+        }
     },
     login() {
         //variable qui reccueille les infos de contact du client
@@ -155,22 +154,17 @@ export default {
         //traitement de la réponse du serveur
             envoi.then( async response =>{
                 try{
-                    console.log(response);
                 //récupération de la réponse du serveur
                     let confirmation = await response.json();
-                    console.log(confirmation);
                     if(confirmation.error) { 
                       alert(confirmation.message);
-                      console.log(confirmation.message);
                     }else{
 
                     let userId = confirmation.userId;
-                    console.log(userId);
                     
                     let result = {
                         userId: userId,
                     }
-                    console.log(result); 
                     
                     sessionStorage.setItem("token", confirmation.token);
                     window.location.href ="profile";
@@ -225,6 +219,22 @@ export default {
 }
 .form-row_input::placeholder {
   color:#aaaaaa;
+}
+
+.profilPic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    border-radius: 50% ;
+    border:  solid #091f43 4px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: 50% 50%;
 }
 
 </style>>
