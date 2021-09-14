@@ -13,8 +13,8 @@
             </button>
             <div id="navbarContent" class="collapse navbar-collapse justify-content-end">
               <ul class="navbar-nav">
-                <router-link v-if="admin == 0" class="navbar-brand" to="/Profile">Mon Profile</router-link>
-                <router-link v-if="admin == 1" class="navbar-brand" to="/Profile">Les Profiles</router-link>
+                <router-link v-if="admin == 0" class="navbar-brand" to="/Profile">Mon Profil</router-link>
+                <router-link v-if="admin == 1" class="navbar-brand" to="/Profile">Les Profils</router-link>
                 <router-link class="navbar-brand" to="/Post">Post</router-link>
                 <a href="#" @click="deconnectionAccount()" class="navbar-brand">Déconnexion</a>
               </ul>

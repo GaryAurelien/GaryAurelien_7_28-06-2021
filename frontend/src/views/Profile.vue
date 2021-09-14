@@ -1,101 +1,99 @@
 <template>
-<div>
-    <Header />
-        <div class="container">
-            <div class="col text-center m-3"><a class="navbar-brand" href="post">
-                <img src="../assets/Img-Home.png" class="img_home" alt="">
-                </a>
-            </div>
-            <div class="row justify-content-center m-2" v-if="admin == 0">
-                <div class="card">
-                    <h1 class="text-center">Votre Profil</h1>
-                <div>
-                <img class="profilPic" v-if="pic" :src="pic" alt=""> 
-                <h3 class="card-subtitle m-2">Nom : {{ userName  }}</h3>
-                <h3 class="card-subtitle m-2">Prénom : {{ userFirstname }}</h3>
-                <p class="card-subtitle m-2">Poste : {{  position }}</p>
-                <p class="card-subtitle m-2">E-mail : {{ email }}</p>
-                <div class="container">
-                <!-- Trigger the modal with a button -->
-                <button type="button" id="btnModal" class="btn btn base mt-3 " data-toggle="modal" data-target="#myModal" aria-expanded="false">Éditer</button>
-                <!-- Modal -->
-                    <div class="modal fade" id="myModal" role="dialog">
-                        <div class="modal-dialog">
-                        
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header bg-btn supprimer">
-                                <h5 class="modal-title ">Saisissez votre mot de passe</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+    <div>
+        <Header />
+            <div class="container">
+                <div class="col text-center m-3">
+                    <a class="navbar-brand" href="post"><img src="../assets/Img-Home.png" class="img_home" alt=""></a>
+                </div>
+                <div class="row justify-content-center m-2" v-if="admin == 0">
+                    <div class="card">
+                        <h1 class="text-center">Votre Profil</h1>
+                    <div>
+                    <img class="profilPic" v-if="pic" :src="pic" alt=""> 
+                    <h3 class="card-subtitle m-2">Nom : {{ userName  }}</h3>
+                    <h3 class="card-subtitle m-2">Prénom : {{ userFirstname }}</h3>
+                    <p class="card-subtitle m-2">Poste : {{  position }}</p>
+                    <p class="card-subtitle m-2">E-mail : {{ email }}</p>
+                    <div class="container">
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" id="btnModal" class="btn btn base mt-3 " data-toggle="modal" data-target="#myModal" aria-expanded="false">Éditer</button>
+                    <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header bg-btn supprimer">
+                                    <h5 class="modal-title ">Saisissez votre mot de passe</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="row" id="checked" >
+                                        <div class="space-form col-6 offset-3">
+                                            <input type="password" v-model="password" class="form-control" id="inputPassword2" placeholder="Mot de passe" aria-label="Password" required>
+                                        </div>
+                                    </form>
+                                    <a @click="checkProfil()" class="btn btn base offset-4 m-2" id="modif">Valider</a>
+                                </div> 
                             </div>
-                            <div class="modal-body">
-                                <form class="row" id="checked" >
-                                    <div class="space-form col-6 offset-3">
-                                        <input type="password" v-model="password" class="form-control" id="inputPassword2" placeholder="Mot de passe" aria-label="Password" required>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div v-if="profil===true" >
+                        <button class=" btn base  mt-2 mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Modifier
+                        </button>
+    
+                        <div class="collapse" id="collapseExample">
+                            <div>
+                                <form enctype="multipart/form-data" class="row align-items-center justify-content-around " id="checked" >
+                                    <div class="form-row  mt-3">
+                                        <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileChange(e)" required>
+                                        <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
+                                    </div>
+                                    <div class="form-row">
+                                        <input type="text" v-model="userName" class="form-row_input" id="inputNom" placeholder="Nom" aria-label="Nom"  required />
+                                        <input type="text" v-model="userFirstname" class="form-row_input" id="inputPrenom" placeholder= "Prénom" aria-label="Prenom"  required />
+                                        <input type="text" v-model="position" class="form-row_input" id="inputJob" placeholder= "Job" aria-label="position" required />
+                                    </div>
+                                    <div class="form-row">
+                                        <input type="email" v-model="email" class="form-row_input" id="inputEmail" placeholder= "E-mail" aria-label="Email"  required />
+                                    </div>
+                                    <div class="form-row">
+                                        <input type="text" v-model="password" class="form-row_input" id="inputPassword" placeholder="Mot de passe" aria-label="Password" required />
                                     </div>
                                 </form>
-                                <a @click="checkProfil()" class="btn btn base offset-4 m-2" id="modif">Valider</a>
-                            </div> 
+                                
+                                <a @click="updateProfil()" class="btn btn base offset-3  m-2" id="modif">Valider</a>
+                                
+                            </div>
                         </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div v-if="profil===true" >
-                    <button class=" btn base  mt-2 mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Modifier
-                    </button>
- 
-                    <div class="collapse" id="collapseExample">
                         <div>
-                            <form enctype="multipart/form-data" class="row align-items-center justify-content-around " id="checked" >
-                                <div class="form-row  mt-3">
-                                    <input type="file" accept="image/*" id="imageInput" name="profilPic" @change="onFileChange(e)" required>
-                                    <img :src="imagePreview" v-if="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
-                                </div>
-                                <div class="form-row">
-                                    <input type="text" v-model="userName" class="form-row_input" id="inputNom" placeholder="Nom" aria-label="Nom"  required />
-                                    <input type="text" v-model="userFirstname" class="form-row_input" id="inputPrenom" placeholder= "Prénom" aria-label="Prenom"  required />
-                                    <input type="text" v-model="position" class="form-row_input" id="inputJob" placeholder= "Job" aria-label="position" required />
-                                </div>
-                                <div class="form-row">
-                                    <input type="email" v-model="email" class="form-row_input" id="inputEmail" placeholder= "E-mail" aria-label="Email"  required />
-                                </div>
-                                <div class="form-row">
-                                    <input type="text" v-model="password" class="form-row_input" id="inputPassword" placeholder="Mot de passe" aria-label="Password" required />
-                                </div>
-                            </form>
-                            
-                            <a @click="updateProfil()" class="btn btn base offset-3  m-2" id="modif">Valider</a>
-                            
+                        <button @click="deleteProfil(id)" class=" btn supprimer  mt-2" id="suppr">Supprimer</button>
                         </div>
                     </div>
-                    <div>
-                    <button @click="deleteProfil(id)" class=" btn supprimer  mt-2" id="suppr">Supprimer</button>
                     </div>
                 </div>
-                </div>
             </div>
-        </div>
-        <div v-if="admin == 1 ">
-            <div class="row justify-content-center m-2 mt-5" v-for="(user, index) in users" v-bind:key="index">
-                <div class="card">
-                    <h2 class="article-content text-success" v-if="user.admin == 1">Admin</h2>
-                    <img class="profilPic"  :src="user.profilPic" alt="">
-                    <h3 class="card-subtitle m-2">Nom : {{ user.name  }}</h3>
-                    <h3 class="card-subtitle m-2">Prénom : {{ user.firstname }}</h3>
-                    <p class="card-subtitle m-2">Poste : {{  user.position }}</p>
-                    <p class="card-subtitle m-2">E-mail : {{ user.email }}</p>
-                    <div class="row d-flex flex-column mt-5">   
-                        <button @click="deleteProfilAdmin(user.id)" class="btn supprimer  mt-2">Suprimer</button>       
+            <div v-if="admin == 1 ">
+                <div class="row justify-content-center m-2 mt-5" v-for="(user, index) in users" v-bind:key="index">
+                    <div class="card">
+                        <h2 class="article-content text-success" v-if="user.admin == 1">Admin</h2>
+                        <img class="profilPic"  :src="user.profilPic" alt="">
+                        <h3 class="card-subtitle m-2">Nom : {{ user.name  }}</h3>
+                        <h3 class="card-subtitle m-2">Prénom : {{ user.firstname }}</h3>
+                        <p class="card-subtitle m-2">Poste : {{  user.position }}</p>
+                        <p class="card-subtitle m-2">E-mail : {{ user.email }}</p>
+                        <div class="row d-flex flex-column mt-5">   
+                            <button @click="deleteProfilAdmin(user.id)" class="btn supprimer  mt-2">Suprimer</button>       
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <Footer />
     </div>
-    <Footer />
-</div>
 </template>
 
 <script>
