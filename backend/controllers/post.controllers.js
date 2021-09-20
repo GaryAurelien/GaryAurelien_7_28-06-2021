@@ -4,7 +4,7 @@ const fs = require('fs');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-/**************Create and Save a new post************/
+/**************Create et Save le new post************/
 
 exports.create = (req, res) => {
     if (!req.body) {

@@ -6,3 +6,6 @@ module.exports = {
     PASSWORD: process.env.DB_PASS,
     DB: process.env.DB_DB
   }; 
+
+
+// fichier configuration a la base de donnée

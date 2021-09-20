@@ -49,7 +49,7 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-/************************************************************/
+/************************Login*******************************/
 
 exports.login = (req, res, next) => {
   User.findOne(req.body.email, (err, data) => {
@@ -97,7 +97,6 @@ exports.login = (req, res, next) => {
 
 
 exports.update = (req, res) => {
-  // Validate Request
   console.log("on est dans le update");
   if (!req.body) {
     res.status(400).send({

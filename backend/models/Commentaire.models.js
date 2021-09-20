@@ -7,7 +7,7 @@ const Commentaire = function(commentaire) {
 };
 
 /**************************create***************************/
-
+// creer un nouveau commentaire en faisant une requet sql a la base de données
 Commentaire.create = (newCommentaire, result) => {
     sql.query("INSERT INTO commentaires SET ?", newCommentaire, (err, res) => {
       if (err) {
@@ -36,14 +36,11 @@ Commentaire.findById = (commentaireId, result) => {
         result(null, res[0]);
         return;
       }
-  
-      // not found Commentaire with the id
       result({ kind: "not_found" }, null);
     });
   };
 
-/*****************************************************/
-
+/************************************************************/
 
   Commentaire.findByPostId = (postId, result) => {
     sql.query(`SELECT commentaires.id, content, user_id, date_création, admin, name, firstname, profilPic FROM commentaires INNER JOIN users ON users.id = commentaires.user_id WHERE post_id = ? ORDER BY date_création ASC`, [postId], (err, res) => {
@@ -58,8 +55,6 @@ Commentaire.findById = (commentaireId, result) => {
         result(null, res);
         return;
       }
-  
-      // not found Commentaire with the id
       result({ kind: "not_found" }, null);
     });
   };
@@ -82,7 +77,6 @@ Commentaire.updateById = (id, commentaire, result) => {
       }
 
       if (res.affectedRows == 0) {
-        // not found Commentaire with the id
         result({ kind: "not_found" }, null);
         return;
       }
@@ -105,7 +99,6 @@ Commentaire.remove = (id, result) => {
     }
 
     if (res.affectedRows == 0) {
-      // not found Commentaire with the id
       result({ kind: "not_found" }, null);
       return;
     }

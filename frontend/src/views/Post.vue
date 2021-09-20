@@ -129,6 +129,7 @@ export default {
       imageUrl: '',
 
   /*********************Recuperation des posts*********************/
+  
       file: '',
       posts:  
           axios.get("http://localhost:3000/posts", {
