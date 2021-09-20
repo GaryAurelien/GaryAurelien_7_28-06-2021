@@ -50,4 +50,12 @@ export default {
 .router-link-active {
   font-weight: bold;
 }
+
+@media screen and (max-width:326px){
+ 
+  span {
+    font-size: 0.6rem;
+  }
+  
+}
 </style>

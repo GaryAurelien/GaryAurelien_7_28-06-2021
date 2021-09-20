@@ -3,19 +3,26 @@
         <Header />
             <div class="container">
                 <div class="col text-center m-3">
-                    <a class="navbar-brand" href="post"><img src="../assets/Img-Home.png" class="img_home" alt=""></a>
+                    <a class="navbar-brand" href="post"><img src="../assets/Img-Home.png" class="img_home" alt="Image Home"></a>
                 </div>
+
+            <!----------------------------------------Affichage profil si non admin-------------------------------------->
+
                 <div class="row justify-content-center m-1" v-if="admin == 0">
                     <div class="card">
                         <h1 class="text-center">Votre Profil</h1>
                     <div>
-                    <img class="profilPic" v-if="pic" :src="pic" alt=""> 
-                    <h3 class="card-subtitle m-2">Nom : {{ userName  }}</h3>
-                    <h3 class="card-subtitle m-2">Prénom : {{ userFirstname }}</h3>
-                    <p class="card-subtitle m-2">Poste : {{  position }}</p>
-                    <p class="card-subtitle m-2">E-mail : {{ email }}</p>
+                    <img class="profilPic" v-if="pic" :src="pic" alt="Photo de Profil "> 
+                    <h3 class="card-subtitle mb-2">Nom : {{ userName  }}</h3>
+                    <h3 class="card-subtitle mb-2">Prénom : {{ userFirstname }}</h3>
+                    <p class="card-subtitle mb-2">Poste : {{  position }}</p>
+                    <p class="card-subtitle mb-2">E-mail : {{ email }}</p>
                     <div class="container">
+                        <!--editer lance le processus de modification de profil -->
                     <button type="button" id="btnModal" class="btn btn base mt-3 " data-toggle="modal" data-target="#myModal" aria-expanded="false">Éditer</button>
+
+                <!----------------------------------------Pour modifier sont profil taper sont mdp pour valider que nous somme bien le bonne utilisateur-------------------------------------->   
+                        
                         <div class="modal fade" id="myModal" role="dialog">
                             <div class="modal-dialog">
                             <div class="modal-content">
@@ -25,7 +32,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form class="row" id="checked" >
-                                        <div class="space-form col-6 offset-3">
+                                        <div class="space-form col-md-6 offset-md-3 mb-2">
                                             <input type="password" v-model="password" class="form-control" id="inputPassword2" placeholder="Mot de passe" aria-label="Password" required>
                                         </div>
                                     </form>
@@ -36,6 +43,7 @@
                         </div>
                     </div>
 
+                <!----------------------------------------Si profil === true -------------------------------------->
 
                     <div v-if="profil===true" >
                         <button class=" btn base  mt-2 mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -73,15 +81,18 @@
                     </div>
                 </div>
             </div>
+
+            <!----------------------------------------Affichage profil si admin === 1-------------------------------------->
+            
             <div v-if="admin == 1 ">
                 <div class="row justify-content-center m-2 mt-5" v-for="(user, index) in users" v-bind:key="index">
                     <div class="card">
                         <h2 class="article-content text-success" v-if="user.admin == 1">Admin</h2>
-                        <img class="profilPic"  :src="user.profilPic" alt="">
-                        <h3 class="card-subtitle m-2">Nom : {{ user.name  }}</h3>
-                        <h3 class="card-subtitle m-2">Prénom : {{ user.firstname }}</h3>
-                        <p class="card-subtitle m-2">Poste : {{  user.position }}</p>
-                        <p class="card-subtitle m-2">E-mail : {{ user.email }}</p>
+                        <img class="profilPic"  :src="user.profilPic" alt="Image Profil">
+                        <h3 class="card-subtitle mb-2">Nom : {{ user.name  }}</h3>
+                        <h3 class="card-subtitle mb-2">Prénom : {{ user.firstname }}</h3>
+                        <p class="card-subtitle mb-2">Poste : {{  user.position }}</p>
+                        <p class="card-subtitle mb-2">E-mail : {{ user.email }}</p>
                         <div class="row d-flex flex-column mt-5">   
                             <button @click="deleteProfilAdmin(user.id)" class="btn supprimer col-10 offset-1 offset-sm-4 col-sm-4  mt-2">Supprimer</button>       
                         </div>
@@ -116,6 +127,7 @@ data() {
         profil: "",
         imagePreview:'',
         profilPic:'',
+        
 /*********************Recuperation tout les users*********************/
         users: 
             axios.get("http://localhost:3000/users/", {
@@ -134,11 +146,9 @@ data() {
 
 
 methods: { 
-    localClear() {
-            sessionStorage.clear();
-            router.push({ path : "/" });
-    },
+
 /**************************** Acceder au "menu de profile" ****************************/
+
     checkProfil(){
         let FormValid = document.getElementById('checked').checkValidity();
         if (FormValid == false ) {
@@ -165,10 +175,12 @@ methods: {
                 try{
                 //récupération de la réponse du serveur
                     let confirmation = await response.json();
+                    //si il y a une erreur dans le mdp 
                     if (confirmation.error){
                         console.log("error")
                         alert("Mot de passe invalide !")
                     }else{
+                    //si le mdp et ok on defini profil en true et donc la modification ou suppresion est posible 
                     document.querySelector(".modal-backdrop").remove()
                     document.getElementById('btnModal').remove()
                     document.getElementById('myModal').remove()
@@ -189,10 +201,7 @@ methods: {
     onFileChange(e){
         const imageInput = document.querySelector('input[type="file"]')
         const file = imageInput.files[0];
-        console.log(file);
         this.profilPic = file;
-        console.log(this.profilPic);
-
 
         const reader = new FileReader();
         reader.onload = () => {
@@ -210,7 +219,8 @@ methods: {
         if (FormValid == false ) {
             alert(`Vous n'avez pas rempli tous les champs requis !`);
         }else{
-        
+            
+            //on recupere les données du formulaire
             const firstname = document.getElementById('inputPrenom').value;
             const name = document.getElementById('inputNom').value;
             const position = document.getElementById('inputJob').value;
@@ -255,6 +265,7 @@ methods: {
     deleteProfil(data) {
            if(confirm("Supprimer le profil ?")){
              const userId = VueJwtDecode.decode(sessionStorage.getItem("token")).userId;
+
                axios.delete('http://localhost:3000/users/' + userId, {
                    method: "DELETE",
                    headers: {
@@ -262,7 +273,6 @@ methods: {
                 }})
                .then(function(response) {
                     sessionStorage.clear();
-
                     window.location.href= "/";
                 })
                 .catch(function(error) {
@@ -270,6 +280,9 @@ methods: {
                 }); 
            }
     },
+
+/************************** Suppresion du profile par l'admin*****************************/
+    //data qui est l'id du user a qui apartien le profile que l'on souaithe supprimer 
     deleteProfilAdmin(data) {
            if(confirm("Supprimer le profil ?")){
                axios.delete('http://localhost:3000/users/' + data, {
@@ -332,4 +345,13 @@ components: {
     object-fit: cover;
     object-position: 50% 50%;
 }
+
+@media screen and (max-width:326px){
+ 
+  p , span , input{
+    font-size: 0.2rem;
+  }
+  
+}
+
 </style>

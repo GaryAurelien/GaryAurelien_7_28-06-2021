@@ -7,12 +7,10 @@ const jwt = require('jsonwebtoken');
 /**************Create and Save a new post************/
 
 exports.create = (req, res) => {
-    // Validate request
     if (!req.body) {
         res.status(400).send({
             message: "Le contenu ne peut pas être vide !"
         })};
-
     if (!req.file){
     const post = new Post({
         titre: req.body.titre,
@@ -21,7 +19,6 @@ exports.create = (req, res) => {
         imageUrl: null,
     });
     
-    // Save Post in the database
     Post.create(post, (err, data) => {
         if (err)
             res.status(500).send({
@@ -38,7 +35,6 @@ exports.create = (req, res) => {
                 imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
             });
             
-            // Save Post in the database
             Post.create(post, (err, data) => {
                 if (err)
                     res.status(500).send({

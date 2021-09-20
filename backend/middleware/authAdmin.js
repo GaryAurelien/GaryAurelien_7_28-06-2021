@@ -8,13 +8,11 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.DB_TOK);
     const isAdmin = decodedToken.admin;
-
         if (isAdmin === 1 ) {
             console.log("action autorisé");
             next();
         } else {
             res.status(403).json({ message: "Action non autorisé" });
-
             console.log(`Action non autorisé`);
         }
     }

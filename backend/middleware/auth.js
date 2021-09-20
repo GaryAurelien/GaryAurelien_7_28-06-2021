@@ -1,16 +1,13 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-
  module.exports = (req, res, next) =>  { 
-
     const token = req.headers.authorization.split(' ')[1];
 
     if(!token){
       return res.status(403).send({
         message: "No token provided!"
       });
-      
     }
     jwt.verify(token, process.env.DB_TOK, (err, decoded) => {
       if (err) {
@@ -18,7 +15,6 @@ require('dotenv').config();
           message: "Unauthorized!"
         });
       }
-    
     next();
 });
 }; 

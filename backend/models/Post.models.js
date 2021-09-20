@@ -1,5 +1,8 @@
 const sql = require("./db.js");
 
+
+// constructeur
+
 const Post = function(post) {
     this.titre = post.titre;
     this.imageUrl = post.imageUrl;
@@ -108,22 +111,23 @@ Post.getAll = result => {
 };
 
 /************************** recupere tout les posts de cette user *****************************/
-
+//on recupere tout ce quil y a dans post et user qui corespon au userid de la requete
 Post.findByUserId = (userId, result) => { 
   sql.query(`SELECT posts.id, content,  imageUrl, titre, user_id, date_création, admin, name, firstname, profilPic FROM posts INNER JOIN users ON users.id = posts.user_id WHERE posts.user_id = ?`, [userId], (err, res)  => { 
-     if (err) { 
+    //si il y a une erreur dans la req
+    if (err) { 
        console.log("error: ", err);
        result(err, null);
        return;
      }
-
+     //si il trouve un ou des post il les retourne
      if (res.length) {
        console.log("found post: ", res);
        result(null, res);
        return res;
      }
 
-     // not found article with the id
+     //si il ne trouve pas de post avec le userid
      result({ kind: "not_found" }, null);
    });
  };

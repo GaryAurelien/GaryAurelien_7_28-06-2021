@@ -7,7 +7,7 @@ const Post = require('../models/Post.models.js');
 require('dotenv').config();
 
 
-/**************Create and Save a new user************/
+/**************Créer et enregistrer un nouvel utilisateur************/
 
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
@@ -22,6 +22,7 @@ exports.signup = (req, res, next) => {
         profilPic: `${req.protocol}://${req.get('host')}/profilPic/${req.file.filename}`
       });
 
+
       User.create(utilisateur, (err, data) => {
         if (err)
           res.status(500).send({
@@ -29,16 +30,16 @@ exports.signup = (req, res, next) => {
               err.message || "Une erreur est servenue lors de la création du User."
           });
         else res.status(201).json({
-
           token: jwt.sign(
-              { userId: data.id, 
-                userName: data.name,
-                userFirstname: data.firstname,
-                position: data.position,
-                email: data.email,
-                admin: data.admin,
-                profilPic: data.profilPic
-              },
+            {
+              userId: data.id,
+              userName: data.name,
+              userFirstname: data.firstname,
+              position: data.position,
+              email: data.email,
+              admin: data.admin,
+              profilPic: data.profilPic
+            },
             process.env.DB_TOK,
             { expiresIn: '24h' }
           )
@@ -60,7 +61,7 @@ exports.login = (req, res, next) => {
         });
       } else {
         res.status(500).json({
-          message: "Erreur de récupération du user avec l'email " + req.body.email ,
+          message: "Erreur de récupération du user avec l'email " + req.body.email,
           error: err
         });
       }
@@ -69,24 +70,24 @@ exports.login = (req, res, next) => {
         .then(valid => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !', message: "Mot de passe incorrect !" });
-            
-          }else{
-          res.status(200).json({
-            
-            token: jwt.sign(
-              { userId: data.id, 
-                userName: data.name,
-                userFirstname: data.firstname,
-                position: data.position,
-                email: data.email,
-                admin: data.admin,
-                profilPic: data.profilPic
-              },
-              process.env.DB_TOK,
-              { expiresIn: '24h' }
-            )
-          });
-        }
+
+          } else {
+            res.status(200).json({
+              token: jwt.sign(
+                {
+                  userId: data.id,
+                  userName: data.name,
+                  userFirstname: data.firstname,
+                  position: data.position,
+                  email: data.email,
+                  admin: data.admin,
+                  profilPic: data.profilPic
+                },
+                process.env.DB_TOK,
+                { expiresIn: '24h' }
+              )
+            });
+          }
         }).catch(error => res.status(500).json({ error }))
     }
   });
@@ -104,33 +105,33 @@ exports.update = (req, res) => {
     });
   }
   bcrypt.hash(req.body.password, 10)
-      .then(hash => {
-        const utilisateur = new User({
-          email: req.body.email,
-          password: hash,
-          name: req.body.name,
-          firstname: req.body.firstname,
-          position: req.body.position,
-          admin: req.body.admin,
-          profilPic: `${req.protocol}://${req.get('host')}/profilPic/${req.file.filename}`
-        });
+    .then(hash => {
+      const utilisateur = new User({
+        email: req.body.email,
+        password: hash,
+        name: req.body.name,
+        firstname: req.body.firstname,
+        position: req.body.position,
+        admin: req.body.admin,
+        profilPic: `${req.protocol}://${req.get('host')}/profilPic/${req.file.filename}`
+      });
 
-        User.findById(req.params.userId, (err, data) => {
-          if (err) {
-            if (err.kind === "not_found") {
-              res.status(404).send({
-                message: `Le User Id ${req.params.userId} n'a pas été trouvé.`
-              });
-            } else {
-              res.status(500).send({
-                message: "Erreur de recuperation du User Id" + req.params.userId
-              });
-            }
+      User.findById(req.params.userId, (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Le User Id ${req.params.userId} n'a pas été trouvé.`
+            });
           } else {
+            res.status(500).send({
+              message: "Erreur de recuperation du User Id" + req.params.userId
+            });
+          }
+        } else {
 
-            const filename = data.profilPic.split('/profilPic/')[1];
-            fs.unlink(`profilPic/${filename}`, () => {
-              User.updateById(req.params.userId, utilisateur, (err, data) => {
+          const filename = data.profilPic.split('/profilPic/')[1];
+          fs.unlink(`profilPic/${filename}`, () => {
+            User.updateById(req.params.userId, utilisateur, (err, data) => {
               if (err) {
                 if (err.kind === "not_found") {
                   res.status(404).send({
@@ -142,12 +143,14 @@ exports.update = (req, res) => {
                   });
                 }
               } else res.send(data);
-              })
             })
-          }}
-          )}
-        )
-      .catch(error => res.status(500).json({ error }));
+          })
+        }
+      }
+      )
+    }
+    )
+    .catch(error => res.status(500).json({ error }));
 };
 
 
@@ -168,10 +171,49 @@ exports.delete = (req, res) => {
         });
       }
     } else {
-          Post.findByUserId(dota.id, (err, donnee) => {
-            if (!donnee) { 
-              const filename = dota.profilPic.split('/profilPic/')[1];
-              fs.unlink(`profilPic/${filename}`, () => {
+      Post.findByUserId(dota.id, (err, donnee) => {
+        if (!donnee) {
+          const filename = dota.profilPic.split('/profilPic/')[1];
+          fs.unlink(`profilPic/${filename}`, () => {
+            User.remove(req.params.userId, (err, data) => {
+              if (err) {
+                if (err.kind === "not_found") {
+                  res.status(404).send({
+                    message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
+                  });
+                } else {
+                  res.status(500).send({
+                    message: "Erreur de suppression du User avec l'id " + req.params.userId
+                  });
+                }
+              } else res.send({ message: `Le User a été supprimé !` });
+            });
+          })
+        } else {
+          if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `L'article avec le user_id ${donnee.id} n'a pas été trouvé.`
+              });
+            } else {
+              res.status(500).send({
+                message: "Erreur de récupération de l'article avec le user_id " + donnee.id
+              });
+            }
+          } else {
+            for (const element of donnee) {
+              if (!element.imageUrl) {
+                console.log("pas d'image trouvé");
+              } else {
+                const filename = element.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${filename}`, () => {
+
+                  console.log("image supprimée");
+                })
+              };
+            }
+            const filename = dota.profilPic.split('/profilPic/')[1];
+            fs.unlink(`profilPic/${filename}`, () => {
               User.remove(req.params.userId, (err, data) => {
                 if (err) {
                   if (err.kind === "not_found") {
@@ -183,56 +225,15 @@ exports.delete = (req, res) => {
                       message: "Erreur de suppression du User avec l'id " + req.params.userId
                     });
                   }
-                } else res.send({ message: `Le User a été supprimé !`});
-        });
-      })
-            }else{
-            if (err) {
-              if (err.kind === "not_found") {
-                res.status(404).send({
-                  message: `L'article avec le user_id ${donnee.id} n'a pas été trouvé.`
-                });
-              } else {
-                res.status(500).send({
-                  message: "Erreur de récupération de l'article avec le user_id " + donnee.id
-                });
-              }
-            } else {
-
-              for (const element of donnee) {
-
-                if(!element.imageUrl){
-                console.log("Oh il n'y a pas d'image !");
-
-                }else{
-                  const filename = element.imageUrl.split('/images/')[1];
-                          fs.unlink(`images/${filename}`, () => {
-
-                            console.log("image supprimée"); 
-                        })
-                        };
-                    }
-
-                    const filename = dota.profilPic.split('/profilPic/')[1];
-                    fs.unlink(`profilPic/${filename}`, () => {
-                    User.remove(req.params.userId, (err, data) => {
-                      if (err) {
-                        if (err.kind === "not_found") {
-                          res.status(404).send({
-                            message: `Le User avec l'id ${req.params.userId} n'a pas été trouvé.`
-                          });
-                        } else {
-                          res.status(500).send({
-                            message: "Erreur de suppression du User avec l'id " + req.params.userId
-                          });
-                        }
-                      } else res.send({ message: `Le User a été supprimé !`});
+                } else res.send({ message: `Le User a été supprimé !` });
               });
             })
-            };
-          }
-                })}
-                })}
+          };
+        }
+      })
+    }
+  })
+}
 
 
 /*************************recuperer un user***************************/
@@ -271,11 +272,11 @@ exports.findAll = (req, res) => {
 
 exports.deleteAll = (req, res) => {
   User.removeAll((err, data) => {
-      if (err)
-        res.status(500).send({
-          message:
-            err.message || "Une erreur est survenue lors de la suppression de tous les Users."
-        });
-      else res.send({ message: `Les Users ont été supprimés !` });
-    });
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Une erreur est survenue lors de la suppression de tous les Users."
+      });
+    else res.send({ message: `Les Users ont été supprimés !` });
+  });
 };

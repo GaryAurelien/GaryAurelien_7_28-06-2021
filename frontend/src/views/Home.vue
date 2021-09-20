@@ -1,13 +1,16 @@
 <template>
   <div class="home">
     <div class="col text-center ">
-      <img src="../assets/Img-Home.png" class="img_home" alt=""/>
+      <img src="../assets/Img-Home.png" class="img_home" alt="Image Home"/>
     </div>
+
+    <!----------------------------------------Login ou create-------------------------------------->
+
     <div class="container">
       <div class="row align-items-center justify-content-around m-2">
         <div class="card shadow-lg ">
-          <h1 class="card_title" v-if="mode == 'login'">Connection</h1>
-          <h1 class="card_title" v-else>Inscription</h1>
+          <h1 class="card_title connection" v-if="mode == 'login'" >Connection</h1>
+          <h1 class="card_title inscription" v-else>Inscription</h1>
           <p class="card_subtitle" v-if="mode == 'login'">Tu na pas encore de compte ? <span class="card_action" @click="switchToCreateAccount()">Créer un compte</span></p>
           <p class="card_subtitle" v-else>Tu a déjà un compte ? <span class="card_action" @click="switchToLogin()">Se connecter</span></p>
           <form enctype="multipart/form-data" id="checked">
@@ -43,7 +46,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 
@@ -70,31 +72,41 @@ export default {
     Footer
   },
   methods: {
+
+/*********************Switch de create a login*********************/
+
+  /*Methode qui permet que au click sur la ligne avec la methode défini le mode change en fonction*/
+
     switchToCreateAccount: function () {
       this.mode = 'create';
     },
     switchToLogin: function () {
       this.mode = 'login';
     },
+
+/*********************Picture*********************/
+  //gere la preview de l'image
     onFileAdded(event){
             const imageInput = document.querySelector('input[type="file"]')
             const file = imageInput.files[0];
             this.profilPic = file;
 
-            /* imageInput.setValue(file); /
-           /  this.sauceForm.updateValueAndValidity(); */
             const reader = new FileReader();
             reader.onload = () => {
             this.imagePreview = reader.result ;
             };
             reader.readAsDataURL(file);
       },
+
+/*********************Creation de compte*********************/
+
     createAccount(){
       let FormValid = document.getElementById('checked').checkValidity();
+
         if (FormValid == false ) {
             alert(`Il y a une erreur dans votre formulaire.`);
+
         }else{
-            console.log(this.profilPic);
             const firstname = document.getElementById('firstname').value;
             const name = document.getElementById('name').value;
             const position = document.getElementById('position').value;
@@ -102,8 +114,8 @@ export default {
             const email = document.getElementById('email').value;
             const profilPic = this.profilPic
 
-
             const formData = new FormData();
+
             formData.append('profilPic', profilPic);
             formData.append('firstname', firstname);
             formData.append('name', name);
@@ -111,31 +123,27 @@ export default {
             formData.append('password', password);
             formData.append('email', email);
 
-
             axios.post("http://localhost:3000/users/signup", formData , {
-
                 headers: {
                      'Authorization': 'Bearer ', 
                      'content-Type': 'multipart/form-data',
                 },
             })
-      //traitement de la réponse du serveur
             .then(async response =>{
-                //récupération de la réponse du serveur
                     let confirmation =  await  response.data;
-
                     sessionStorage.setItem("token", confirmation.token);
                     window.location.href ="profile";
 
 
-            //traitement des erreurs
-
             }).catch(function(error) { 
                 console.log(error); 
-                 alert("Mot de passe invalide ! Il faut au minimum 8 caractères non espacés dont une majuscule, une minuscule et 2 chiffres")
+                 alert("Une erreur est survenue, veuillez réessayer ultérieurement")
             });
         }
     },
+
+/*********************Connection au compte*********************/
+
     login() {
         //variable qui reccueille les infos de contact du client
             let contact = {
@@ -159,16 +167,8 @@ export default {
                     if(confirmation.error) { 
                       alert(confirmation.message);
                     }else{
-
-                    let userId = confirmation.userId;
-                    
-                    let result = {
-                        userId: userId,
-                    }
-                    
                     sessionStorage.setItem("token", confirmation.token);
                     window.location.href ="profile";
-
                     
             //traitement des erreurs
                 }} catch (error) {
@@ -179,13 +179,18 @@ export default {
     },
   },
   computed: {
+
+/*********************bouton clicable seulement ou les champ définit sont rempli*********************/
+
     validatedFields: function () {
+      // si notre mode est create on veut que tout cela ne soit pas vide
       if (this.mode == 'create') {
         if (this.email != "" && this.firstname != "" && this.name != "" && this.password != "" && this.position != "") {
           return true;
         } else {
           return false;
         }
+      // sinon notre mode est login et donc on veut que tout cela ne soit pas vide
       } else {
         if (this.email != "" && this.password != "") {
           return true;
@@ -235,6 +240,19 @@ export default {
     height: 150px;
     object-fit: cover;
     object-position: 50% 50%;
+}
+
+@media screen and (max-width:326px){
+  .connection{
+    font-size: 1.3rem;
+  }
+  p , span , input{
+    font-size: 0.2rem;
+  }
+  .inscription{
+    font-size: 1.3rem;
+
+  }
 }
 
 </style>>

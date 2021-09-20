@@ -1,5 +1,15 @@
 const sql = require("./db.js");
 
+
+/*le modèle user est simple, 
+il contient des champs : email, name& active.
+
+Nous utilisons la méthode query()  de connexion à la base de données pour exécuter 
+le script MySQL : INSERT, SELECT, UPDATE, DELETE.*/
+
+
+// constructeur
+
 const User = function (client) {
   this.email = client.email;
   this.password = client.password;
@@ -7,27 +17,27 @@ const User = function (client) {
   this.firstname = client.firstname;
   this.position = client.position;
   this.admin = client.admin;
-  this.profilPic= client.profilPic;
+  this.profilPic = client.profilPic;
 };
 
 /**************************create***************************/
 
 User.create = (newUtilisateur, result) => {
   sql.query("INSERT INTO users SET ?", newUtilisateur, (err, res) => {
+    // si erreur 
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-
     console.log("user crée: ", { id: res.insertId, ...newUtilisateur });
     result(null, { id: res.insertId, ...newUtilisateur });
   });
 };
 
-/*************************************************************/
+/************************trouver un user avec son emain******************************/
 
-
+//recherche un  utilisateur avec un email precis en faisant une requet sql a la base de données.
 User.findOne = (email, result) => {
   sql.query(`SELECT * FROM users WHERE email = ?`, [email], (err, res) => {
     if (err) {
@@ -45,7 +55,7 @@ User.findOne = (email, result) => {
   });
 };
 
-/*************************************************************/
+/*********************trouver un user avec son id *****************************/
 
 User.findById = (userId, result) => {
   sql.query(`SELECT * FROM users WHERE id = ?`, [userId], (err, res) => {
@@ -60,14 +70,12 @@ User.findById = (userId, result) => {
       result(null, res[0]);
       return;
     }
-
-    // not found Customer with the id
     result({ kind: "not_found" }, null);
   });
 };
 
 
-/*************************update****************************/
+/*************************update avec son id****************************/
 
 
 User.updateById = (id, user, result) => {
@@ -94,7 +102,7 @@ User.updateById = (id, user, result) => {
 };
 
 
-/**************************Delete*****************************/
+/**************************Delete avec son id*****************************/
 
 User.remove = (id, result) => {
   sql.query("DELETE FROM users WHERE id = ?", id, (err, res) => {
@@ -130,8 +138,8 @@ User.removeAll = result => {
 };
 
 
-/**************************Tout les users*****************************/
-
+/**************************recuperation de Tout les users*****************************/
+//recherche de tout les   utilisateur dans le tableau users en faisant une requet sql a la base de données.
 User.getAll = result => {
   sql.query("SELECT * FROM users", (err, res) => {
     if (err) {
@@ -139,7 +147,6 @@ User.getAll = result => {
       result(null, err);
       return;
     }
-
     console.log("users: ", res);
     result(null, res);
   });

@@ -3,7 +3,7 @@
     <Header />
     <div class="container">
       <div class="col text-center m-3">
-        <a class="navbar-brand" href="post"><img src="../assets/Img-Home.png" class="img_home" alt=""></a>
+        <a class="navbar-brand" href="post"><img src="../assets/Img-Home.png" class="img_home" alt="Image Home"></a>
       </div>
       <div>
         <div>
@@ -46,12 +46,10 @@
     <div class="container">
       <div class="row d-flex  align-items-center justify-content-around  m-1 " id="discution" >
         <div class="card mb-5  p-2 shadow-lg" style="width: 45rem; background-color: #e0e0e0;" v-for="(post, index) in posts" v-bind:key="index" >
-          <img class="card-img-top mt-2" v-if="post.file" :src="post.file" alt="Card image cap" />
-          <p>{{post.file}}</p>
           <div class="card-body" >
-            <img class="profilPic" v-if="post.profilPic" :src="post.profilPic" alt=""> 
-            <h4 class="card-title text-center mb-5"> {{post.name}} {{post.firstname}}</h4>
-            <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="">
+            <img class="profilPic" v-if="post.profilPic" :src="post.profilPic" alt="Photo de Profil du créateur du post"> 
+            <h4 class="card-title text-center mb-4"> {{post.name}} {{post.firstname}}</h4>
+            <img class="col-lg-6 col-md-8 col-12 imgCard" v-if="post.imageUrl" :src="post.imageUrl" alt="Image du post">
             <h5 class="card-title mt-3">{{ post.titre }}</h5>
             <p class="card-text mt-3">{{ post.content }}</p>
           </div>
@@ -67,12 +65,12 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-btn supprimer">
-                        <h5 class="modal-title">Commentaires</h5>
+                        <h5 class="modal-title" style="font-size:1.2rem">Commentaires</h5>
                         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                       <div class="card card-body mb-3" v-if="commentaires" v-for="comm in commentaires" :key="comm.id">
-                          <img class="profilPic" v-if="comm.profilPic" :src="comm.profilPic" alt=""> 
+                          <img class="profilPic" v-if="comm.profilPic" :src="comm.profilPic" alt="Photo Profil du créateur du commentaire"> 
                           <h5>{{comm.name}} {{comm.firstname}}</h5>
                           <p>{{comm.content}}</p>
                           <a v-if="comm.user_id == userId || admin == 1" @click="deleteCom(comm.id)"  class=" offset-8 col-4 poubelle offset-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" ></path><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" ></path></svg></a>
@@ -80,6 +78,9 @@
                       <div v-else>
                           <h5>Il n'y a pas de commentaires pour l'instant </h5>
                       </div>
+
+          <!----------------------------------------Création des commentaires  -------------------------------------->
+          
                       <div class="row modal-footer" >
                           <form  id="checked">
                               <div class="row">
@@ -126,6 +127,7 @@ export default {
       commentaires: '',
       imagePreview: '',
       imageUrl: '',
+
   /*********************Recuperation des posts*********************/
       file: '',
       posts:  
@@ -146,6 +148,7 @@ export default {
 
 
   methods: {
+    
      /*********************Aff Image avant création post*********************/
 
     onFileAdded(event){
@@ -174,13 +177,11 @@ export default {
       const content = document.getElementById("textarea").value;
       const imageUrl = this.imageUrl;
 
-
       const formData = new FormData();
       formData.append('image', imageUrl);
       formData.append('titre', titre);
       formData.append('content', content);
       formData.append('user_id', user_Id);
-
 
       axios.post("http://localhost:3000/posts/create", formData, {
         headers: {
@@ -327,6 +328,14 @@ export default {
     height: 75px;
     object-fit: cover;
     object-position: 50% 50%;
+}
+
+@media screen and (max-width:326px){
+ 
+  p , span , input{
+    font-size: 0.2rem;
+  }
+  
 }
 
 </style>
