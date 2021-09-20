@@ -9,15 +9,15 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.DB_TOK);
     const isAdmin = decodedToken.admin;
         if (isAdmin === 1 ) {
-            console.log("action autorisé");
+            console.log("Est Admin !");
             next();
         } else {
-            res.status(403).json({ message: "Action non autorisé" });
-            console.log(`Action non autorisé`);
+            res.status(403).json({ message: "N'est pas Admin !" });
+            console.log(`N'est pas Admin !`);
         }
     }
     catch{
-        res.status(401).json({error: error | 'Requête non authentifiée !'});
+        res.status(401).json({error: error | 'Requête non authentifiée dans AuthAdmin!'});
     }
 
 };

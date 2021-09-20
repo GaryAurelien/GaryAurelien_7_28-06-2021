@@ -12,17 +12,17 @@ module.exports = (req, res, next) => {
     
     sql.query(`SELECT * FROM users WHERE id = ${req.params.userId}`, (err, data) => {
         if (isAdmin === 1 || (data[0].id === userId) ) {
-            console.log("action autorisé");
+            console.log("action autorisé dans AuUser");
             next();
         } else {
-            res.status(403).json({ message: "Action non autorisé" });
+            res.status(403).json({ message: "Action non autorisé dans AuUser" });
 
-            console.log(`Action non autorisé`);
+            console.log(`Action non autorisé dans AuUser`);
         }
     });
     }
     catch{
-        res.status(401).json('Requête non authentifiée !');
+        res.status(401).json('Requête non authentifiée dans AuUser !');
     }
 
 };

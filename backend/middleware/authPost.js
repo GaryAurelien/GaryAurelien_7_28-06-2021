@@ -12,17 +12,17 @@ module.exports = (req, res, next) => {
     
     sql.query(`SELECT * FROM posts WHERE id = ${req.params.postId}`, (err, data) => {
         if (isAdmin === 1 || (data[0].user_id === userId) ) {
-            console.log("action autorisé");
+            console.log("action autorisé dans AuPost");
             next();
         } else {
-            res.status(403).json({ message: "Action non autorisé" });
+            res.status(403).json({ message: "Action non autorisé dans AuPost" });
 
-            console.log(`Action non autorisé`);
+            console.log(`Action non autorisé dans AuPost`);
         }
     });
     }
     catch{
-        res.status(401).json({error: error | 'Requête non authentifiée !'});
+        res.status(401).json({error: error | 'Requête non authentifiée dans AuPost!'});
     }
 
 };

@@ -6,13 +6,13 @@ require('dotenv').config();
 
     if(!token){
       return res.status(403).send({
-        message: "No token provided!"
+        message: "Aucun token fourni !"
       });
     }
     jwt.verify(token, process.env.DB_TOK, (err, decoded) => {
       if (err) {
         return res.status(401).send({
-          message: "Unauthorized!"
+          message: "Non autorisé !"
         });
       }
     next();

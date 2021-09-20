@@ -12,17 +12,17 @@ module.exports = (req, res, next) => {
     
     sql.query(`SELECT * FROM commentaires WHERE id = ${req.params.commentaireId}`, (err, data) => {
         if (isAdmin === 1 || (data[0].user_id === userId)){
-            console.log("action autorisé");
+            console.log("action autorisé dans AuCom");
             next();
         } else {
-            res.status(403).json({ message: "Action non autorisé" });
+            res.status(403).json({ message: "Action non autorisé dans AuCom" });
 
-            console.log(`Action non autorisé`);
+            console.log(`Action non autorisé dans AuCom`);
         }
     });
     }
     catch{
-        res.status(401).json({error: error | 'Requête non authentifiée !'});
+        res.status(401).json({error: error | 'Requête non authentifiée dans AuCom!'});
     }
 
 };

@@ -21,7 +21,7 @@ Commentaire.create = (newCommentaire, result) => {
     });
   };
 
-/*************************************************************/
+/*********************trouver un commentaire avec son id *****************************/
 
 Commentaire.findById = (commentaireId, result) => {
     sql.query(`'SELECT commentaires.id, content, user_id, date_création, admin, name, firstname, profilPic FROM commentaires INNER JOIN users ON users.id = commentaires.user_id  WHERE commentaires.id = ? `, [commentaireId], (err, res) => {
