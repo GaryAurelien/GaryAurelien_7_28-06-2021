@@ -22,7 +22,7 @@
               </div>
               <form enctype="multipart/form-data" id="checked">
                 <div class="space-form col-md-6 offset-md-3">
-                  <input v-model="titre" type="text" class="form-control mb-2" id="inputTitre" placeholder="Titre" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*"/>
+                  <input v-model="titre" type="text" class="form-control mb-2" id="inputTitre" placeholder="Titre"  pattern="[a-zA-ZÀ-ÿ-Zàâäéèêëïîôöùûüç[ -]]{2,30}" />
                 </div>
                 <div class="space-form col-md-6 offset-md-3">
                   <textarea v-model="content" class="form-control mb-2" id="textarea" placeholder="Contenu" pattern="[0-9]{1,3}(?:(?:[,. ]?){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)*" required></textarea>
