@@ -38,5 +38,5 @@ app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/commentaires', comRoutes);
 
-
+//on export app que l'on utilisera dans server.js
 module.exports = app;

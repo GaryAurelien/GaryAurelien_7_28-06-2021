@@ -8,4 +8,4 @@ module.exports = {
   }; 
 
 
-// fichier configuration a la base de donnée
+// fichier configuration a la base de donnée MySQL
